@@ -73,3 +73,5 @@ crashlytics-build.properties
 
 # Additional ignorance
 /Assets/JP_School corridor_V2/Scenes/School_Corridor/LightingData.asset
+# Jupyter Notebook
+/Python/.ipynb_checkpoints
