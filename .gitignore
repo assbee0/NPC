@@ -76,4 +76,4 @@ crashlytics-build.properties
 # Jupyter Notebook
 /Python/.ipynb_checkpoints
 
-/Assets/SVM/
+/Assets/SVM/Parameters
