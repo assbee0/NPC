@@ -7,19 +7,37 @@ using System.Text;
 
 public class HairCustom : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    //モデル性別　1: 女の子　2: 男の子
+    private int modelIndex;
+    //実装された髪型数（男の子）
+    private int boyHairStyleNum = 3;
+    //実装された髪型数（女の子）
+    private int girlHairStyleNum = 5;
+    //実装された髪型数
+    private int hairStyleNum;
     private Transform head;
     private GameObject hair1;
     private SkinnedMeshRenderer hairSmr;
+    private int boyIndex = 1;
+    private int girlIndex = 1;
+    //パラメータ管理者
     private ParameterManage pm;
+    //髪型プリセットデータ
     private List<HairData> hairDatas = new List<HairData>();
-    private int currentindex = 1;
+    //現在使ってる髪型
+    private int currentindex = 1;                           
+
+    // Start is called before the first frame update
     void Start()
     {
+        hairStyleNum = boyHairStyleNum + girlHairStyleNum;
+        modelIndex = 1;
         head = GameObject.FindGameObjectWithTag("Head").transform;
         hairSmr = GameObject.FindGameObjectWithTag("Hair").GetComponentInChildren<SkinnedMeshRenderer>();
-        /*for (int i = 0; i <hairSmr.bones.Length; i++)
-             print(i+" "+hairSmr.bones[i]);*/
+        //髪型ボーンのインデックス出力、普段はコメント化
+        //for (int i = 0; i <hairSmr.bones.Length; i++)
+            // print(i+" "+hairSmr.bones[i]);                 
         InitHairData();
     }
 
@@ -27,7 +45,10 @@ public class HairCustom : MonoBehaviour
     void Update()
     {
         pm = GetComponent<ParameterManage>();
+        if (modelIndex == 2 && currentindex == 8)
+            return;
         HairColor();
+        HairDetail();
     }
     public void HairColor()
     {
@@ -36,7 +57,7 @@ public class HairCustom : MonoBehaviour
         float hairG = pm.getParameter(35);
         float hairB = pm.getParameter(36);
         mat0.color = new Color(hairR / 255, hairG / 255, hairB / 255);
-        if(hairSmr.materials.Length > 2)
+        if(hairSmr.materials.Length >= 2)
         {
             Material mat1 = hairSmr.materials[1];
             mat1.color = new Color(hairR / 255, hairG / 255, hairB / 255);
@@ -58,7 +79,7 @@ public class HairCustom : MonoBehaviour
             return;
         StreamReader sr = new StreamReader(filepath, Encoding.UTF8);
         HairData hairdata = new HairData();
-        for(int i = 0;i < 5;i++)
+        for(int i = 0;i < hairStyleNum;i++)
         {
             hairdata = new HairData();
             hairdata.ReadHairData(sr);
@@ -66,49 +87,92 @@ public class HairCustom : MonoBehaviour
         }
     }
     public void ChangeHair(Slider slider)
+    /*
+     *　髪型チェンジ、Slider Hair Styleの値が変わるとき実行
+     */
     {
+        //スライダから値を取る
         int index = (int)slider.value;
         currentindex = index;
+        //今の髪型を探す
         hair1 = GameObject.FindGameObjectWithTag("Hair");
-        GameObject hair2 = Resources.Load<GameObject>("Hair/hair"+index);
+        GameObject hair2;
+
+        //性別によって別々処理する、Resourcesからロード
+        if (modelIndex == 1)
+        {
+            hair2 = Resources.Load<GameObject>("Hair/Girl/hair" + index);
+        }
+        else
+        {
+            currentindex = index + girlHairStyleNum;
+            if (index == 3)
+            {
+                
+                Destroy(hair1);
+                return;
+            }
+            hair2 = Resources.Load<GameObject>("Hair/Boy/bhair" + index);
+        }
+        
         if (hair2 == null)
             return;
+
+        //シーン内で実体化
         GameObject hair2obj = Instantiate(hair2,head);
-        hair2obj.transform.localPosition = hairDatas[index - 1].hairPosition;
-        hair2obj.transform.localRotation = hair1.transform.localRotation;
-        hair2obj.transform.localScale = hair1.transform.localScale;
+
+        //新髪型の位置をプリセットデータから初期化
+        hair2obj.transform.localPosition = hairDatas[currentindex - 1].hairPosition;
         hair2obj.tag = "Hair";
         hairSmr = hair2obj.GetComponentInChildren<SkinnedMeshRenderer>();
-        Destroy(hair1);
-       // InitColor();
+
+        //旧髪型削除
+        if (hair1 != null) 
+            Destroy(hair1);
+        // InitColor();
+
+        //UI処理、髪型の各部位の有無によって各スライダのインタラクティブ性を調整
         Transform parentSlider = slider.gameObject.transform.parent;
         Slider hairSlider = parentSlider.GetChild(5).GetComponent<Slider>();
-        if(hairDatas[index - 1].hasAhoge)
+        if(hairDatas[currentindex - 1].hasAhoge)
+            hairSlider.interactable = true;
+        else
+            hairSlider.interactable = false;
+        hairSlider = parentSlider.GetChild(3).GetComponent<Slider>();
+        if (hairDatas[currentindex - 1].hasMaegami)
             hairSlider.interactable = true;
         else
             hairSlider.interactable = false;
         hairSlider = parentSlider.GetChild(4).GetComponent<Slider>();
-        if (hairDatas[index - 1].hasTail)
+        if (hairDatas[currentindex - 1].hasTail)
             hairSlider.interactable = true;
         else
             hairSlider.interactable = false;
         hairSlider = parentSlider.GetChild(6).GetComponent<Slider>();
-        if (hairDatas[index - 1].hasSide)
+        if (hairDatas[currentindex - 1].hasSide)
             hairSlider.interactable = true;
         else
             hairSlider.interactable = false;
+        
     }
     public void HairDetail()
+    /*
+     *　髪型の細かい部分を調整する
+     *　髪型によって前髪、後ろ髪、アホ毛、テール、両サイドがある
+     */
     {
         HairData hairdata = hairDatas[currentindex-1];
         Transform[] hairbones = hairSmr.bones;
         Transform back = hairbones[hairdata.backNum[0]];
-        Transform maegami = hairbones[hairdata.maegamiNum[0]];
         float backS = pm.getParameter(37);
-        float maegamiS = pm.getParameter(38);
         back.parent.localScale = new Vector3(1, backS * 0.01f + 0.7f, 1);
-        maegami.parent.localScale = new Vector3(maegamiS * 0.002f + 0.9f, maegamiS * 0.004f + 0.7f, maegamiS * 0.003f + 0.8f);
-        if(hairdata.hasAhoge)
+        if (hairdata.hasMaegami)
+        {
+            Transform maegami = hairbones[hairdata.maegamiNum[0]];
+            float maegamiS = pm.getParameter(38);
+            maegami.parent.localScale = new Vector3(maegamiS * 0.002f + 0.9f, maegamiS * 0.004f + 0.7f, maegamiS * 0.003f + 0.8f);
+        }
+        if (hairdata.hasAhoge)
         {
             Transform ahoge = hairbones[hairdata.ahogeNum[0]];
             float ahogeS = pm.getParameter(40);
@@ -130,14 +194,42 @@ public class HairCustom : MonoBehaviour
     public void RefindObject()
     {
         head = GameObject.FindGameObjectWithTag("Head").transform;
-        hairSmr = GameObject.FindGameObjectWithTag("Hair").GetComponentInChildren<SkinnedMeshRenderer>();
-        currentindex = 1;
+        if (GameObject.FindGameObjectWithTag("Hair") != null)
+        {
+            hairSmr = GameObject.FindGameObjectWithTag("Hair").GetComponentInChildren<SkinnedMeshRenderer>();
+        }
+    }
+    public void SetModelIndex(int model)
+    {
+        RefindObject();
+        if (modelIndex == 1)
+            girlIndex = currentindex;
+        else
+            boyIndex = currentindex - girlHairStyleNum;
+        modelIndex = model;
+        if (model == 1)
+        {
+            print(girlIndex);
+            pm.setSlider(33, girlIndex, girlHairStyleNum);
+           // ChangeHair(pm.getSlider(33));
+            currentindex = girlIndex;
+        }
+        else
+        {
+            pm.setSlider(33, boyIndex, boyHairStyleNum);
+           // ChangeHair(pm.getSlider(33));
+            currentindex = boyIndex + girlHairStyleNum;
+        }  
     }
 }
 
 public class HairData : MonoBehaviour
+/*
+ *　髪型のプリセットデータを保存用データ構造
+ */
 {
     public Vector3 hairPosition;
+    public bool hasMaegami;
     public bool hasAhoge;
     public bool hasTail;
     public bool hasSide;
@@ -152,22 +244,26 @@ public class HairData : MonoBehaviour
         string dataline = sr.ReadLine();
         string[] words = dataline.Split(' ');
         hairPosition = new Vector3(float.Parse(words[0]), float.Parse(words[1]), float.Parse(words[2]));
-        hasAhoge = int.Parse(words[3]) == 1 ? true : false;
-        hasTail = int.Parse(words[4]) == 1 ? true : false;
-        hasSide = int.Parse(words[5]) == 1 ? true : false;
-        int i = 6;
+        hasMaegami = int.Parse(words[3]) == 1 ? true : false;
+        hasAhoge = int.Parse(words[4]) == 1 ? true : false;
+        hasTail = int.Parse(words[5]) == 1 ? true : false;
+        hasSide = int.Parse(words[6]) == 1 ? true : false;
+        int i = 7;
         while(words[i] != ",")
         {
             backNum.Add(int.Parse(words[i]));
             i++;
         }
         i++;
-        while (words[i] != ",")
+        if (hasMaegami)
         {
-            maegamiNum.Add(int.Parse(words[i]));
+            while (words[i] != ",")
+            {
+                maegamiNum.Add(int.Parse(words[i]));
+                i++;
+            }
             i++;
         }
-        i++;
         if (hasAhoge)
         {
             while (words[i] != "," )

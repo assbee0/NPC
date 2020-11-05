@@ -53,6 +53,12 @@ public class ParameterManage : MonoBehaviour
     {
         return paraslider[i].slider;
     }
+    public void setSlider(int i, int value, int maxValue)
+    {
+        paraslider[i].slider.maxValue = maxValue;
+        if (value != 0) 
+            paraslider[i].slider.value = value;   
+    }
 
     public void FullRandom()
     {

@@ -3,7 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Character
+  - Body
+  - Tops
+  - Shoes
+  - Bottoms
+  - Face
+  - Head
+  - Hair
+  - Onepiece
   layers:
   - Default
   - TransparentFX
@@ -13,9 +22,9 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
+  - Character
+  - Wall
+  - Player
   - 
   - 
   - 
