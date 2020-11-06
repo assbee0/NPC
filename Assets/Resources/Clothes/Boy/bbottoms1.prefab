@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9160305840798000057}
   - component: {fileID: 7214403225178810304}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: secondary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,7 +63,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8701538911411010263}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_L_LowerLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4678667617540686763}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_C_Chest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4210252606153224384}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6504421105823695860}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_R_UpperLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,7 +186,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1271415212873595845}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_R_LowerLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +217,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4364217503672383144}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_C_Spine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,7 +248,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8999372533637658729}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_R_Foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -278,7 +278,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7236432461417020998}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_C_Hips
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -311,7 +311,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5989403199143565327}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_L_Foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -341,7 +341,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7708435626021119483}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_L_UpperLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -372,7 +372,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3761698498057198303}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: skelton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -404,7 +404,7 @@ GameObject:
   m_Component:
   - component: {fileID: 620125188473798613}
   - component: {fileID: 8493149459252799802}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Body.baked
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -541,7 +541,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2937033399548033346}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bbottoms1
   m_TagString: Bottoms
   m_Icon: {fileID: 0}

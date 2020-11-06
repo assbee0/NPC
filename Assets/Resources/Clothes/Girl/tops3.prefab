@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7925593264880236731}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_C_UpperChest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2354882685115155692}
   - component: {fileID: 8342224569279873790}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Body.baked
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -198,7 +198,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 953250766942471533}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_L_Shoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -229,7 +229,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3924762402995477470}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: skelton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7293118221441188}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: tops3
   m_TagString: Tops
   m_Icon: {fileID: 0}
@@ -293,7 +293,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8476685005595536483}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_R_UpperArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -323,7 +323,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8228142434829735270}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Sec_R_Bust2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -353,7 +353,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8390932678373564443}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_C_Hips
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -386,7 +386,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4836001824400995017}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_C_Spine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -417,7 +417,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6229559914450311283}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Sec_L_Bust2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -447,7 +447,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5073859592422500180}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Sec_R_Bust1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -478,7 +478,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8997784516773028272}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_C_Chest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -509,7 +509,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 358788181213074649}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -540,7 +540,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6203141232652820951}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_R_Shoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -571,7 +571,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7700511560223032492}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_L_UpperArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -602,7 +602,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1095041881551616663}
   - component: {fileID: 3373997394467877106}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: secondary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -655,7 +655,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7932671946814365052}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Sec_L_Bust1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -686,7 +686,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8088560316297957552}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_L_UpperLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -716,7 +716,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 465765793074508816}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_C_Neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -746,7 +746,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2522803590187392912}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_R_UpperLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -2578,7 +2578,48 @@ SkinnedMeshRenderer:
   - {fileID: 913324732775847696}
   - {fileID: 2845293440797361895}
   - {fileID: 1524479045651966753}
-  m_BlendShapeWeights: []
+  m_BlendShapeWeights:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   m_RootBone: {fileID: 1175090661544177641}
   m_AABB:
     m_Center: {x: 0.00021698698, y: 1.4705627, z: 0.032655336}
@@ -4867,6 +4908,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Hair
+      objectReference: {fileID: 0}
+    - target: {fileID: 389749979775983407, guid: 00a5eba0146b8b5458dd0e8e83eaeaa6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3689558954961382716, guid: 00a5eba0146b8b5458dd0e8e83eaeaa6,
         type: 3}

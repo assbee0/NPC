@@ -173,7 +173,7 @@ public class ClothesCustom : MonoBehaviour
     public void ChangeShitagi(Slider slider)
     {
         int index = (int)slider.value;
-        bodySmr.material = Resources.Load<Material>("Materials/bodyskin" + index);
+        bodySmr.material = Resources.Load<Material>("Materials/Skin/bodyskin" + index);
     }
     public void BottomsDetail(Slider slider)
     {

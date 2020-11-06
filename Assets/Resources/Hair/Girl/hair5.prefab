@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4344639467256101446}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-ac2f64d6-e7c6-4628-9d48-7471317069c7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 743763649355206098}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: maegami2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8233581487253588641}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ahogeR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5667686563622578625}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-bdfa16d5-3726-41da-8424-acdf58cc4fb3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6379141828301637323}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-d0c48a80-3564-4ac3-b0d9-1140cfd89194
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,7 +164,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5858190572032118236}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ahoge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,7 +196,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4868635297323436036}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: shokkakuR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,7 +227,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6181701789561223875}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-4e1fbe13-d23e-44fc-bd71-a8b900607724
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,7 +258,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 772812584591349236}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ushiroC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -289,7 +289,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 551322486822095170}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-cd29f972-776f-4841-9dda-98c980b83692
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -320,7 +320,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8118912887330069522}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: maegami
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -356,7 +356,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2827039649727026352}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: sideR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -387,7 +387,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8470901435883425939}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: maegami1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -418,7 +418,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1321946766392682087}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-a971fbe9-7c02-4476-a0ec-7680aa4d0a33
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -449,7 +449,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 861955391590324607}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-b245d2ac-f22a-43f2-81b5-4331190030f9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -480,7 +480,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3786125852256080067}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-d487b367-682b-4f3a-8db7-a0d018f244ab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -511,7 +511,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9115025191119019656}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-590316aa-6660-4d9e-a098-ec9a12516c6a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -542,7 +542,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6445627546142425682}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-a29644ee-c783-4f9e-9709-69cbf5371270
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -573,7 +573,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 81936575359216593}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-0cd87787-567b-48bd-bbb9-5ec87af5ca0c
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -604,7 +604,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7502383314298079738}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-a210d3c5-0b6f-4168-bbd1-74d91903d470
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -635,7 +635,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3998872868489391584}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: J_Bip_C_Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -668,7 +668,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2738632828310874568}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: maegami5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -699,7 +699,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6899836401119227803}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-ff1da007-aff2-487a-a076-ab49f4cbe13f
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -730,7 +730,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9176241521079959697}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-da4dea69-48ae-454c-ba2e-bc7dfe9644ee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -761,7 +761,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3097346850643056395}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-917884bc-08c5-497a-9810-394d8cc0c586
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -792,7 +792,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4502761775696930094}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ushiroR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -823,7 +823,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6353949907912104257}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-a908a04d-03a7-40ec-87df-0f2ca63ec001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -854,7 +854,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 187020962834940237}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-45e1142c-25f8-47f7-b70e-0b96fdb587eb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -885,7 +885,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1158261857253629684}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-b4db1b17-d9d2-402f-bbdf-50e89165cdb8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -916,10 +916,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7462538192297097382}
-  - component: {fileID: 655908383919166940}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: hair5
-  m_TagString: Untagged
+  m_TagString: Hair
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -932,7 +931,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5893834406513183413}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.378302, y: 1.9462409, z: -8.259964}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4383975885785458867}
@@ -940,25 +939,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &655908383919166940
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5893834406513183413}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 4d0c3f7e946e88c4faf050116100523a, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6068080001855324050
 GameObject:
   m_ObjectHideFlags: 0
@@ -968,7 +948,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3315985393942811141}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-580089ab-1666-4f2b-bf07-6e1ccc3fbf97
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -999,7 +979,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2094348973662118556}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-2e967519-8070-4a03-8818-5a50fe8746a1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1030,7 +1010,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6053819618925496854}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-c771785e-d4a4-4135-9ea6-863e36f4444a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1061,7 +1041,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2856159414048379614}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ushiroL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1092,7 +1072,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6918745736220232642}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-222813cf-ea26-4f48-a337-9211c9ecb861
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1123,7 +1103,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4171552956110180983}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: maegami4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1154,7 +1134,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2682514571101435312}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-100bed44-0071-437c-be36-abdb58278ef4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1186,7 +1166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4383975885785458867}
   - component: {fileID: 3769237886767329430}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hair001.baked
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1221,6 +1201,8 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 3
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1319,7 +1301,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4146773668620330893}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-d32f57a3-131b-424d-a952-d620b99f4c2e
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1350,7 +1332,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6870566141923186655}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: shokkakuL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1381,7 +1363,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6238705904383650822}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-ce79bc1a-a9ea-4c1a-a6f9-423e81deedf3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1412,7 +1394,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7799435566005606995}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: sideL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1443,7 +1425,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3439988161535820590}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-bcd4d0d2-5d6c-439a-8ad4-69ccf94473b7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1474,7 +1456,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2322887577923579132}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-7772c92a-cfde-4038-bbe6-42a1ce075296
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1505,7 +1487,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4445685734576420899}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-9afbe9a6-9679-4e3e-93eb-7fbac488fb0b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1536,7 +1518,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 360479116514809301}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: maegami3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1567,7 +1549,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4657221009990214348}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-874ec9f8-4eb7-4589-91aa-ee4f1c846494
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1598,7 +1580,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9046531508088138534}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-c69a169d-3e0c-4dd7-94a4-e1d205a8bfd1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1629,7 +1611,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4739664727199227955}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: skelton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1660,7 +1642,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3500060843618995439}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: maegami6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1691,7 +1673,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4234469222092194778}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-d0575fc7-ba60-45be-86f0-b7b4b96ad2c0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1722,7 +1704,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8744112381720281504}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-cc989918-f51f-4688-a895-31d82ba3fb7c
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1753,7 +1735,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4977844444603286346}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-cf45c901-867c-415d-97d6-f56902baa811
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1784,7 +1766,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8464904446972959225}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-6321c55f-f5c2-4e8b-b556-774a1f8d2bd9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1815,7 +1797,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1576963251886431924}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: shokkaku
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1848,7 +1830,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 247158001749694943}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ushiro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1884,7 +1866,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5007873786605307561}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ahogeL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1915,7 +1897,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8280170205156588261}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairJoint-451c1c8e-679d-4e14-a7c3-af0233d6b161
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -13,7 +13,7 @@ public class HairCustom : MonoBehaviour
     //実装された髪型数（男の子）
     private int boyHairStyleNum = 3;
     //実装された髪型数（女の子）
-    private int girlHairStyleNum = 5;
+    private int girlHairStyleNum = 8;
     //実装された髪型数
     private int hairStyleNum;
     private Transform head;
@@ -37,7 +37,7 @@ public class HairCustom : MonoBehaviour
         hairSmr = GameObject.FindGameObjectWithTag("Hair").GetComponentInChildren<SkinnedMeshRenderer>();
         //髪型ボーンのインデックス出力、普段はコメント化
         //for (int i = 0; i <hairSmr.bones.Length; i++)
-            // print(i+" "+hairSmr.bones[i]);                 
+         //    print(i+" "+hairSmr.bones[i]);                 
         InitHairData();
     }
 
@@ -45,7 +45,8 @@ public class HairCustom : MonoBehaviour
     void Update()
     {
         pm = GetComponent<ParameterManage>();
-        if (modelIndex == 2 && currentindex == 8)
+        //一番最後の髪型は男の坊主頭だから細かい調整はない
+        if (modelIndex == 2 && currentindex == hairStyleNum)
             return;
         HairColor();
         HairDetail();
@@ -74,7 +75,7 @@ public class HairCustom : MonoBehaviour
     }
     void InitHairData()
     {
-        string filepath = "E:/character dataset/hairdata.txt";
+        string filepath = Application.dataPath + "/hairdata.txt";
         if (!File.Exists(filepath))
             return;
         StreamReader sr = new StreamReader(filepath, Encoding.UTF8);
@@ -133,8 +134,8 @@ public class HairCustom : MonoBehaviour
 
         //UI処理、髪型の各部位の有無によって各スライダのインタラクティブ性を調整
         Transform parentSlider = slider.gameObject.transform.parent;
-        Slider hairSlider = parentSlider.GetChild(5).GetComponent<Slider>();
-        if(hairDatas[currentindex - 1].hasAhoge)
+        Slider hairSlider = parentSlider.GetChild(2).GetComponent<Slider>();
+        if (hairDatas[currentindex - 1].hasBack)
             hairSlider.interactable = true;
         else
             hairSlider.interactable = false;
@@ -145,6 +146,11 @@ public class HairCustom : MonoBehaviour
             hairSlider.interactable = false;
         hairSlider = parentSlider.GetChild(4).GetComponent<Slider>();
         if (hairDatas[currentindex - 1].hasTail)
+            hairSlider.interactable = true;
+        else
+            hairSlider.interactable = false;
+        hairSlider = parentSlider.GetChild(5).GetComponent<Slider>();
+        if (hairDatas[currentindex - 1].hasAhoge)
             hairSlider.interactable = true;
         else
             hairSlider.interactable = false;
@@ -163,9 +169,12 @@ public class HairCustom : MonoBehaviour
     {
         HairData hairdata = hairDatas[currentindex-1];
         Transform[] hairbones = hairSmr.bones;
-        Transform back = hairbones[hairdata.backNum[0]];
-        float backS = pm.getParameter(37);
-        back.parent.localScale = new Vector3(1, backS * 0.01f + 0.7f, 1);
+        if (hairdata.hasBack)
+        {
+            Transform back = hairbones[hairdata.backNum[0]];
+            float backS = pm.getParameter(37);
+            back.parent.localScale = new Vector3(1, backS * 0.01f + 0.7f, 1);
+        }
         if (hairdata.hasMaegami)
         {
             Transform maegami = hairbones[hairdata.maegamiNum[0]];
@@ -211,13 +220,11 @@ public class HairCustom : MonoBehaviour
         {
             print(girlIndex);
             pm.setSlider(33, girlIndex, girlHairStyleNum);
-           // ChangeHair(pm.getSlider(33));
             currentindex = girlIndex;
         }
         else
         {
             pm.setSlider(33, boyIndex, boyHairStyleNum);
-           // ChangeHair(pm.getSlider(33));
             currentindex = boyIndex + girlHairStyleNum;
         }  
     }
@@ -229,6 +236,7 @@ public class HairData : MonoBehaviour
  */
 {
     public Vector3 hairPosition;
+    public bool hasBack;
     public bool hasMaegami;
     public bool hasAhoge;
     public bool hasTail;
@@ -244,17 +252,21 @@ public class HairData : MonoBehaviour
         string dataline = sr.ReadLine();
         string[] words = dataline.Split(' ');
         hairPosition = new Vector3(float.Parse(words[0]), float.Parse(words[1]), float.Parse(words[2]));
-        hasMaegami = int.Parse(words[3]) == 1 ? true : false;
-        hasAhoge = int.Parse(words[4]) == 1 ? true : false;
-        hasTail = int.Parse(words[5]) == 1 ? true : false;
-        hasSide = int.Parse(words[6]) == 1 ? true : false;
-        int i = 7;
-        while(words[i] != ",")
+        hasBack = int.Parse(words[3]) == 1 ? true : false;
+        hasMaegami = int.Parse(words[4]) == 1 ? true : false;
+        hasAhoge = int.Parse(words[5]) == 1 ? true : false;
+        hasTail = int.Parse(words[6]) == 1 ? true : false;
+        hasSide = int.Parse(words[7]) == 1 ? true : false;
+        int i = 8;
+        if (hasBack)
         {
-            backNum.Add(int.Parse(words[i]));
+            while (words[i] != ",")
+            {
+                backNum.Add(int.Parse(words[i]));
+                i++;
+            }
             i++;
         }
-        i++;
         if (hasMaegami)
         {
             while (words[i] != ",")
