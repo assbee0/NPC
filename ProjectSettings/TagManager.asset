@@ -13,6 +13,7 @@ TagManager:
   - Head
   - Hair
   - Onepiece
+  - Glasses
   layers:
   - Default
   - TransparentFX

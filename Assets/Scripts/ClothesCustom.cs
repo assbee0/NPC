@@ -267,7 +267,7 @@ public class ClothesCustom : MonoBehaviour
         }
         else
         {
-            pm.setSlider(43, 1, 2);
+            pm.setSlider(43, 1, 4);
             pm.setSlider(44, 1, 1);
             pm.setSlider(45, 1, 1);
             pm.setSlider(51, 1, 1);

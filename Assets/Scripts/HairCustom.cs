@@ -200,6 +200,23 @@ public class HairCustom : MonoBehaviour
             side.parent.localScale = new Vector3(1, sideS * 0.007f + 0.8f, 1);
         }
     }
+
+    public void ChangeAccessories(Slider slider)
+    {
+        int index = (int)slider.value;
+        if (index == 1)
+        {
+            GameObject glasses = GameObject.FindGameObjectWithTag("Glasses");
+            if (glasses != null)
+                Destroy(glasses);
+        }
+        else if (index == 2)
+        {
+            GameObject glasses = Resources.Load<GameObject>("Clothes/Accessories/glasses");
+            GameObject glassesobj = Instantiate(glasses, head);
+            glassesobj.transform.localPosition = new Vector3(0, -1.374f, 0.007f);
+        }
+    }
     public void RefindObject()
     {
         head = GameObject.FindGameObjectWithTag("Head").transform;
