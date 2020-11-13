@@ -201,7 +201,7 @@ public class HairCustom : MonoBehaviour
         }
     }
 
-    public void ChangeAccessories(Slider slider)
+    public void ChangeGlasses(Slider slider)
     {
         int index = (int)slider.value;
         if (index == 1)
@@ -215,6 +215,22 @@ public class HairCustom : MonoBehaviour
             GameObject glasses = Resources.Load<GameObject>("Clothes/Accessories/glasses");
             GameObject glassesobj = Instantiate(glasses, head);
             glassesobj.transform.localPosition = new Vector3(0, -1.374f, 0.007f);
+        }
+    }
+    public void ChangeNecklace(Slider slider)
+    {
+        int index = (int)slider.value;
+        if (index == 1)
+        {
+            GameObject necklace = GameObject.FindGameObjectWithTag("Necklace");
+            if (necklace != null)
+                Destroy(necklace);
+        }
+        else if (index == 2)
+        {
+            GameObject necklace = Resources.Load<GameObject>("Clothes/Accessories/ribbon");
+            GameObject glassesobj = Instantiate(necklace, head.parent.parent);
+            glassesobj.transform.localPosition = new Vector3(0, -1.19f, -0.01f);
         }
     }
     public void RefindObject()

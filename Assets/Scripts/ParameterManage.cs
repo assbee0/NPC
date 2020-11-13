@@ -6,7 +6,7 @@ using System.IO;
 
 public class ParameterManage : MonoBehaviour
 {
-    const int PARAMETERNUM = 53;
+    const int PARAMETERNUM = 60;
     public GameObject[] customParameter = new GameObject[PARAMETERNUM];
     private ParameterSlider[] paraslider = new ParameterSlider[PARAMETERNUM];
     //[HideInInspector]

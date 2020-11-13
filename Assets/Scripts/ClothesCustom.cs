@@ -50,6 +50,7 @@ public class ClothesCustom : MonoBehaviour
     void Update()
     {
         pm = GetComponent<ParameterManage>();
+        TopsColor();
     }
     public void ChangeClothes(Slider slider)
     /*
@@ -85,7 +86,7 @@ public class ClothesCustom : MonoBehaviour
         {
             case 1: pattern.maxValue = 4; break;
             case 2: pattern.maxValue = 6; break;
-            case 3: pattern.maxValue = 5; break;
+            case 3: pattern.maxValue = 2; break;
             case 4: pattern.maxValue = 8; break;
             case 5: pattern.maxValue = 3; break;
             case 6: pattern.maxValue = 7; break;
@@ -126,6 +127,18 @@ public class ClothesCustom : MonoBehaviour
     {
         int index = (int)slider.value;
         topsSmr.material = Resources.Load<Material>("Materials/Tops/tops" + topsIndex + "_m" + index);
+    }
+    public void TopsColor()
+    {
+        Material topsm = topsSmr.material;
+        float topsr1 = pm.getParameter(54) / 255;
+        float topsg1 = pm.getParameter(55) / 255;
+        float topsb1 = pm.getParameter(56) / 255;
+        float topsr2 = pm.getParameter(57) / 255;
+        float topsg2 = pm.getParameter(58) / 255;
+        float topsb2 = pm.getParameter(59) / 255;
+        topsm.SetColor("_Color", new Color(topsr1, topsg1, topsb1));
+        topsm.SetColor("_SubColor", new Color(topsr2, topsg2, topsb2));
     }
     public void ChangeBottoms(Slider slider)
     /*
