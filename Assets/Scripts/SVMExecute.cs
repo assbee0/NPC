@@ -166,9 +166,9 @@ class OutunitTest
         float[] a = new float[x[0].Length];
         for (int i = 0; i < x[0].Length; i++)
         {
-            Debug.Log(i);
+            //Debug.Log(i);
             a[i] = x[row][i]; // 修正したけど、これ合ってる？
-            Debug.Log(a[i]);
+            //Debug.Log(a[i]);
         }
         return a;
     }

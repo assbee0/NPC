@@ -29,8 +29,8 @@ public class NPCAnimationController : MonoBehaviour
         valence = getParameter(svme.result_V);
         animator.SetFloat("Arousal",arousal);
         animator.SetFloat("Valence",valence);
-        Debug.Log(arousal);
-        Debug.Log(valence);
+        //Debug.Log(arousal);
+        //Debug.Log(valence);
     }
 
     public float getParameter(int x)
