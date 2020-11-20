@@ -4,33 +4,45 @@ using UnityEngine;
 
 public class NPCAnimationController : MonoBehaviour
 {
-    public float arousal;
-    public float valence;
     private Animator animator;
+    [SerializeField] private float arousal;
+    [SerializeField] private float valence;
+    public float timeOut = 2.0f; // 閾値
+    private float timeElapsed; // 累計時間
+    private float speed = 1.0f;　// Parameterの遷移スピード
+    
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
-        Execute();
+        //Execute();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Execute();
+        Execute();
+
+        /* 一定間隔で実行する場合
+        timeElapsed += Time.deltaTime;
+        if (timeElapsed >= timeOut) {
+            // 処理
+            timeElapsed = 0.0f;
+        }
+        */
     }
 
     public void Execute()
     {
         SVMExecute svme = GetComponent<SVMExecute>();
         svme.Predict();
-        arousal = getParameter(svme.result_A);
-        valence = getParameter(svme.result_V);
+        arousal = Mathf.Lerp(arousal, getParameter(svme.result_A), Time.deltaTime * speed);
+        //arousal = getParameter(svme.result_A);
+        valence = Mathf.Lerp(valence, getParameter(svme.result_V), Time.deltaTime * speed);
+        //valence = getParameter(svme.result_V);
         animator.SetFloat("Arousal",arousal);
         animator.SetFloat("Valence",valence);
-        //Debug.Log(arousal);
-        //Debug.Log(valence);
     }
 
     public float getParameter(int x)
@@ -46,4 +58,14 @@ public class NPCAnimationController : MonoBehaviour
             return -1;
         }
     }
+
+    public float Arousal {
+        get{ return arousal; }
+        set{ arousal = value;}
+    }
+
+    public float Valence {
+        get{ return valence; }
+        set{ valence = value;}
+    }    
 }
