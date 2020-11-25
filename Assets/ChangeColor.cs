@@ -16,6 +16,7 @@ public class ChangeColor : MonoBehaviour
         script = _parent.GetComponent<NPCAnimationController>();
         initPos = transform.position;
         initAngle = transform.localRotation.eulerAngles;
+        changeColor();
     }
 
     // Update is called once per frame

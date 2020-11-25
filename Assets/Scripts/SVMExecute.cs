@@ -10,11 +10,18 @@ public class SVMExecute : MonoBehaviour
     const int CLASSNUM = 3;
     public int result_A = -1;
     public int result_V = -1;
+    public int A_testParam1;
+    public int A_testParam2;
+    public int V_testParam1;
+    public int V_testParam2;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        A_testParam1 = Random.Range(0, 11);
+        A_testParam2 = Random.Range(0, 11);
+        V_testParam1 = Random.Range(0, 11);
+        V_testParam2 = Random.Range(0, 11);
     }
 
     // Update is called once per frame
@@ -28,12 +35,17 @@ public class SVMExecute : MonoBehaviour
         // Arousalについて
         //ParameterManage pm = GetComponent<ParameterManage>();
         //Hunit hunit = new Hunit();
+        GetSVMParameter svmp = GetComponent<GetSVMParameter>();
+        float[] param = svmp.ArrayParm;
         OutunitTest outunit_A = new OutunitTest();
-        float[] input_A = new float[2] {1, 7}; // ここをどうにかする！！！！！！！！！！
+        float[] input_A = new float[2] {A_testParam1, A_testParam2}; // ここをどうにかする！！！！！！！！！！
+        //float[] input_A = new float[2] {8, 9};
+        //input_A[0] = param[0];
+        //input_A[1] = param[1];
         //input = ParaTransform(input);
         //outunit.Readw();
-        outunit_A.Readb();
-        outunit_A.Readw();
+        outunit_A.Readb(0); // 0: Arousal, 1: Valence
+        outunit_A.Readw(0);
         outunit_A.Propagation(input_A);
         //outunit.Propagation(hunit.output);
         result_A = Argmax(outunit_A.output); // result：カテゴリ
@@ -41,11 +53,11 @@ public class SVMExecute : MonoBehaviour
 
         // Valenceについて
         OutunitTest outunit_V = new OutunitTest();
-        float[] input_V = new float[2] {1, 7}; // ここをどうにかする！！！！！！！！！！
+        float[] input_V = new float[2] {V_testParam1, V_testParam2}; // ここをどうにかする！！！！！！！！！！
         //input = ParaTransform(input);
         //outunit.Readw();
-        outunit_V.Readb();
-        outunit_V.Readw();
+        outunit_V.Readb(1);
+        outunit_V.Readw(1);
         outunit_V.Propagation(input_V);
         //outunit.Propagation(hunit.output);
         result_V = Argmax(outunit_V.output); // result：カテゴリ
@@ -100,7 +112,8 @@ public class SVMExecute : MonoBehaviour
                 argmax = i;
             }
         }
-        return argmax+1;
+        //return argmax+1;
+        return argmax;
     }
 }
 
@@ -127,9 +140,14 @@ class OutunitTest
         }
     }
 
-    public void Readb()
+    public void Readb(int catg)
     {
-        string filepath = Application.dataPath + "/SVM/Parameters/A_intercept.txt";
+        string filepath = "";
+        if (catg == 0) {
+            filepath = Application.dataPath + "/SVM/Parameters/A_intercept.txt";
+        } else if (catg == 1) {
+            filepath = Application.dataPath + "/SVM/Parameters/V_intercept.txt";
+        }
         if (!File.Exists(filepath))
             return;
         StreamReader sr = new StreamReader(filepath, Encoding.UTF8);
@@ -141,9 +159,14 @@ class OutunitTest
         sr.Close();
     }
 
-    public void Readw() // coefが重みW
+    public void Readw(int catg) // coefが重みW
     {
-        string filepath = Application.dataPath + "/SVM/Parameters/A_coef.txt";
+        string filepath = "";
+        if (catg == 0) {
+            filepath = Application.dataPath + "/SVM/Parameters/A_coef.txt";
+        } else if (catg == 1) {
+            filepath = Application.dataPath + "/SVM/Parameters/V_coef.txt";
+        }
         if (!File.Exists(filepath))
             return;
         StreamReader sr = new StreamReader(filepath, Encoding.UTF8);

@@ -10,11 +10,16 @@ public class GetSVMParameter : MonoBehaviour
     private int VARNUM = 4; // 取得するパラメタの数
     public int Param1 = 1; // 仮（Debug用）
     public int Param2 = 5; // 仮（Debug用）
+    private float AROUSAL;
+    private float VALENCE;
 
     // Start is called before the first frame update
     void Start()
     {
         arrayParam = new float[VARNUM];
+        NPCAnimationController ownAnimCon = gameObject.GetComponent<NPCAnimationController>();
+        AROUSAL = ownAnimCon.Arousal;
+        VALENCE = ownAnimCon.Valence;
         //getAroundAVValue();
     }
 
@@ -26,6 +31,9 @@ public class GetSVMParameter : MonoBehaviour
         arrayParam[1] = tmpArray[1];
         arrayParam[2] = Param1;
         arrayParam[3] = Param2;
+        //Debug.Log("Param[0]: " + arrayParam[0]);
+        //Debug.Log("Param[1]: " + arrayParam[1]);
+        
     }
 
     /*
@@ -48,7 +56,6 @@ public class GetSVMParameter : MonoBehaviour
         }
 
         float[] avValue = new float[2];
-
         foreach (GameObject obj in listObj) {
             // 対象となるGameObjectとの距離を調べる
             float dist = Vector3.Distance(obj.transform.position, transform.position);
@@ -65,8 +72,17 @@ public class GetSVMParameter : MonoBehaviour
 
     public void updateAVValue(float[] avValue, float dist, float ar, float va)
     {
-        avValue[0] = avValue[0] + (ar - avValue[0]) / dist;
-        avValue[1] = avValue[1] + (va - avValue[1]) / dist;
+        //avValue[0] = ar;
+        //avValue[1] = va;
+
+        //avValue[0] = avValue[0] + ar - avValue[0];
+        //avValue[1] = avValue[1] + va - avValue[1];
+
+        //avValue[0] = avValue[0] + (ar - AROUSAL) / dist;
+        //avValue[1] = avValue[1] + (va - VALENCE) / dist;
+
+        avValue[0] = avValue[0] + (ar - AROUSAL)/3; // 後で要修正
+        avValue[1] = avValue[1] + (va - VALENCE)/3;
     }
 
     public float[] ArrayParm {
