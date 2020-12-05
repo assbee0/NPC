@@ -130,7 +130,7 @@ public class ParameterManage : MonoBehaviour
     }
 }
 
-class ParameterSlider : MonoBehaviour
+class ParameterSlider
 {
     public Slider slider;
     public string pname;

@@ -16,7 +16,7 @@ public class EmotionControll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animator.SetFloat("Emotion", emotion/100);
+        //animator.SetFloat("Emotion", emotion/100);
     }
     
     public void changeEmotion(Slider slider)

@@ -263,7 +263,7 @@ public class HairCustom : MonoBehaviour
     }
 }
 
-public class HairData : MonoBehaviour
+public class HairData
 /*
  *　髪型のプリセットデータを保存用データ構造
  */

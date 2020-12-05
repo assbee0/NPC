@@ -7,10 +7,10 @@ from pgmpy.estimators import BayesianEstimator
 import pandas as pd
 
 model = BayesianModel([
-    ('Dress Code', 'Tops'),
-    ('Dress Code', 'Bottoms'),
-    ('Dress Code', 'Socks'),
-    ('Dress Code', 'Shoes'),
+    ('DressCode', 'Tops'),
+    ('DressCode', 'Bottoms'),
+    ('DressCode', 'Socks'),
+    ('DressCode', 'Shoes'),
     ('Tops', 'Bottoms'),
     ('Bottoms', 'Socks'),
     ('Bottoms', 'Shoes'),
@@ -20,16 +20,23 @@ model = BayesianModel([
 file = 'cpd.txt'
 f = open(file, 'w')
 data = pd.read_csv('data.csv')
-print(data)
+print(data.value_counts('Tops'))
 model.fit(data, estimator=MaximumLikelihoodEstimator)
 infer = VariableElimination(model)
+print(model.get_cpds('Shoes'))
 for cpd in model.get_cpds():
     print(cpd.get_values())
+    s = ''
     for v in cpd.variables:
-        f.write(v+' ')
+        s = s + v + ' '
+    f.write(s.rstrip(' '))
     f.write('\n')
     for j in cpd.get_values():
+        s = ''
         for i in j:
-            f.write(str(i)+' ')
+            s = s + str(i)+' '
+        f.write(s.rstrip(' '))
         f.write('\n')
+    f.write('\n')
+f.close()
 #print(model.check_model())

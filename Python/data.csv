@@ -1,4 +1,4 @@
-﻿Dress Code,Tops,Bottoms,Socks,Shoes
+﻿DressCode,Tops,Bottoms,Socks,Shoes
 student casual,parka,miniskirt,tights,boots
 student casual,parka,miniskirt,tights,loafers
 student casual,sweater,pants,none,loafers
@@ -42,7 +42,7 @@ student casual,shirt,skirt,socks,loafers
 student casual,sweater,long skirt,none,boots
 student casual,parka,long skirt,anklets,sneakers
 student casual,sweater,pants,none,sneakers
-student casual,sweater,miniskirt,none,long boots
+student casual,sweater,miniskirt,none,boots
 student casual,sweater,short pants,socks,boots
 student casual,shirt,miniskirt,socks,boots
 student casual,sweater,pants,none,loafers
