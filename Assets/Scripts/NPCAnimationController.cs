@@ -13,8 +13,9 @@ public class NPCAnimationController : MonoBehaviour
     SVMExecute svmE;
     NPCAnimationController ownAnimCon;
 
-    public int test_A = 0; // 仮
-    public int test_V = 0; // 仮
+    public int test_A = -1; // 仮
+    public int test_V = -1; // 仮
+    public bool isLegend;
     
 
     // Start is called before the first frame update
@@ -24,6 +25,7 @@ public class NPCAnimationController : MonoBehaviour
         svmE = GetComponent<SVMExecute>();
         ownAnimCon = gameObject.GetComponent<NPCAnimationController>();
         svmE.Predict();
+        checkName(this.gameObject);
         //Execute();
     }
 
@@ -39,10 +41,13 @@ public class NPCAnimationController : MonoBehaviour
         }
 
         // A-V値の遷移
-        //arousal = Mathf.Lerp(arousal, getInterpValue(test_A), Time.deltaTime * speed);        
-        //valence = Mathf.Lerp(valence, getInterpValue(test_V), Time.deltaTime * speed);
-        arousal = Mathf.Lerp(arousal, getInterpValue(svmE.result_A), Time.deltaTime * speed);
-        valence = Mathf.Lerp(valence, getInterpValue(svmE.result_V), Time.deltaTime * speed);        
+        if (isLegend == false) { // 通常時
+            arousal = Mathf.Lerp(arousal, getInterpValue(svmE.result_A), Time.deltaTime * speed);
+            valence = Mathf.Lerp(valence, getInterpValue(svmE.result_V), Time.deltaTime * speed);        
+        } else {                 // 凡例時
+            arousal = Mathf.Lerp(arousal, getInterpValue(test_A), Time.deltaTime * speed);        
+            valence = Mathf.Lerp(valence, getInterpValue(test_V), Time.deltaTime * speed);
+        }      
         //arousal = arousal + ownAnimCon.Arousal;
         //valence = valence + ownAnimCon.Valence;
         animator.SetFloat("Arousal",arousal);
@@ -76,6 +81,38 @@ public class NPCAnimationController : MonoBehaviour
             return Random.Range(boundary * 2.0f, 256.0f);
         } else {
             return -1;
+        }
+    }
+
+    public void checkName(GameObject obj)
+    {
+        if (obj.name == "Ch20_nonPBR_Legend") {
+            test_A = 0;
+            test_V = 0;
+        } else if (obj.name == "Ch20_nonPBR_Legend (1)") {
+            test_A = 0;
+            test_V = 1;
+        } else if (obj.name == "Ch20_nonPBR_Legend (2)") {
+            test_A = 0;
+            test_V = 2;
+        } else if (obj.name == "Ch20_nonPBR_Legend (3)") {
+            test_A = 1;
+            test_V = 0;
+        } else if (obj.name == "Ch20_nonPBR_Legend (4)") {
+            test_A = 1;
+            test_V = 1;
+        } else if (obj.name == "Ch20_nonPBR_Legend (5)") {
+            test_A = 1;
+            test_V = 2;
+        } else if (obj.name == "Ch20_nonPBR_Legend (6)") {
+            test_A = 2;
+            test_V = 0;
+        } else if (obj.name == "Ch20_nonPBR_Legend (7)") {
+            test_A = 2;
+            test_V = 1;
+        } else if (obj.name == "Ch20_nonPBR_Legend (8)") {
+            test_A = 2;
+            test_V = 2;
         }
     }
 
