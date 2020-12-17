@@ -52,6 +52,8 @@ public class NPCAnimationController : MonoBehaviour
         //valence = valence + ownAnimCon.Valence;
         animator.SetFloat("Arousal",arousal);
         animator.SetFloat("Valence",valence);
+        animator.SetInteger("Cat_A", test_A);
+        animator.SetInteger("Cat_V", test_V);
     }
 
     public void Execute()
