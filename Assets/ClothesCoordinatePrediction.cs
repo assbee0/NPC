@@ -45,13 +45,13 @@ public class ClothesCoordinatePrediction : MonoBehaviour
                 color = tempcolorset;
             }
         }
-        print(Enum.GetName(typeof(Tops), setexample[0]));
+        /*print(Enum.GetName(typeof(Tops), setexample[0]));
         print(Enum.GetName(typeof(Bottoms), setexample[1]));
         print(Enum.GetName(typeof(Socks), setexample[2]));
-        print(Enum.GetName(typeof(Shoes), setexample[3]));
+        print(Enum.GetName(typeof(Shoes), setexample[3]));*/
         for (int i = 0; i < 4; i++)
         {
-            print(color[i]);
+            //print(color[i]);
         }
             
     }

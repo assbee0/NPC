@@ -261,6 +261,50 @@ public class HairCustom : MonoBehaviour
             currentindex = boyIndex + girlHairStyleNum;
         }  
     }
+    public void RealTimeChangeHair()
+    /*
+     *　髪型チェンジ、Slider Hair Styleの値が変わるとき実行
+     */
+    {
+        //スライダから値を取る
+        int index = (int)pm.getParameter(33);
+        currentindex = index;
+        //今の髪型を探す
+        hair1 = GameObject.FindGameObjectWithTag("Hair");
+        GameObject hair2;
+
+        //性別によって別々処理する、Resourcesからロード
+        if (modelIndex == 1)
+        {
+            hair2 = Resources.Load<GameObject>("Hair/Girl/hair" + index);
+        }
+        else
+        {
+            currentindex = index + girlHairStyleNum;
+            if (index == 3)
+            {
+
+                Destroy(hair1);
+                return;
+            }
+            hair2 = Resources.Load<GameObject>("Hair/Boy/bhair" + index);
+        }
+
+        if (hair2 == null)
+            return;
+
+        //シーン内で実体化
+        GameObject hair2obj = Instantiate(hair2, head);
+
+        //新髪型の位置をプリセットデータから初期化
+        hair2obj.transform.localPosition = hairDatas[currentindex - 1].hairPosition;
+        hair2obj.tag = "Hair";
+        hairSmr = hair2obj.GetComponentInChildren<SkinnedMeshRenderer>();
+
+        //旧髪型削除
+        if (hair1 != null)
+            Destroy(hair1);
+    }
 }
 
 public class HairData

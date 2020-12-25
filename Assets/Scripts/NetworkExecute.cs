@@ -103,11 +103,7 @@ public class NetworkExecute : MonoBehaviour
     public void RandomGenerate()
     {
         ParameterManage pm = GetComponent<ParameterManage>();
-        pm.HalfRandom();
-        int i = Random.Range(0, 13);
-        pm.setParameter(34, haircolor[i].r);
-        pm.setParameter(35, haircolor[i].g);
-        pm.setParameter(36, haircolor[i].b);
+        pm.FullRandom();
        // pm.OutputParameterVectors(sw);
     }
     public static float Dot(float[] a, float[] b)

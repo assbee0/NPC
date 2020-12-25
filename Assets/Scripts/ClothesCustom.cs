@@ -51,6 +51,10 @@ public class ClothesCustom : MonoBehaviour
     {
         pm = GetComponent<ParameterManage>();
         TopsColor();
+        if (bottomsSmr != null)
+            BottomsColor();
+        ShoesColor();
+       // DeleteBottoms();
     }
     public void ChangeClothes(Slider slider)
     /*
@@ -77,6 +81,7 @@ public class ClothesCustom : MonoBehaviour
 
         //新トップスを実体化
         GameObject tops2obj = Instantiate(tops2, bodyModel.transform.parent);
+        tops2obj.transform.position = bodyModel.transform.position;
         topsSmr = tops2obj.GetComponentInChildren<SkinnedMeshRenderer>();
         topsIndex = index;
 
@@ -139,6 +144,22 @@ public class ClothesCustom : MonoBehaviour
         float topsb2 = pm.getParameter(59) / 255;
         topsm.SetColor("_Color", new Color(topsr1, topsg1, topsb1));
         topsm.SetColor("_SubColor", new Color(topsr2, topsg2, topsb2));
+    }
+    public void BottomsColor()
+    {
+        Material bottomsm = bottomsSmr.material;
+        float bottomsr = pm.getParameter(60) / 255;
+        float bottomsg = pm.getParameter(61) / 255;
+        float bottomsb = pm.getParameter(62) / 255;
+        bottomsm.SetColor("_Color", new Color(bottomsr, bottomsg, bottomsb));
+    }
+    public void ShoesColor()
+    {
+        Material shoesm = shoesSmr.material;
+        float shoesr = pm.getParameter(63) / 255;
+        float shoesg = pm.getParameter(64) / 255;
+        float shoesb = pm.getParameter(65) / 255;
+        shoesm.SetColor("_Color", new Color(shoesr, shoesg, shoesb));
     }
     public void ChangeBottoms(Slider slider)
     /*
@@ -286,6 +307,16 @@ public class ClothesCustom : MonoBehaviour
             pm.setSlider(51, 1, 1);
         }
     }
+    public void DeleteBottoms()
+    {
+        if (modelIndex == 1 && topsIndex == 5)
+        { 
+            GameObject bottoms = GameObject.FindGameObjectWithTag("Bottoms");
+            if (bottoms != null)
+                Destroy(bottoms);
+        }
+
+    }
     void BoneIndexInit()
     /*
      *  時間短縮用、まだ使ってない、開発中
@@ -314,6 +345,106 @@ public class ClothesCustom : MonoBehaviour
         bone.Generate("J_Sec_L_Bust2", 94);
         boneindex.Add(bone);
 
+    }
+
+    public void RealTimeChangeClothes()
+    /*
+     *　トップスチェンジ、Slider Tops Styleの値が変わるとき実行
+     *　上着はTopsとOnepiece二種類がある
+     */
+    {
+        //スライダから値を取る
+        int index = (int)pm.getParameter(44);
+        //現在のトップスを探す
+        GameObject tops1 = GameObject.FindGameObjectWithTag("Tops");
+        //Topsがない場合はOnepieceを探す
+        if (tops1 == null)
+            tops1 = GameObject.FindGameObjectWithTag("Onepiece");
+
+        //性別によって新トップスをResourcesからロード
+        GameObject tops2;
+        if (modelIndex == 1)
+            tops2 = Resources.Load<GameObject>("Clothes/Girl/tops" + index);
+        else
+            tops2 = Resources.Load<GameObject>("Clothes/Boy/btops" + index);
+        if (tops2 == null)
+            return;
+
+        //新トップスを実体化
+        GameObject tops2obj = Instantiate(tops2, bodyModel.transform.parent);
+        tops2obj.transform.position = bodyModel.transform.position;
+        topsSmr = tops2obj.GetComponentInChildren<SkinnedMeshRenderer>();
+        topsIndex = index;
+
+        GameObject bottoms = GameObject.FindGameObjectWithTag("Bottoms");
+        if (tops2.tag == "Onepiece")
+        {
+            if (bottoms != null)
+                Destroy(bottoms);
+        }
+        else
+        //新トップスがTopsでボトムスがない場合は前削除されたボトムスを再生する
+        {
+            if (bottoms == null)
+            {
+                GameObject bottom = Resources.Load<GameObject>("Clothes/Girl/bottoms" + bottomsIndex);
+                if (bottom == null)
+                    return;
+                bottoms = Instantiate(bottom, bodyModel.transform.parent);
+                bottomsSmr = bottoms.GetComponentInChildren<SkinnedMeshRenderer>();
+                ShareBones(bottomsSmr);
+            }
+        }
+        //旧トップスを削除
+        Destroy(tops1);
+        //新トップスとキャラクタのボーンを共有させる
+        ShareBones(topsSmr);
+    }
+
+    public void RealTimeChangeBottoms()
+    /*
+     *　ボトムスチェンジ、Slider Bottoms Styleの値が変わるとき実行
+     */
+    {
+        //スライダから値を取る
+        int index = (int)pm.getParameter(43);
+        //現在のボトムスを探す
+        GameObject bottoms1 = GameObject.FindGameObjectWithTag("Bottoms");
+
+        //新ボトムスをResourcesからロード
+        GameObject bottoms2 = Resources.Load<GameObject>("Clothes/Girl/bottoms" + index);
+        if (bottoms2 == null)
+            return;
+
+        //新ボトムスを実体化
+        GameObject bottoms2obj = Instantiate(bottoms2, bodyModel.transform.parent);
+        bottomsSmr = bottoms2obj.GetComponentInChildren<SkinnedMeshRenderer>();
+        bottomsIndex = index;
+
+        //旧ボトムスを削除
+        Destroy(bottoms1);
+        //新ボトムスとキャラクタのボーンを共有させる
+        ShareBones(bottomsSmr);
+    }
+
+    public void RealTimeChangeShitagi()
+    {
+        int index = (int)pm.getParameter(45);
+        bodySmr.material = Resources.Load<Material>("Materials/Skin/bodyskin" + index);
+    }
+
+    public void RealTimeChangeShoes()
+    {
+        int index = (int)pm.getParameter(51);
+        GameObject shoes1 = GameObject.FindGameObjectWithTag("Shoes");
+
+        GameObject shoes2 = Resources.Load<GameObject>("Clothes/Girl/shoes" + index);
+        if (shoes2 == null)
+            return;
+        GameObject shoes2obj = Instantiate(shoes2, bodyModel.transform.parent);
+        shoesSmr = shoes2obj.GetComponentInChildren<SkinnedMeshRenderer>();
+        Destroy(shoes1);
+        ShareBones(shoesSmr);
     }
 }
 class BoneIndex

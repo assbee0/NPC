@@ -19,15 +19,15 @@ public class CameraLockOn : MonoBehaviour {
         transform.position = targetObject.position - Vector3.forward * back + Vector3.up * up;
         transform.LookAt(targetObject.transform);
     }
-	
-	// Update is called once per frame
-	void LateUpdate ()
+
+    // Update is called once per frame
+    void LateUpdate()
     {
         transform.position = targetObject.position - Vector3.forward * back + Vector3.up * up;
         transform.rotation = Quaternion.Euler(0, 0, 0);
         //bool L1 = Input.GetButton("PS4L1");
-       // if (!L1)
-            VerticalRotate();
+        // if (!L1)
+        VerticalRotate();
         HorizontalRotate();
         ZoomInOut();
         transform.LookAt(targetObject.transform);
@@ -36,7 +36,7 @@ public class CameraLockOn : MonoBehaviour {
         if (Physics.Linecast(targetObject.position, transform.position, out hit))
         {
             string name = hit.collider.gameObject.tag;
-            if (name != "MainCamera" && name != "Character")
+            if (name != "MainCamera" && name != "Player")
             {
                 float currentDistance = Vector3.Distance(hit.point, targetObject.position);
                 if (currentDistance < back)

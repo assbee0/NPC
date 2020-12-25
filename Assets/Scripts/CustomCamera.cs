@@ -25,7 +25,7 @@ public class CustomCamera : MonoBehaviour
     public void faraway()
     {
         target = GameObject.FindGameObjectWithTag("Head");
-        cam.position = new Vector3(0f, -0.56f + target.transform.position.y, 1.5f);
+        cam.position = new Vector3(target.transform.position.x, -0.56f + target.transform.position.y, 1.5f);
         cam.rotation = Quaternion.Euler(0, 180, 0);
     }
     public void closeto()

@@ -6,7 +6,7 @@ using System.IO;
 
 public class ParameterManage : MonoBehaviour
 {
-    const int PARAMETERNUM = 60;
+    const int PARAMETERNUM = 66;
     public GameObject[] customParameter = new GameObject[PARAMETERNUM];
     private ParameterSlider[] paraslider = new ParameterSlider[PARAMETERNUM];
     //[HideInInspector]
@@ -65,9 +65,12 @@ public class ParameterManage : MonoBehaviour
         for (int i = 0; i < customParameter.Length; i++)
         {
             Slider si = customParameter[i].GetComponent<Slider>();
-            float minvalue = si.minValue;
-            float maxvalue = si.maxValue;
-            si.value = Random.Range(minvalue, maxvalue);
+            int minvalue = (int)si.minValue;
+            int maxvalue = (int)si.maxValue + 1;
+            int random = Random.Range(minvalue, maxvalue);
+            if (random == 5 && i == 44)
+                random = 4;
+            si.SetValueWithoutNotify(random);
             p[i] = si.value;
         }
     }
