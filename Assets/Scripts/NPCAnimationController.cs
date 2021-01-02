@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.Animations;
 
 public class NPCAnimationController : MonoBehaviour
 {
@@ -27,6 +28,13 @@ public class NPCAnimationController : MonoBehaviour
         svmE.Predict();
         checkName(this.gameObject);
         //Execute();
+
+        SetMirror();
+        // 左利きにチェンジ
+        //if (Random.value > 0.5)
+        //{
+            //SetMirror();
+        //}
     }
 
     // Update is called once per frame
@@ -52,16 +60,18 @@ public class NPCAnimationController : MonoBehaviour
         //valence = valence + ownAnimCon.Valence;
         animator.SetFloat("Arousal",arousal);
         animator.SetFloat("Valence",valence);
-        animator.SetInteger("Cat_A", test_A);
-        animator.SetInteger("Cat_V", test_V);
+        animator.SetInteger("Cat_A", svmE.result_A);
+        animator.SetInteger("Cat_V", svmE.result_V);
+        //animator.SetInteger("Cat_A", test_A);
+        //animator.SetInteger("Cat_V", test_V);
     }
 
     public void Execute()
     {
         GetSVMParameter svmP = GetComponent<GetSVMParameter>();
         float[] arrP = svmP.ArrayParm;
-        SVMExecute svme = GetComponent<SVMExecute>();
-        svme.Predict();
+        //SVMExecute svme = GetComponent<SVMExecute>();
+        svmE.Predict();
         arousal = Mathf.Lerp(arousal, getInterpValue(test_A), Time.deltaTime * speed);        
         //arousal = Mathf.Lerp(arousal, getInterpValue(svme.result_A), Time.deltaTime * speed);
         //arousal = getInterpValue(svme.result_A);
@@ -115,6 +125,28 @@ public class NPCAnimationController : MonoBehaviour
         } else if (obj.name == "Ch20_nonPBR_Legend (8)") {
             test_A = 2;
             test_V = 2;
+        }
+    }
+
+    void SetMirror()
+    {
+        //　今使っているAnimatorControllerを取得
+        AnimatorController animCon = animator.runtimeAnimatorController as AnimatorController;
+        //　AnimatorControllerのレイヤーを取得
+        var layers = animCon.layers;
+        foreach (var layer in layers)
+        {
+            //　Base Layerレイヤーを探す
+            if (layer.stateMachine.name == "Base Layer")
+            {
+                var animStates = layer.stateMachine.states;
+                foreach (var animState in animStates)
+                {
+                    animState.state.mirror = !animState.state.mirror;
+                    // AnimatorStateを変更した後のおまじない
+                    animator.Rebind();
+                }
+            }
         }
     }
 

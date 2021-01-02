@@ -7,9 +7,12 @@ public class GetSVMParameter : MonoBehaviour
     NPCAnimationController NPCAnimCon;
     public int radius = 100;
     private float[] arrayParam;
-    private int VARNUM = 4; // 取得するパラメタの数
-    public int Param1 = 1; // 仮（Debug用）
-    public int Param2 = 5; // 仮（Debug用）
+    private int VARNUM = 5; // 取得するパラメタの数
+    public int Param1 = 8; // 仮（Debug用）
+    public int Param2 = 10; // 仮（Debug用）
+    public int Param3 = 8; // 仮（Debug用）
+    public int Param4 = 9; // 仮（Debug用）
+    public int Param5 = 9; // 仮（Debug用）
     private float AROUSAL;
     private float VALENCE;
 
@@ -27,13 +30,22 @@ public class GetSVMParameter : MonoBehaviour
     void Update()
     {
         float[] tmpArray = getAroundAVValue();
+        /*
         arrayParam[0] = tmpArray[0];
         arrayParam[1] = tmpArray[1];
         arrayParam[2] = Param1;
         arrayParam[3] = Param2;
+        */
+
+        arrayParam[0] = Param1;
+        arrayParam[1] = Param2;
+        arrayParam[2] = Param3;
+        arrayParam[3] = Param4;
+        arrayParam[4] = Param5;
+
         //Debug.Log("Param[0]: " + arrayParam[0]);
         //Debug.Log("Param[1]: " + arrayParam[1]);
-        
+
     }
 
     /*

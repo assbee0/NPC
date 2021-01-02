@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.Animations;
 
 public class RealTimeGenerate : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class RealTimeGenerate : MonoBehaviour
     private GameObject black;
     private int num = 0;
     private int[] posx = new int[] { -46, 60, -24, 52, -32, 44, -40, 36, -40, 68 };
+
+    private Animator animator;
     void Start()
     {
         //CustomManagerに付いてる他のスクリプトを取る
@@ -21,7 +24,14 @@ public class RealTimeGenerate : MonoBehaviour
         clothescustom = GetComponent<ClothesCustom>();
         networkexecute = GetComponent<NetworkExecute>();
 
-        
+        //
+        if (Random.value > 0.5)
+        {
+            SetMirror();
+        } else { 
+        }
+
+
         //facecustom.enabled = false;
         //haircustom.enabled = false;
         //clothescustom.enabled = false;
@@ -134,5 +144,28 @@ public class RealTimeGenerate : MonoBehaviour
         GenerateParameter();
         SetPosition(Random.Range(0,2));
         print("over");
+    }
+
+    void SetMirror()
+    {
+        animator = GetComponent<Animator>();
+        //　今使っているAnimatorControllerを取得
+        AnimatorController animCon = animator.runtimeAnimatorController as AnimatorController;
+        //　AnimatorControllerのレイヤーを取得
+        var layers = animCon.layers;
+        foreach (var layer in layers)
+        {
+            //　Base Layerレイヤーを探す
+            if (layer.stateMachine.name == "Base Layer")
+            {
+                var animStates = layer.stateMachine.states;
+                foreach (var animState in animStates)
+                {
+                    animState.state.mirror = !animState.state.mirror;
+                    // AnimatorStateを変更した後のおまじない
+                    animator.Rebind();
+                }
+            }
+        }
     }
 }

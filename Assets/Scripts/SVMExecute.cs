@@ -36,17 +36,18 @@ public class SVMExecute : MonoBehaviour
         //ParameterManage pm = GetComponent<ParameterManage>();
         //Hunit hunit = new Hunit();
         GetSVMParameter svmp = GetComponent<GetSVMParameter>();
-        float[] param = svmp.ArrayParm;
+        float[] envParam = svmp.ArrayParm;
         OutunitTest outunit_A = new OutunitTest();
         float[] input_A = new float[2] {A_testParam1, A_testParam2}; // ここをどうにかする！！！！！！！！！！
         //float[] input_A = new float[2] {8, 9};
-        //input_A[0] = param[0];
-        //input_A[1] = param[1];
+        //input_A[0] = envParam[0];
+        //input_A[1] = envParam[1];
         //input = ParaTransform(input);
         //outunit.Readw();
         outunit_A.Readb(0); // 0: Arousal, 1: Valence
         outunit_A.Readw(0);
-        outunit_A.Propagation(input_A);
+        //outunit_A.Propagation(input_A);
+        outunit_A.Propagation(envParam);
         //outunit.Propagation(hunit.output);
         result_A = Argmax(outunit_A.output); // result：カテゴリ
         //EvaluateOutput();
@@ -58,7 +59,8 @@ public class SVMExecute : MonoBehaviour
         //outunit.Readw();
         outunit_V.Readb(1);
         outunit_V.Readw(1);
-        outunit_V.Propagation(input_V);
+        //outunit_V.Propagation(input_V);
+        outunit_V.Propagation(envParam);
         //outunit.Propagation(hunit.output);
         result_V = Argmax(outunit_V.output); // result：カテゴリ
         //EvaluateOutput();
