@@ -6,7 +6,7 @@ public class GetSVMParameter : MonoBehaviour
 {
     NPCAnimationController NPCAnimCon;
     public int radius = 100;
-    private float[] arrayParam;
+    public float[] envParam; // publicじゃないとSVMExecuteでエラー吐く
     private int VARNUM = 5; // 取得するパラメタの数
     public int Param1 = 8; // 仮（Debug用）
     public int Param2 = 10; // 仮（Debug用）
@@ -19,7 +19,7 @@ public class GetSVMParameter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        arrayParam = new float[VARNUM];
+        envParam = new float[VARNUM];
         NPCAnimationController ownAnimCon = gameObject.GetComponent<NPCAnimationController>();
         AROUSAL = ownAnimCon.Arousal;
         VALENCE = ownAnimCon.Valence;
@@ -31,28 +31,28 @@ public class GetSVMParameter : MonoBehaviour
     {
         float[] tmpArray = getAroundAVValue();
         /*
-        arrayParam[0] = tmpArray[0];
-        arrayParam[1] = tmpArray[1];
-        arrayParam[2] = Param1;
-        arrayParam[3] = Param2;
+        envParam[0] = tmpArray[0];
+        envParam[1] = tmpArray[1];
+        envParam[2] = Param1;
+        envParam[3] = Param2;
         */
 
-        arrayParam[0] = Param1;
-        arrayParam[1] = Param2;
-        arrayParam[2] = Param3;
-        arrayParam[3] = Param4;
-        arrayParam[4] = Param5;
+        envParam[0] = Param1;
+        envParam[1] = Param2;
+        envParam[2] = Param3;
+        envParam[3] = Param4;
+        envParam[4] = Param5;
 
-        //Debug.Log("Param[0]: " + arrayParam[0]);
-        //Debug.Log("Param[1]: " + arrayParam[1]);
+        //Debug.Log("Param[0]: " + envParam[0]);
+        //Debug.Log("Param[1]: " + envParam[1]);
 
     }
 
     /*
-    arrayParam[0]: 周囲のArousal値
-    arrayParam[1]: 周囲のValence値
-    arrayParam[2]: Param1(仮)
-    arrayParam[3]: Param2(仮)
+    envParam[0]: 周囲のArousal値
+    envParam[1]: 周囲のValence値
+    envParam[2]: Param1(仮)
+    envParam[3]: Param2(仮)
     */
 
     public float[] getAroundAVValue()
@@ -97,8 +97,8 @@ public class GetSVMParameter : MonoBehaviour
         avValue[1] = avValue[1] + (va - VALENCE)/3;
     }
 
-    public float[] ArrayParm {
-        get{ return arrayParam; }
-        set{ arrayParam = value;}
+    public float[] EnvParam {
+        get{ return envParam; }
+        set{ envParam = value;}
     }
 }

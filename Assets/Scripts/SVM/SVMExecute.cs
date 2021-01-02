@@ -35,15 +35,11 @@ public class SVMExecute : MonoBehaviour
         // Arousalについて
         //ParameterManage pm = GetComponent<ParameterManage>();
         //Hunit hunit = new Hunit();
-        GetSVMParameter svmp = GetComponent<GetSVMParameter>();
-        float[] envParam = svmp.ArrayParm;
+        GetSVMParameter svmP = GetComponent<GetSVMParameter>();
+        float[] envParam = svmP.EnvParam;
         OutunitTest outunit_A = new OutunitTest();
-        //float[] input_A = new float[2] {A_testParam1, A_testParam2}; // ここをどうにかする！！！！！！！！！！
-        //float[] input_A = new float[2] {8, 9};
-        //input_A[0] = envParam[0];
-        //input_A[1] = envParam[1];
+        //float[] input_A = new float[5] { 1, 9, 3, 6, 3 }; // ここをどうにかする！！！！！！！！！！
         //input = ParaTransform(input);
-        //outunit.Readw();
         outunit_A.Readb(0); // 0: Arousal, 1: Valence
         outunit_A.Readw(0);
         //outunit_A.Propagation(input_A);
@@ -54,14 +50,13 @@ public class SVMExecute : MonoBehaviour
 
         // Valenceについて
         OutunitTest outunit_V = new OutunitTest();
-        float[] input_V = new float[2] {V_testParam1, V_testParam2}; // ここをどうにかする！！！！！！！！！！
+        //float[] input_V = new float[2] {V_testParam1, V_testParam2}; // ここをどうにかする！！！！！！！！！！
+        //float[] input_V = new float[5] {1, 9, 3, 6, 3}; // ここをどうにかする！！！！！！！！！！
         //input = ParaTransform(input);
-        //outunit.Readw();
         outunit_V.Readb(1);
         outunit_V.Readw(1);
         //outunit_V.Propagation(input_V);
         outunit_V.Propagation(envParam);
-        //outunit.Propagation(hunit.output);
         result_V = Argmax(outunit_V.output); // result：カテゴリ
         //EvaluateOutput();
     }    
@@ -121,8 +116,8 @@ public class SVMExecute : MonoBehaviour
 
 class OutunitTest
 {
-    const int CLASSNUM = 3;
-    const int HUNITNUM = 2;
+    const int CLASSNUM = 3; // それぞれHigh, Medium, Low
+    const int HUNITNUM = 5; // 取得するパラメタの数
     public float[] b = new float[CLASSNUM];
     public float[][] w = new float[CLASSNUM][];
     public float[] u = new float[CLASSNUM];

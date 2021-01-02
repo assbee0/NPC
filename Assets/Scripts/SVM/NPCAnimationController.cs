@@ -51,25 +51,27 @@ public class NPCAnimationController : MonoBehaviour
         // A-V値の遷移
         if (isLegend == false) { // 通常時
             arousal = Mathf.Lerp(arousal, getInterpValue(svmE.result_A), Time.deltaTime * speed);
-            valence = Mathf.Lerp(valence, getInterpValue(svmE.result_V), Time.deltaTime * speed);        
+            valence = Mathf.Lerp(valence, getInterpValue(svmE.result_V), Time.deltaTime * speed);
+            animator.SetInteger("Cat_A", svmE.result_A);
+            animator.SetInteger("Cat_V", svmE.result_V);
         } else {                 // 凡例時
             arousal = Mathf.Lerp(arousal, getInterpValue(test_A), Time.deltaTime * speed);        
             valence = Mathf.Lerp(valence, getInterpValue(test_V), Time.deltaTime * speed);
-        }      
+            animator.SetInteger("Cat_A", test_A);
+            animator.SetInteger("Cat_V", test_V);
+        }
         //arousal = arousal + ownAnimCon.Arousal;
         //valence = valence + ownAnimCon.Valence;
         animator.SetFloat("Arousal",arousal);
         animator.SetFloat("Valence",valence);
-        animator.SetInteger("Cat_A", svmE.result_A);
-        animator.SetInteger("Cat_V", svmE.result_V);
-        //animator.SetInteger("Cat_A", test_A);
-        //animator.SetInteger("Cat_V", test_V);
+
+
     }
 
     public void Execute()
     {
         GetSVMParameter svmP = GetComponent<GetSVMParameter>();
-        float[] arrP = svmP.ArrayParm;
+        float[] arrP = svmP.EnvParam;
         //SVMExecute svme = GetComponent<SVMExecute>();
         svmE.Predict();
         arousal = Mathf.Lerp(arousal, getInterpValue(test_A), Time.deltaTime * speed);        
