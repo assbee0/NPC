@@ -38,7 +38,7 @@ public class SVMExecute : MonoBehaviour
         GetSVMParameter svmp = GetComponent<GetSVMParameter>();
         float[] envParam = svmp.ArrayParm;
         OutunitTest outunit_A = new OutunitTest();
-        float[] input_A = new float[2] {A_testParam1, A_testParam2}; // ここをどうにかする！！！！！！！！！！
+        //float[] input_A = new float[2] {A_testParam1, A_testParam2}; // ここをどうにかする！！！！！！！！！！
         //float[] input_A = new float[2] {8, 9};
         //input_A[0] = envParam[0];
         //input_A[1] = envParam[1];

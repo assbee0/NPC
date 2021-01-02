@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.Animations;
+
 
 public class RealTimeGenerate : MonoBehaviour
 {
@@ -24,12 +24,7 @@ public class RealTimeGenerate : MonoBehaviour
         clothescustom = GetComponent<ClothesCustom>();
         networkexecute = GetComponent<NetworkExecute>();
 
-        //
-        if (Random.value > 0.5)
-        {
-            SetMirror();
-        } else { 
-        }
+
 
 
         //facecustom.enabled = false;
@@ -146,26 +141,5 @@ public class RealTimeGenerate : MonoBehaviour
         print("over");
     }
 
-    void SetMirror()
-    {
-        animator = GetComponent<Animator>();
-        //　今使っているAnimatorControllerを取得
-        AnimatorController animCon = animator.runtimeAnimatorController as AnimatorController;
-        //　AnimatorControllerのレイヤーを取得
-        var layers = animCon.layers;
-        foreach (var layer in layers)
-        {
-            //　Base Layerレイヤーを探す
-            if (layer.stateMachine.name == "Base Layer")
-            {
-                var animStates = layer.stateMachine.states;
-                foreach (var animState in animStates)
-                {
-                    animState.state.mirror = !animState.state.mirror;
-                    // AnimatorStateを変更した後のおまじない
-                    animator.Rebind();
-                }
-            }
-        }
-    }
+
 }
