@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class CustomCamera : MonoBehaviour
 {
-    public GameObject target;
+    private GameObject target;
     Transform cam;
     Camera c;
     // Start is called before the first frame update
     void Start()
     {
+        target = GameObject.FindGameObjectWithTag("Head");
         cam = this.transform;
         c = GetComponent<Camera>();
     }
@@ -23,11 +24,13 @@ public class CustomCamera : MonoBehaviour
     }
     public void faraway()
     {
-        cam.position = new Vector3(0f, 0.8f, 1.5f);
+        target = GameObject.FindGameObjectWithTag("Head");
+        cam.position = new Vector3(target.transform.position.x, -0.56f + target.transform.position.y, 1.5f);
         cam.rotation = Quaternion.Euler(0, 180, 0);
     }
     public void closeto()
     {
+        target = GameObject.FindGameObjectWithTag("Head");
         cam.position = new Vector3(0, 0.05f, 0.5f) + target.transform.position;
         cam.LookAt(target.transform.position + new Vector3(0, 0.05f));
     }

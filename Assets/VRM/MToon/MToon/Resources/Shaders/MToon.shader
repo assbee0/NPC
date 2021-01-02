@@ -5,9 +5,11 @@ Shader "VRM/MToon"
         _Cutoff ("Alpha Cutoff", Range(0, 1)) = 0.5
         _Color ("Lit Color + Alpha", Color) = (1,1,1,1)
         _ShadeColor ("Shade Color", Color) = (0.97, 0.81, 0.86, 1)
+        _SubColor ("Sub Color", Color) = (1, 1, 1, 1)
         [NoScaleOffset] _MainTex ("Lit Texture + Alpha", 2D) = "white" {}
 		[NoScaleOffset] _SubTex("Sub Texture", 2D) = "black" {}
         [NoScaleOffset] _ShadeTexture ("Shade Texture", 2D) = "white" {}
+        [NoScaleOffset] _AlphaTexture ("Alpha Texture", 2D) = "black" {}
         _BumpScale ("Normal Scale", Float) = 1.0
         [Normal] _BumpMap ("Normal Texture", 2D) = "bump" {}
         _ReceiveShadowRate ("Receive Shadow", Range(0, 1)) = 1

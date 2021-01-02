@@ -4,14 +4,17 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Face
-  - Bottoms
-  - Shoes
-  - Tops
+  - Character
   - Body
+  - Tops
+  - Shoes
+  - Bottoms
+  - Face
   - Head
   - Hair
-  - NPC
+  - Onepiece
+  - Glasses
+  - Necklace
   layers:
   - Default
   - TransparentFX
@@ -21,9 +24,9 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
+  - Character
+  - Wall
+  - Player
   - 
   - 
   - 

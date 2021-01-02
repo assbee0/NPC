@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class FaceCustom : MonoBehaviour
 {
+    private int modelIndex;                                 //モデル性別　1: 女の子　2: 男の子
     private GameObject faceModel;
     private GameObject bodyModel;
     private SkinnedMeshRenderer faceSmr;
@@ -20,12 +21,13 @@ public class FaceCustom : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        modelIndex = 1;
         faceModel = GameObject.FindGameObjectWithTag("Face");
         bodyModel = GameObject.FindGameObjectWithTag("Body");
         faceSmr = faceModel.GetComponent<SkinnedMeshRenderer>();
         bodySmr = bodyModel.GetComponent<SkinnedMeshRenderer>();
-        // for (int i = 0; i < rend.bones.Length; i++)
-        // print(i+" "+rend.bones[i]);
+         //for (int i = 0; i < faceSmr.bones.Length; i++)
+        // print(i+" "+faceSmr.bones[i]);
     }
 
     // Update is called once per frame
@@ -45,10 +47,25 @@ public class FaceCustom : MonoBehaviour
     }
     void HeadCustom()
     {
-        Transform neck = faceSmr.bones[99];
-        Transform jaw = faceSmr.bones[107];
-        Transform cheekL = faceSmr.bones[108];
-        Transform cheekR = faceSmr.bones[109];
+        Transform neck;
+        Transform jaw;
+        Transform cheekL;
+        Transform cheekR;
+        if (modelIndex == 1)
+        {
+            neck = faceSmr.bones[99];
+            jaw = faceSmr.bones[107];
+            cheekL = faceSmr.bones[108];
+            cheekR = faceSmr.bones[109];
+        }
+        else
+        {
+            neck = faceSmr.bones[51];
+            jaw = faceSmr.bones[59];
+            cheekL = faceSmr.bones[60];
+            cheekR = faceSmr.bones[61];
+        }
+        
         float headWidth = pm.getParameter(0);
         float headLength = pm.getParameter(1);
         float jawY = pm.getParameter(20);
@@ -60,8 +77,19 @@ public class FaceCustom : MonoBehaviour
     }
     void EyebrowsCustom()
     {
-        Transform eyebrowL = faceSmr.bones[110];
-        Transform eyebrowR = faceSmr.bones[111];
+        Transform eyebrowL;
+        Transform eyebrowR;
+        if (modelIndex == 1)
+        {
+            eyebrowL = faceSmr.bones[110];
+            eyebrowR = faceSmr.bones[111];
+        }
+        else
+        {
+            eyebrowL = faceSmr.bones[62];
+            eyebrowR = faceSmr.bones[63];
+        }
+        
         float eyebrowY = pm.getParameter(12);
         float eyebrowX = pm.getParameter(13);
         float eyebrowLen = pm.getParameter(14);
@@ -78,7 +106,11 @@ public class FaceCustom : MonoBehaviour
     void EyebrowsColor()
     {
         Material matBodyHair = bodySmr.materials[1];
-        Material matEyebrow = faceSmr.materials[4];
+        Material matEyebrow;
+        if (modelIndex == 1)
+            matEyebrow = faceSmr.materials[4];
+        else
+            matEyebrow = faceSmr.materials[0];
         float hairR = pm.getParameter(34);
         float hairG = pm.getParameter(35);
         float hairB = pm.getParameter(36);
@@ -88,10 +120,25 @@ public class FaceCustom : MonoBehaviour
     }
     void EyesCustom()
     {
-        Transform eyeL = faceSmr.bones[103];
-        Transform eyeR = faceSmr.bones[101];
-        Transform irisL = faceSmr.bones[104].parent;
-        Transform irisR = faceSmr.bones[102].parent;
+        Transform eyeL;
+        Transform eyeR;
+        Transform irisL;
+        Transform irisR;
+        if (modelIndex == 1)
+        {
+            eyeL = faceSmr.bones[103];
+            eyeR = faceSmr.bones[101];
+            irisL = faceSmr.bones[104].parent;
+            irisR = faceSmr.bones[102].parent;
+        }
+        else
+        {
+            eyeL = faceSmr.bones[55];
+            eyeR = faceSmr.bones[53];
+            irisL = faceSmr.bones[56].parent;
+            irisR = faceSmr.bones[54].parent;
+        }
+
         float eyeY = pm.getParameter(3);
         float eyeX = pm.getParameter(4);
         float eyeW = pm.getParameter(5);
@@ -113,7 +160,11 @@ public class FaceCustom : MonoBehaviour
     }
     void EyesColor()
     {
-        Material mat = faceSmr.materials[5];
+        Material mat;
+        if (modelIndex == 1)
+            mat = faceSmr.materials[5];
+        else
+            mat = faceSmr.materials[2];
         float eyeCR = pm.getParameter(8);
         float eyeCG = pm.getParameter(9);
         float eyeCB = pm.getParameter(10);
@@ -121,7 +172,11 @@ public class FaceCustom : MonoBehaviour
     }
     void NoseCustom()
     {
-        Transform nose = faceSmr.bones[105];
+        Transform nose;
+        if (modelIndex == 1)
+            nose = faceSmr.bones[105];
+        else
+            nose = faceSmr.bones[57];
         float noseY = pm.getParameter(17);
         float size = pm.getParameter(18);
         float angle = pm.getParameter(19);
@@ -131,7 +186,11 @@ public class FaceCustom : MonoBehaviour
     }
     void MouthCustom()
     {
-        Transform mouth = faceSmr.bones[106];
+        Transform mouth;
+        if (modelIndex == 1)
+            mouth = faceSmr.bones[106];
+        else
+            mouth = faceSmr.bones[58];
         float mouthY = pm.getParameter(21);
         float size = pm.getParameter(22);
         mouth.localPosition = new Vector3(0, 1e-4f * (mouthY - 50), 0.0926f + 1e-4f * (mouthY - 50));
@@ -139,8 +198,18 @@ public class FaceCustom : MonoBehaviour
     }
     void EarsCustom()
     {
-        Transform earL = faceSmr.bones[112];
-        Transform earR = faceSmr.bones[113];
+        Transform earL;
+        Transform earR;
+        if (modelIndex == 1)
+        {
+            earL = faceSmr.bones[112];
+            earR = faceSmr.bones[113];
+        }
+        else
+        {
+            earL = faceSmr.bones[64];
+            earR = faceSmr.bones[65];
+        }
         float earW = pm.getParameter(31);
         float earLen = pm.getParameter(32);
         float earY = pm.getParameter(30);
@@ -151,34 +220,51 @@ public class FaceCustom : MonoBehaviour
     void BodyCustom()
     {
         Transform bodyroot = faceSmr.bones[0];
-        Transform spine = faceSmr.bones[40];
-        Transform chest = faceSmr.bones[41];
-        Transform breastL = faceSmr.bones[117];
-        Transform breastR = faceSmr.bones[115];
-        Transform buttL = faceSmr.bones[119];
-        Transform buttR = faceSmr.bones[120];
+        Transform spine;
+        if (modelIndex == 1)
+        {
+            spine = faceSmr.bones[40];
+            float breastSize = pm.getParameter(11);
+            float buttSize = pm.getParameter(49);
+            Transform breastL = faceSmr.bones[117];
+            Transform breastR = faceSmr.bones[115];
+            Transform buttL = faceSmr.bones[119];
+            Transform buttR = faceSmr.bones[120];
+            breastL.localScale = breastR.localScale = new Vector3(1, 1, 1) * (breastSize * 0.01f + 0.5f);
+            buttL.localScale = buttR.localScale = new Vector3((buttSize * 0.005f + 0.6f), 1, (buttSize * 0.005f + 0.6f));
+        }
+        else
+        { 
+            spine = faceSmr.bones[10];
+        }
+            
         float height = pm.getParameter(2);
         float fatness = pm.getParameter(48);
-        float breastSize = pm.getParameter(11);
-        float buttSize = pm.getParameter(49);
         bodyroot.localScale = new Vector3(fatness * 0.002f + 0.9f, height * 0.0025f + 0.8125f, fatness * 0.002f + 0.9f);
         spine.localScale = Vector3Divide(Vector3.one, (bodyroot.localScale - Vector3.one) * 0.5f + Vector3.one);
-        breastL.localScale = breastR.localScale = new Vector3(1, 1, 1) * (breastSize * 0.01f + 0.5f);
-        buttL.localScale = buttR.localScale = new Vector3((buttSize * 0.005f + 0.6f), 1, (buttSize * 0.005f + 0.6f));
     }
     public void BodyColor()
     {
-        Material bodyhada = bodySmr.material;
-        Material facehada = faceSmr.materials[7];
+        Material bodyhada = bodySmr.material;                               //体の肌色
+        Material facehada;                                                  //顔の肌色
+        if (modelIndex == 1)
+            facehada = faceSmr.materials[7];
+        else
+            facehada = faceSmr.materials[5];
         int colorindex = (int)pm.getParameter(47);
         bodyhada.color = facehada.color = hadaIros[colorindex-1];
     }
     public void RefindObject()
+    /*　処理するオブジェクト改めて探る　*/
     {
         faceModel = GameObject.FindGameObjectWithTag("Face");
         bodyModel = GameObject.FindGameObjectWithTag("Body");
         faceSmr = faceModel.GetComponent<SkinnedMeshRenderer>();
         bodySmr = bodyModel.GetComponent<SkinnedMeshRenderer>();
+    }
+    public void SetModelIndex(int model)
+    {
+        modelIndex = model;
     }
     Vector3 Vector3Divide(Vector3 a, Vector3 b)
     {

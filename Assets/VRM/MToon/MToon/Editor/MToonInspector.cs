@@ -26,6 +26,7 @@ namespace MToon
         private MaterialProperty _indirectLightIntensity;
         private MaterialProperty _mainTex;
         private MaterialProperty _subTex;
+        private MaterialProperty _subColor;
         private MaterialProperty _outlineColor;
         private MaterialProperty _outlineColorMode;
         private MaterialProperty _outlineLightingMix;
@@ -40,6 +41,7 @@ namespace MToon
         private MaterialProperty _shadeColor;
         private MaterialProperty _shadeShift;
         private MaterialProperty _shadeTexture;
+        private MaterialProperty _alphaTexture;
         private MaterialProperty _shadeToony;
         private MaterialProperty _sphereAdd;
         private MaterialProperty _rimColor;
@@ -66,7 +68,9 @@ namespace MToon
             _shadeColor = FindProperty(Utils.PropShadeColor, properties);
             _mainTex = FindProperty(Utils.PropMainTex, properties);
             _subTex = FindProperty(Utils.PropSubTex, properties);
+            _subColor = FindProperty(Utils.PropSubColor, properties);
             _shadeTexture = FindProperty(Utils.PropShadeTexture, properties);
+            _alphaTexture = FindProperty(Utils.PropAlphaTexture, properties);
             _bumpScale = FindProperty(Utils.PropBumpScale, properties);
             _bumpMap = FindProperty(Utils.PropBumpMap, properties);
             _receiveShadowRate = FindProperty(Utils.PropReceiveShadowRate, properties);
@@ -135,11 +139,12 @@ namespace MToon
                         materialEditor.TexturePropertySingleLine(new GUIContent("Lit Color, Alpha", "Lit (RGB), Alpha (A)"),
                             _mainTex, _color);
 
-                        materialEditor.TexturePropertySingleLine(new GUIContent("Sub Texture"),
-                            _subTex);
+                        materialEditor.TexturePropertySingleLine(new GUIContent("Sub Color", "Sub (RGB)"),
+                            _subTex, _subColor);
 
                         materialEditor.TexturePropertySingleLine(new GUIContent("Shade Color", "Shade (RGB)"), _shadeTexture,
                             _shadeColor);
+                        materialEditor.TexturePropertySingleLine(new GUIContent("Alpha Channal", "Alpha "), _alphaTexture);
                     }
                     var bm = (RenderMode) _blendMode.floatValue;
                     if (bm == RenderMode.Cutout)
