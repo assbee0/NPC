@@ -373,6 +373,7 @@ public class ClothesCustom : MonoBehaviour
         //新トップスを実体化
         GameObject tops2obj = Instantiate(tops2, bodyModel.transform.parent);
         tops2obj.transform.position = bodyModel.transform.position;
+        tops2obj.transform.GetChild(0).gameObject.layer = 8;
         topsSmr = tops2obj.GetComponentInChildren<SkinnedMeshRenderer>();
         topsIndex = index;
 
@@ -418,6 +419,7 @@ public class ClothesCustom : MonoBehaviour
 
         //新ボトムスを実体化
         GameObject bottoms2obj = Instantiate(bottoms2, bodyModel.transform.parent);
+        bottoms2obj.transform.GetChild(0).gameObject.layer = 8;
         bottomsSmr = bottoms2obj.GetComponentInChildren<SkinnedMeshRenderer>();
         bottomsIndex = index;
 
@@ -442,6 +444,7 @@ public class ClothesCustom : MonoBehaviour
         if (shoes2 == null)
             return;
         GameObject shoes2obj = Instantiate(shoes2, bodyModel.transform.parent);
+        shoes2obj.transform.GetChild(0).gameObject.layer = 8;
         shoesSmr = shoes2obj.GetComponentInChildren<SkinnedMeshRenderer>();
         Destroy(shoes1);
         ShareBones(shoesSmr);

@@ -11,15 +11,16 @@ public class PlayerControl : MonoBehaviour {
     private Vector3 moveForward = Vector3.zero;
     private bool isRun = false;
     private bool isJump = false;
+    private bool canSit = false;
     private bool isGrounded = true;
     private Vector2 move = new Vector2(0, 0);
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
-	}
+    }
 
     // Update is called once per frame
     void Update()
@@ -40,7 +41,14 @@ public class PlayerControl : MonoBehaviour {
         }
         isRun = false;
 
-        animator.SetBool("isJump", isJump);
+        if (Input.GetKeyDown(KeyCode.F) && canSit)
+        {
+            animator.SetBool("isSit", true);
+        }
+        if (move.x != 0 || move.y != 0 )
+            animator.SetBool("isSit", false);
+
+        //Grounded();
         /*if (isRun)
         {
             if (movex > 0)
@@ -81,10 +89,25 @@ public class PlayerControl : MonoBehaviour {
         }
         else
             rb.velocity = Vector3.zero;
+        Grounded();
         UpdateAnimation();
     }
 
-    void UpdateAnimation ()
+    private void Grounded()
+    {
+        RaycastHit hit;
+        Debug.DrawRay(transform.position + 0.8f * Vector3.up, Vector3.down, Color.red, 5);
+        if (Physics.Raycast(transform.position + 0.8f * Vector3.up, Vector3.down, out hit, 2f)) 
+        {
+            if (hit.collider.gameObject.tag == "Ground")
+            {
+                transform.position = new Vector3(transform.position.x, hit.collider.gameObject.transform.position.y, transform.position.z);
+                print(hit.collider.gameObject.name);
+            }
+        }
+    }
+
+    private void UpdateAnimation ()
     {
         animator.SetBool("isRun", isRun);
         animator.SetFloat("runSpeed", new Vector3(move.x, 0, move.y).magnitude);
@@ -96,8 +119,25 @@ public class PlayerControl : MonoBehaviour {
     }
     private void OnCollisionStay(Collision collision)
     {
-        if(rb.velocity.magnitude<=0.1)
-            animator.SetBool("isRun", false);
-        animator.SetFloat("runSpeed", rb.velocity.magnitude/4f);
+        if(collision.collider.tag == "Wall")
+        {
+            if (rb.velocity.magnitude <= 0.1)
+                animator.SetBool("isRun", false);
+            animator.SetFloat("runSpeed", rb.velocity.magnitude / 4f);
+        }
+    }
+    private void OnTriggerStay(Collider collider)
+    {
+        if(collider.tag == "Chair")
+        {
+            canSit = true;
+        }
+    }
+    private void OnTriggerExit(Collider collider)
+    {
+        if (collider.tag == "Chair")
+        {
+            canSit = false;
+        }
     }
 }
