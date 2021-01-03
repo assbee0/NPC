@@ -201,7 +201,7 @@ GameObject:
   - component: {fileID: 6612385474318693968}
   m_Layer: 8
   m_Name: girl
-  m_TagString: Player
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -340,8 +340,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 100
+  envParam: []
   Param1: 1
   Param2: 5
+  Param3: 8
+  Param4: 9
+  Param5: 9
 --- !u!1 &521671777466885155
 GameObject:
   m_ObjectHideFlags: 0
