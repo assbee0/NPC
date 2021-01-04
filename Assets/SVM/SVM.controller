@@ -247,6 +247,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 3964260977371915037}
     m_Position: {x: 400, y: 120, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 5796742026848835798}
+    m_Position: {x: 400, y: 220, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions:
@@ -350,6 +353,37 @@ AnimatorTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 1
+--- !u!206 &-6229846901942647851
+BlendTree:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Blend Tree
+  m_Childs:
+  - serializedVersion: 2
+    m_Motion: {fileID: 0}
+    m_Threshold: 0
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Arousal
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 0}
+    m_Threshold: 1
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Arousal
+    m_Mirror: 0
+  m_BlendParameter: Arousal
+  m_BlendParameterY: Arousal
+  m_MinThreshold: 0
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 1
+  m_NormalizedBlendValues: 0
+  m_BlendType: 0
 --- !u!1107 &-5891967607008327554
 AnimatorStateMachine:
   serializedVersion: 6
@@ -397,10 +431,6 @@ AnimatorStateMachine:
   m_EntryTransitions:
   - {fileID: 641926827474830859}
   m_StateMachineTransitions:
-  - first: {fileID: 6463882918974506713}
-    second:
-    - {fileID: 8006285301160837809}
-    - {fileID: 6230065100461277917}
   - first: {fileID: -7605285189009638052}
     second:
     - {fileID: 4922207181133414999}
@@ -425,6 +455,10 @@ AnimatorStateMachine:
     second:
     - {fileID: 7503656285932790535}
     - {fileID: 7234038587377107981}
+  - first: {fileID: 6463882918974506713}
+    second:
+    - {fileID: 8006285301160837809}
+    - {fileID: 6230065100461277917}
   - first: {fileID: 8699329646783954271}
     second:
     - {fileID: -2639236341447648652}
@@ -2097,6 +2131,32 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -9064511712707402915}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &5796742026848835798
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Thumbs Up
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -6229846901942647851}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
