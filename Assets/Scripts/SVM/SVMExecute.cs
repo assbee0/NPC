@@ -10,18 +10,11 @@ public class SVMExecute : MonoBehaviour
     const int CLASSNUM = 3;
     public int result_A = -1;
     public int result_V = -1;
-    public int A_testParam1;
-    public int A_testParam2;
-    public int V_testParam1;
-    public int V_testParam2;
 
     // Start is called before the first frame update
     void Start()
     {
-        A_testParam1 = Random.Range(0, 11);
-        A_testParam2 = Random.Range(0, 11);
-        V_testParam1 = Random.Range(0, 11);
-        V_testParam2 = Random.Range(0, 11);
+
     }
 
     // Update is called once per frame

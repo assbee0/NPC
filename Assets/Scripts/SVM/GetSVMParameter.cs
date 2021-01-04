@@ -5,7 +5,7 @@ using UnityEngine;
 public class GetSVMParameter : MonoBehaviour
 {
     NPCAnimationController NPCAnimCon;
-    public int radius = 100;
+    private int radius = 100;
     public float[] envParam; // publicじゃないとSVMExecuteでエラー吐く
     private int VARNUM = 5; // 取得するパラメタの数
     //public int Param1 = 8; // 仮（Debug用）

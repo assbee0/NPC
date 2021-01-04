@@ -18,7 +18,10 @@ public class NPCAnimationController : MonoBehaviour
     public int test_A = -1; // 仮
     public int test_V = -1; // 仮
     public bool isLegend;
-    
+
+    private GameObject testManager;
+    private EnvParameterGenerate envParaGen;
+
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +32,9 @@ public class NPCAnimationController : MonoBehaviour
         svmE.Predict();
         checkName(this.gameObject);
         //Execute();
+
+        testManager = GameObject.Find("TestManager");
+        envParaGen = testManager.GetComponent<EnvParameterGenerate>();
 
         //SetMirror();
         // 左利きにチェンジ．左利きの人の割合は10%らしい
@@ -59,6 +65,8 @@ public class NPCAnimationController : MonoBehaviour
             animator.SetInteger("Cat_A", svmE.result_A);
             animator.SetInteger("Cat_V", svmE.result_V);
         } else {                 // 凡例時
+            test_A = envParaGen.test_catA;
+            test_V = envParaGen.test_catV;
             arousal = Mathf.Lerp(arousal, getInterpValue(test_A), Time.deltaTime * speed);        
             valence = Mathf.Lerp(valence, getInterpValue(test_V), Time.deltaTime * speed);
             animator.SetInteger("Cat_A", test_A);

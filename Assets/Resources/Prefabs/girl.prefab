@@ -326,10 +326,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   result_A: -1
   result_V: -1
-  A_testParam1: 0
-  A_testParam2: 0
-  V_testParam1: 0
-  V_testParam2: 0
 --- !u!114 &6612385474318693968
 MonoBehaviour:
   m_ObjectHideFlags: 0

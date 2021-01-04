@@ -9,6 +9,9 @@ public class EnvParameterGenerate : MonoBehaviour
     public int Param3 = 8; // 仮（Debug用）
     public int Param4 = 9; // 仮（Debug用）
     public int Param5 = 9; // 仮（Debug用）
+
+    public int test_catA = 0;
+    public int test_catV = 0;
     // Start is called before the first frame update
     void Start()
     {
