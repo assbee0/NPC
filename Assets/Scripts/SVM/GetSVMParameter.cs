@@ -8,13 +8,15 @@ public class GetSVMParameter : MonoBehaviour
     public int radius = 100;
     public float[] envParam; // publicじゃないとSVMExecuteでエラー吐く
     private int VARNUM = 5; // 取得するパラメタの数
-    public int Param1 = 8; // 仮（Debug用）
-    public int Param2 = 10; // 仮（Debug用）
-    public int Param3 = 8; // 仮（Debug用）
-    public int Param4 = 9; // 仮（Debug用）
-    public int Param5 = 9; // 仮（Debug用）
+    //public int Param1 = 8; // 仮（Debug用）
+    //public int Param2 = 10; // 仮（Debug用）
+    //public int Param3 = 8; // 仮（Debug用）
+    //public int Param4 = 9; // 仮（Debug用）
+    //public int Param5 = 9; // 仮（Debug用）
     private float AROUSAL;
     private float VALENCE;
+    private GameObject testManager;
+    private EnvParameterGenerate envParaGen;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +25,8 @@ public class GetSVMParameter : MonoBehaviour
         NPCAnimationController ownAnimCon = gameObject.GetComponent<NPCAnimationController>();
         AROUSAL = ownAnimCon.Arousal;
         VALENCE = ownAnimCon.Valence;
+        testManager = GameObject.Find("TestManager");
+        envParaGen = testManager.GetComponent<EnvParameterGenerate>();
         //getAroundAVValue();
     }
 
@@ -37,11 +41,13 @@ public class GetSVMParameter : MonoBehaviour
         envParam[3] = Param2;
         */
 
-        envParam[0] = Param1;
-        envParam[1] = Param2;
-        envParam[2] = Param3;
-        envParam[3] = Param4;
-        envParam[4] = Param5;
+        envParam[0] = envParaGen.Param1;
+        envParam[1] = envParaGen.Param2;
+        envParam[2] = envParaGen.Param3;
+        envParam[3] = envParaGen.Param4;
+        envParam[4] = envParaGen.Param5;
+
+        //envParam = 
 
         //Debug.Log("Param[0]: " + envParam[0]);
         //Debug.Log("Param[1]: " + envParam[1]);

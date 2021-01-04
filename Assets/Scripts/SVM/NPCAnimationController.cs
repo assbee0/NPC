@@ -13,6 +13,7 @@ public class NPCAnimationController : MonoBehaviour
     private float speed = 1.0f;　// Parameterの遷移スピード
     SVMExecute svmE;
     NPCAnimationController ownAnimCon;
+    [SerializeField] RuntimeAnimatorController[] animConArr;
 
     public int test_A = -1; // 仮
     public int test_V = -1; // 仮
@@ -29,12 +30,15 @@ public class NPCAnimationController : MonoBehaviour
         checkName(this.gameObject);
         //Execute();
 
-        SetMirror();
-        // 左利きにチェンジ
-        //if (Random.value > 0.5)
-        //{
-            //SetMirror();
-        //}
+        //SetMirror();
+        // 左利きにチェンジ．左利きの人の割合は10%らしい
+        if (Random.value > 0.9) 
+        {
+            animator.runtimeAnimatorController = animConArr[0];
+        } else
+        {
+            animator.runtimeAnimatorController = animConArr[1];
+        }
     }
 
     // Update is called once per frame
@@ -133,7 +137,9 @@ public class NPCAnimationController : MonoBehaviour
     void SetMirror()
     {
         //　今使っているAnimatorControllerを取得
-        AnimatorController animCon = animator.runtimeAnimatorController as AnimatorController;
+        //AnimatorController animCon = animator.runtimeAnimatorController as AnimatorController;
+        
+        /*
         //　AnimatorControllerのレイヤーを取得
         var layers = animCon.layers;
         foreach (var layer in layers)
@@ -150,6 +156,7 @@ public class NPCAnimationController : MonoBehaviour
                 }
             }
         }
+        */
     }
 
     public float Arousal {

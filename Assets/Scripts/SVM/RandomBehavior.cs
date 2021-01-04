@@ -45,6 +45,6 @@ public class RandomBehavior : StateMachineBehaviour
     // OnStateMachineExit is called when exiting a state machine via its Exit Node
     override public void OnStateMachineExit(Animator animator, int stateMachinePathHash)
     {
-        animator.SetInteger(hashRandom,  Random.Range (0, 4));
+        animator.SetInteger(hashRandom,  Random.Range (0, 5)); // 最大6種類の動作
     }
 }
