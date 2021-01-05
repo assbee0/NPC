@@ -35,7 +35,9 @@ public class CameraLockOn : MonoBehaviour {
         RaycastHit hit;
         if (Physics.Linecast(targetObject.position, transform.position, out hit))
         {
+            Debug.DrawLine(targetObject.position, transform.position,Color.yellow);
             string name = hit.collider.gameObject.tag;
+            //print(name);
             if (name == "Wall")
             {
                 float currentDistance = Vector3.Distance(hit.point, targetObject.position);

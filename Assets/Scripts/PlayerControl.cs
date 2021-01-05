@@ -12,7 +12,9 @@ public class PlayerControl : MonoBehaviour {
     private bool isRun = false;
     private bool isJump = false;
     private bool canSit = false;
+    private bool canActDoor = false;
     private bool isGrounded = true;
+    private GameObject actTarget;
     private Vector2 move = new Vector2(0, 0);
     // Use this for initialization
     void Start()
@@ -41,9 +43,12 @@ public class PlayerControl : MonoBehaviour {
         }
         isRun = false;
 
-        if (Input.GetKeyDown(KeyCode.F) && canSit)
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            animator.SetBool("isSit", true);
+            if (canSit)
+                animator.SetBool("isSit", true);
+            else if (canActDoor)
+                actTarget.GetComponent<Door>().ActiveFlag();
         }
         if (move.x != 0 || move.y != 0 )
             animator.SetBool("isSit", false);
@@ -102,7 +107,7 @@ public class PlayerControl : MonoBehaviour {
             if (hit.collider.gameObject.tag == "Ground")
             {
                 transform.position = new Vector3(transform.position.x, hit.collider.gameObject.transform.position.y, transform.position.z);
-                print(hit.collider.gameObject.name);
+                //print(hit.collider.gameObject.name);
             }
         }
     }
@@ -128,16 +133,23 @@ public class PlayerControl : MonoBehaviour {
     }
     private void OnTriggerStay(Collider collider)
     {
-        if(collider.tag == "Chair")
-        {
+        if (collider.tag == "Chair")
             canSit = true;
+        if (collider.tag == "Door")
+        {
+            canActDoor = true;
+            actTarget = collider.gameObject;
+            GameObject.Find("Canvas_Play").transform.GetChild(1).gameObject.SetActive(true);
         }
     }
     private void OnTriggerExit(Collider collider)
     {
         if (collider.tag == "Chair")
-        {
             canSit = false;
+        if (collider.tag == "Door")
+        {
+            canActDoor = false;
+            GameObject.Find("Canvas_Play").transform.GetChild(1).gameObject.SetActive(false);
         }
     }
 }

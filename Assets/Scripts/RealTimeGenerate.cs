@@ -124,8 +124,9 @@ public class RealTimeGenerate : MonoBehaviour
         int block = i / 40;
 
         //生成したい位置
-        character.transform.position = new Vector3(5f + 2f * row, 0.8f, 2f + 1f * column);
+        character.transform.position = new Vector3(-10.5f + 2f * row, 0.8f, 2f + 1f * column);
         character.transform.rotation = Quaternion.Euler(0, -90, 0);
+        character.transform.LookAt(new Vector3(-20, 0.8f, 0));
     }
     public void Rebirth()
     {

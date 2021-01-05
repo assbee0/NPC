@@ -73,6 +73,19 @@ public class ParameterManage : MonoBehaviour
             si.SetValueWithoutNotify(random);
             p[i] = si.value;
         }
+        Slider s50 = customParameter[50].GetComponent<Slider>();
+        switch (p[44])
+        {
+            case 1: s50.maxValue = 4; break;
+            case 2: s50.maxValue = 6; break;
+            case 3: s50.maxValue = 2; break;
+            case 4: s50.maxValue = 8; break;
+            case 5: s50.maxValue = 3; break;
+            case 6: s50.maxValue = 7; break;
+            case 7: s50.maxValue = 1; break;
+        }
+        s50.SetValueWithoutNotify(Random.Range(s50.minValue, s50.maxValue));
+        p[50] = s50.value;
     }
     public void HalfRandom()
     {

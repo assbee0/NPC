@@ -18,11 +18,12 @@ public class ClothesCustom : MonoBehaviour
     private List<BoneIndex> boneindex;
     private int topsIndex = 1;
     private int bottomsIndex = 1;
-    private Color[] hadaIros =
+    private Color[] clothesPalette =
     {
-        new Color(1f, 1f, 1f), new Color(1f, 0.965f, 0.929f),  new Color(1f, 0.969f, 0.894f),
-        new Color(1f, 0.922f, 0.878f), new Color(0.996f, 0.914f, 0.792f), new Color(1f, 0.894f, 0.741f),
-        new Color(1f, 0.831f, 0.565f), new Color(0.847f, 0.643f, 0.49f)
+        new Color(0.745f, 0.718f, 0.698f), new Color(0.149f, 0.184f, 0.282f),  new Color(0.565f, 0.506f, 0.467f),
+        new Color(0.926f, 0.898f, 0.890f), new Color(0.44f, 0.373f, 0.353f), new Color(0.039f, 0.043f, 0.047f),
+        new Color(0.169f, 0.467f, 0.698f), new Color(1f, 1f, 1f), new Color(1f, 1f, 1f),
+        new Color(0.714f, 0.616f, 0.584f), new Color(0.184f, 0.153f, 0.180f), new Color(0.22f, 0.349f, 0.478f),
     };
     // Start is called before the first frame update
     void Start()
@@ -400,6 +401,9 @@ public class ClothesCustom : MonoBehaviour
         Destroy(tops1);
         //新トップスとキャラクタのボーンを共有させる
         ShareBones(topsSmr);
+
+        index = (int)pm.getParameter(50);
+        topsSmr.material = Resources.Load<Material>("Materials/Tops/tops" + topsIndex + "_m" + index);
     }
 
     public void RealTimeChangeBottoms()
