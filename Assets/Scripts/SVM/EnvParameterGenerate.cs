@@ -12,10 +12,13 @@ public class EnvParameterGenerate : MonoBehaviour
 
     public int test_catA = 0;
     public int test_catV = 0;
+
+    public bool isWave = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame

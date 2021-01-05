@@ -45,6 +45,14 @@ public class NPCAnimationController : MonoBehaviour
         {
             animator.runtimeAnimatorController = animConArr[1];
         }
+
+        if (envParaGen.isWave)
+        {
+            animator.SetBool("isWave", true);
+        } else
+        {
+            animator.SetBool("isWave", false);
+        }
     }
 
     // Update is called once per frame

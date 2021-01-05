@@ -47,7 +47,8 @@ public class PlaneSetting : MonoBehaviour
         int block = i / 40;
 
         //生成したい位置
-        plane.transform.position = new Vector3(5.88f + 2f * row, 0.81f, 2f + 1f * column);
+        //plane.transform.position = new Vector3(5.88f + 2f * row, 0.81f, 2f + 1f * column);
+        plane.transform.position = new Vector3(5f + 2f * row, 0.81f, 2f + 1f * column);
         plane.transform.rotation = Quaternion.Euler(0, -90, 0);
     }
 
