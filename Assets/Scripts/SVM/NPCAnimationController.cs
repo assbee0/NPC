@@ -9,6 +9,9 @@ public class NPCAnimationController : MonoBehaviour
     private Animator animator;
     [SerializeField] private float arousal;
     [SerializeField] private float valence;
+    private int catA;
+    private int catV;
+
     public float timeOut = 2.0f; // 閾値
     private float timeElapsed; // 累計時間
     private float speed = 1.0f;　// Parameterの遷移スピード
@@ -29,6 +32,10 @@ public class NPCAnimationController : MonoBehaviour
     private float coheAr = 0;
     private float coheVa = 0;
 
+    private GameObject targetObject; // 注視したいオブジェクト
+    private Transform myNeck;
+
+    private bool isWatching;
 
     // Start is called before the first frame update
     void Start()
@@ -43,8 +50,14 @@ public class NPCAnimationController : MonoBehaviour
         testManager = GameObject.Find("TestManager");
         envParaGen = testManager.GetComponent<EnvParameterGenerate>();
 
+        targetObject = GameObject.Find("TargetObject");
+        myNeck = gameObject.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetChild(0);
+                             // girl, skelton,    Root,       J_Bip_C_Hips, Spine,    Chest,      UpperChest, Neck,       Head
+
         sensitivity = envParaGen.sensitivity; // 感応度合い
         sensitivity = sensitivity + UnityEngine.Random.Range(-5.0f, 5.0f);
+
+
 
         //SetMirror();
         // 左利きにチェンジ．左利きの人の割合は10%らしい
@@ -74,11 +87,16 @@ public class NPCAnimationController : MonoBehaviour
             // 処理
             svmE.Predict();
             getAroundAVValue();
+            isWatching = LookAtObject();
             timeElapsed = 0.0f;
         }
 
+        //this.transform.LookAt(targetObject.transform);
+
         // A-V値の遷移
         if (isLegend == false) { // 通常時
+            catA = svmE.result_A;
+            catV = svmE.result_V;
             arousal = Mathf.Lerp(arousal, GetInterpValue(svmE.result_A, coheAr), Time.deltaTime * speed);
             valence = Mathf.Lerp(valence, GetInterpValue(svmE.result_V, coheVa), Time.deltaTime * speed);
             animator.SetInteger("Cat_A", svmE.result_A);
@@ -86,6 +104,8 @@ public class NPCAnimationController : MonoBehaviour
         } else {                 // 凡例時
             test_A = envParaGen.test_catA;
             test_V = envParaGen.test_catV;
+            catA = test_A;
+            catV = test_V;
             arousal = Mathf.Lerp(arousal, GetInterpValue(test_A, coheAr), Time.deltaTime * speed);        
             valence = Mathf.Lerp(valence, GetInterpValue(test_V, coheVa), Time.deltaTime * speed);
             animator.SetInteger("Cat_A", test_A);
@@ -209,7 +229,47 @@ public class NPCAnimationController : MonoBehaviour
         return diff * (float)Math.Exp(-1 * (double)sensitivity * (double)dist);
     }
 
-    void SetMirror()
+    public bool LookAtObject()
+    {
+        float threshold_value = 0;
+        if (catA == 1 && catV == 1)
+        {
+            threshold_value = 0.4f;
+        }
+        else if (catA == 1 && catV == 2)
+        {
+            threshold_value = 0.6f;
+        }
+        else if (catA == 2 && catV == 1)
+        {
+            threshold_value = 0.6f;
+        }
+        else if (catA == 2 && catV == 2)
+        {
+            threshold_value = 0.8f;
+        } else
+        {
+            threshold_value = 0.0f;
+        }
+
+        if (UnityEngine.Random.value < threshold_value)
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void OnAnimatorIK(int layerIndex)
+    {
+        if (targetObject != null & isWatching == true)
+        {
+            this.animator.SetLookAtWeight(1.0f, 0.8f, 1.0f, 0.0f, 0f);
+            this.animator.SetLookAtPosition(targetObject.transform.position);
+        }
+    }
+
+        void SetMirror()
     {
         //　今使っているAnimatorControllerを取得
         //AnimatorController animCon = animator.runtimeAnimatorController as AnimatorController;

@@ -1470,14 +1470,26 @@ AnimatorStateMachine:
   m_EntryTransitions:
   - {fileID: 641926827474830859}
   m_StateMachineTransitions:
-  - first: {fileID: -1713222545785069860}
-    second:
-    - {fileID: 3168715727333077970}
-    - {fileID: 3358979567266742915}
   - first: {fileID: -8904346349259924425}
     second:
     - {fileID: -1213072643316459379}
     - {fileID: -6525437176654987989}
+  - first: {fileID: -7605285189009638052}
+    second:
+    - {fileID: 4922207181133414999}
+    - {fileID: -9028133974295388260}
+  - first: {fileID: -3573909201739355706}
+    second:
+    - {fileID: 5355467399856700058}
+    - {fileID: -5818177738159604575}
+  - first: {fileID: -1713222545785069860}
+    second:
+    - {fileID: 3168715727333077970}
+    - {fileID: 3358979567266742915}
+  - first: {fileID: -530167098199860784}
+    second:
+    - {fileID: 7503656285932790535}
+    - {fileID: 7234038587377107981}
   - first: {fileID: 12851240427412827}
     second:
     - {fileID: -6300612788142881546}
@@ -1486,10 +1498,6 @@ AnimatorStateMachine:
     second:
     - {fileID: -1544339317203174434}
     - {fileID: 2111330867399828612}
-  - first: {fileID: -530167098199860784}
-    second:
-    - {fileID: 7503656285932790535}
-    - {fileID: 7234038587377107981}
   - first: {fileID: 6463882918974506713}
     second:
     - {fileID: 8006285301160837809}
@@ -1498,14 +1506,6 @@ AnimatorStateMachine:
     second:
     - {fileID: -2639236341447648652}
     - {fileID: 8625408901883617109}
-  - first: {fileID: -3573909201739355706}
-    second:
-    - {fileID: 5355467399856700058}
-    - {fileID: -5818177738159604575}
-  - first: {fileID: -7605285189009638052}
-    second:
-    - {fileID: 4922207181133414999}
-    - {fileID: -9028133974295388260}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 330, y: 430, z: 0}
   m_EntryPosition: {x: 90, y: 70, z: 0}
@@ -3686,7 +3686,7 @@ AnimatorController:
     m_BlendingMode: 0
     m_SyncedLayerIndex: -1
     m_DefaultWeight: 0
-    m_IKPass: 0
+    m_IKPass: 1
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
 --- !u!1107 &12851240427412827
