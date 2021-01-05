@@ -27,7 +27,7 @@ public class NPCAnimationController : MonoBehaviour
     private EnvParameterGenerate envParaGen;
 
     [SerializeField] private float sensitivity; // 感応度合い
-    public float radius = 100;
+    public float radius = 3;
 
     private float coheAr = 0;
     private float coheVa = 0;
@@ -36,6 +36,10 @@ public class NPCAnimationController : MonoBehaviour
     private Transform myNeck;
 
     private bool isWatching;
+    private float lookAtWeight;
+    private float bodyWeight;
+    private float headWeight;
+    private float eyesWeight;
 
     // Start is called before the first frame update
     void Start()
@@ -54,8 +58,10 @@ public class NPCAnimationController : MonoBehaviour
         myNeck = gameObject.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetChild(0);
                              // girl, skelton,    Root,       J_Bip_C_Hips, Spine,    Chest,      UpperChest, Neck,       Head
 
-        sensitivity = envParaGen.sensitivity; // 感応度合い
-        sensitivity = sensitivity + UnityEngine.Random.Range(-5.0f, 5.0f);
+        //sensitivity = envParaGen.sensitivity; // 感応度：0～1.0
+        //sensitivity = UnityEngine.Random.Range(0.0f, 0.5f);
+        sensitivity = 0.4f; // 一定にしたいとき
+
 
 
 
@@ -91,6 +97,7 @@ public class NPCAnimationController : MonoBehaviour
             timeElapsed = 0.0f;
         }
 
+        //sensitivity = envParaGen.sensitivity; // 感応度合い
         //this.transform.LookAt(targetObject.transform);
 
         // A-V値の遷移
@@ -102,8 +109,8 @@ public class NPCAnimationController : MonoBehaviour
             animator.SetInteger("Cat_A", svmE.result_A);
             animator.SetInteger("Cat_V", svmE.result_V);
         } else {                 // 凡例時
-            test_A = envParaGen.test_catA;
-            test_V = envParaGen.test_catV;
+            //test_A = envParaGen.test_catA; // とりあえず
+            //test_V = envParaGen.test_catV; // とりあえず
             catA = test_A;
             catV = test_V;
             arousal = Mathf.Lerp(arousal, GetInterpValue(test_A, coheAr), Time.deltaTime * speed);        
@@ -147,7 +154,7 @@ public class NPCAnimationController : MonoBehaviour
             random = UnityEngine.Random.Range(boundary * 2.0f, 256.0f);
         }
 
-        float sum = random + cohePara;
+        float sum = random - sensitivity * cohePara;
         if (sum >= 0 && sum <= 256) {
             return sum;
         } else if (sum > 256) {
@@ -218,6 +225,8 @@ public class NPCAnimationController : MonoBehaviour
             float diffAr = arousal - aroundAnimCon.Arousal;
             float diffVa = valence - aroundAnimCon.Valence;
 
+            Debug.Log(this.name + ":" + obj.name);
+
             // 周囲の累計A-V値を更新
             coheAr += calcValue(diffAr, dist);
             coheVa += calcValue(diffVa, dist);
@@ -226,7 +235,7 @@ public class NPCAnimationController : MonoBehaviour
 
     public float calcValue(float diff, float dist)
     {
-        return diff * (float)Math.Exp(-1 * (double)sensitivity * (double)dist);
+        return diff * (float)Math.Exp(-1 * (double)dist);
     }
 
     public bool LookAtObject()
@@ -262,9 +271,22 @@ public class NPCAnimationController : MonoBehaviour
 
     private void OnAnimatorIK(int layerIndex)
     {
-        if (targetObject != null & isWatching == true)
+        if (targetObject != null)
         {
-            this.animator.SetLookAtWeight(1.0f, 0.8f, 1.0f, 0.0f, 0f);
+            if (arousal > valence)
+            {
+                lookAtWeight = arousal / 256.0f;
+                bodyWeight = arousal / 256.0f;
+                headWeight = arousal / 256.0f;
+                eyesWeight = arousal / 256.0f;
+            } else {
+                lookAtWeight = valence / 256.0f;
+                bodyWeight = valence / 256.0f;
+                headWeight = valence / 256.0f;
+                eyesWeight = valence / 256.0f;
+            }
+
+            this.animator.SetLookAtWeight(lookAtWeight, bodyWeight, headWeight, eyesWeight);
             this.animator.SetLookAtPosition(targetObject.transform.position);
         }
     }

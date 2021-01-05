@@ -16,6 +16,7 @@ public class RealTimeGenerate : MonoBehaviour
     private int[] posx = new int[] { -46, 60, -24, 52, -32, 44, -40, 36, -40, 68 };
 
     private Animator animator;
+    private NPCAnimationController animCon;
     void Start()
     {
         //CustomManagerに付いてる他のスクリプトを取る
@@ -57,6 +58,7 @@ public class RealTimeGenerate : MonoBehaviour
         GenerateParameter();
         ChangeAllObject();
         SetSitPosition(num);
+        SetAVCategory(num);
         num++;
     }
 
@@ -133,6 +135,24 @@ public class RealTimeGenerate : MonoBehaviour
         //character.transform.position = new Vector3(5.88f + 2f * row, 0.8f, 2f + 1f * column);
         character.transform.rotation = Quaternion.Euler(0, -90, 0);
     }
+
+    void SetAVCategory(int num)
+    {
+        animCon = character.GetComponent<NPCAnimationController>();
+        
+        if (num == 4 || num == 5 || num == 6 || num == 7 || num == 13 || num == 14 || num == 15 || num == 22 || num == 23 || num == 31 )
+        {
+            animCon.isLegend = true;
+            animCon.test_A = 0;
+            animCon.test_V = 0;
+        } else if (num == 8 || num == 16 || num == 17 || num == 24 || num == 25 || num == 26 || num == 32 || num == 33 || num == 34)
+        {
+            animCon.isLegend = true;
+            animCon.test_A = 2;
+            animCon.test_V = 2;
+        }
+    }
+
     public void Rebirth()
     {
         print("start");

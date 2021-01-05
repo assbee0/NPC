@@ -311,7 +311,7 @@ MonoBehaviour:
   - {fileID: 9100000, guid: 7781337ad1fbe9b48b6ea06c1e876ad5, type: 2}
   test_A: -1
   test_V: -1
-  isLegend: 1
+  isLegend: 0
   sensitivity: 0
   radius: 100
 --- !u!114 &-2867009806776288337
