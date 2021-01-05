@@ -101,16 +101,22 @@ public class SVMExecute : MonoBehaviour
                 max = input[i];
                 argmax = i;
             }
+
+            if (input[i] > 0)
+            {
+                //return i;
+            } 
         }
         //return argmax+1;
         return argmax;
+        return -999;
     }
 }
 
 class OutunitTest
 {
     const int CLASSNUM = 3; // それぞれHigh, Medium, Low
-    const int HUNITNUM = 5; // 取得するパラメタの数
+    const int HUNITNUM = 2; // 取得するパラメタの数
     public float[] b = new float[CLASSNUM];
     public float[][] w = new float[CLASSNUM][];
     public float[] u = new float[CLASSNUM];

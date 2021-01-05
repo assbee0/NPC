@@ -8,7 +8,7 @@ public class GetSVMParameter : MonoBehaviour
     NPCAnimationController NPCAnimCon;
     private int radius = 100;
     public float[] envParam; // publicじゃないとSVMExecuteでエラー吐く
-    private int VARNUM = 5; // 取得するパラメタの数
+    private int VARNUM = 2; // 取得するパラメタの数
     //public int Param1 = 8; // 仮（Debug用）
     //public int Param2 = 10; // 仮（Debug用）
     //public int Param3 = 8; // 仮（Debug用）
@@ -33,11 +33,29 @@ public class GetSVMParameter : MonoBehaviour
         testManager = GameObject.Find("TestManager");
         envParaGen = testManager.GetComponent<EnvParameterGenerate>();
         //getAroundAVValue();
-        sensitivity = 25; // 感応度合い
+
+        int MIN = 1;
+        int MAX = 10;
+
+        /*
+        envParam[0] = Mathf.Clamp(envParaGen.Param1 + UnityEngine.Random.Range(-3, 4), MIN, MAX);
+        envParam[1] = Mathf.Clamp(envParaGen.Param2 + UnityEngine.Random.Range(-3, 4), MIN, MAX);
+        envParam[2] = Mathf.Clamp(envParaGen.Param3 + UnityEngine.Random.Range(-3, 4), MIN, MAX);
+        envParam[3] = Mathf.Clamp(envParaGen.Param4 + UnityEngine.Random.Range(-3, 4), MIN, MAX);
+        envParam[4] = Mathf.Clamp(envParaGen.Param5 + UnityEngine.Random.Range(-3, 4), MIN, MAX);
+        */
+
+        
+        envParam[0] = envParaGen.Param1;
+        envParam[1] = envParaGen.Param2;
+        envParam[2] = envParaGen.Param3;
+        envParam[3] = envParaGen.Param4;
+        envParam[4] = envParaGen.Param5;
+        
     }
 
-    // Update is called once per frame
-    void Update()
+        // Update is called once per frame
+        void Update()
     {
         //float[] tmpArray = getAroundAVValue();
         /*
@@ -47,11 +65,7 @@ public class GetSVMParameter : MonoBehaviour
         envParam[3] = Param2;
         */
 
-        envParam[0] = envParaGen.Param1;
-        envParam[1] = envParaGen.Param2;
-        envParam[2] = envParaGen.Param3;
-        envParam[3] = envParaGen.Param4;
-        envParam[4] = envParaGen.Param5;
+
 
         //envParam = 
 

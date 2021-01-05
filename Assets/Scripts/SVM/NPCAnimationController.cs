@@ -27,7 +27,7 @@ public class NPCAnimationController : MonoBehaviour
     private EnvParameterGenerate envParaGen;
 
     [SerializeField] private float sensitivity; // 感応度合い
-    public float radius = 3;
+    public float radius = 1;
 
     private float coheAr = 0;
     private float coheVa = 0;
@@ -47,7 +47,7 @@ public class NPCAnimationController : MonoBehaviour
         animator = GetComponent<Animator>();
         svmE = GetComponent<SVMExecute>();
         ownAnimCon = gameObject.GetComponent<NPCAnimationController>();
-        svmE.Predict();
+        //svmE.Predict();
         checkName(this.gameObject);
         //Execute();
 
@@ -58,12 +58,11 @@ public class NPCAnimationController : MonoBehaviour
         myNeck = gameObject.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetChild(0);
                              // girl, skelton,    Root,       J_Bip_C_Hips, Spine,    Chest,      UpperChest, Neck,       Head
 
-        //sensitivity = envParaGen.sensitivity; // 感応度：0～1.0
-        //sensitivity = UnityEngine.Random.Range(0.0f, 0.5f);
-        sensitivity = 0.4f; // 一定にしたいとき
+        // 感応度：0～0.5 0.5より大きくするとみんな一緒になり始める
+        sensitivity = UnityEngine.Random.Range(0.0f, 0.5f);
+        //sensitivity = 0.2f; // 一定にしたいとき
 
-
-
+        svmE.Predict();
 
         //SetMirror();
         // 左利きにチェンジ．左利きの人の割合は10%らしい
