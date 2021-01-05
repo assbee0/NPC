@@ -311,7 +311,8 @@ MonoBehaviour:
   - {fileID: 9100000, guid: 075719f0c2e86054ba4aed26a50a8f5e, type: 2}
   test_A: -1
   test_V: -1
-  isLegend: 1
+  isLegend: 0
+  radius: 100
 --- !u!114 &-2867009806776288337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,6 +340,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   envParam: []
+  coheAr: 0
+  coheVa: 0
 --- !u!1 &521671777466885155
 GameObject:
   m_ObjectHideFlags: 0

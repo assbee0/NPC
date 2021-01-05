@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GetSVMParameter : MonoBehaviour
 {
@@ -17,6 +18,10 @@ public class GetSVMParameter : MonoBehaviour
     private float VALENCE;
     private GameObject testManager;
     private EnvParameterGenerate envParaGen;
+    private float sensitivity; // 感応度合い
+
+    public float coheAr = 0;
+    public float coheVa = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -28,12 +33,13 @@ public class GetSVMParameter : MonoBehaviour
         testManager = GameObject.Find("TestManager");
         envParaGen = testManager.GetComponent<EnvParameterGenerate>();
         //getAroundAVValue();
+        sensitivity = 25; // 感応度合い
     }
 
     // Update is called once per frame
     void Update()
     {
-        float[] tmpArray = getAroundAVValue();
+        //float[] tmpArray = getAroundAVValue();
         /*
         envParam[0] = tmpArray[0];
         envParam[1] = tmpArray[1];
@@ -61,6 +67,7 @@ public class GetSVMParameter : MonoBehaviour
     envParam[3]: Param2(仮)
     */
 
+    /*
     public float[] getAroundAVValue()
     {
         // 中心:自分の位置, 半径:radiusの球内に存在するものを検出
@@ -82,13 +89,18 @@ public class GetSVMParameter : MonoBehaviour
             float arousal = NPCAnimCon.Arousal;
             float valence = NPCAnimCon.Valence;
 
+            float diffAr = AROUSAL - arousal;
+            float diffVa = VALENCE - valence;
+
             // 周囲の累計A-V値を更新
-            updateAVValue(avValue, dist, arousal, valence);
+            coheAr += calcValue(diffAr, dist);
+            coheVa += calcValue(diffVa, dist);
         }
         return avValue;
     }
+    */
 
-    public void updateAVValue(float[] avValue, float dist, float ar, float va)
+    public float calcValue(float diff, float dist)
     {
         //avValue[0] = ar;
         //avValue[1] = va;
@@ -99,8 +111,10 @@ public class GetSVMParameter : MonoBehaviour
         //avValue[0] = avValue[0] + (ar - AROUSAL) / dist;
         //avValue[1] = avValue[1] + (va - VALENCE) / dist;
 
-        avValue[0] = avValue[0] + (ar - AROUSAL)/3; // 後で要修正
-        avValue[1] = avValue[1] + (va - VALENCE)/3;
+        //avValue[0] = avValue[0] + (ar - AROUSAL)/3; // 後で要修正
+        //avValue[1] = avValue[1] + (va - VALENCE)/3;
+
+        return diff * (float)Math.Exp(-1 * (double)sensitivity * (double)dist);
     }
 
     public float[] EnvParam {

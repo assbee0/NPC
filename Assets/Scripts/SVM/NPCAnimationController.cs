@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Animations;
+using System;
 
 public class NPCAnimationController : MonoBehaviour
 {
@@ -22,6 +23,12 @@ public class NPCAnimationController : MonoBehaviour
     private GameObject testManager;
     private EnvParameterGenerate envParaGen;
 
+    [SerializeField] private float sensitivity; // 感応度合い
+    public float radius = 100;
+
+    private float coheAr = 0;
+    private float coheVa = 0;
+
 
     // Start is called before the first frame update
     void Start()
@@ -36,9 +43,12 @@ public class NPCAnimationController : MonoBehaviour
         testManager = GameObject.Find("TestManager");
         envParaGen = testManager.GetComponent<EnvParameterGenerate>();
 
+        sensitivity = envParaGen.sensitivity; // 感応度合い
+        sensitivity = sensitivity + UnityEngine.Random.Range(-5.0f, 5.0f);
+
         //SetMirror();
         // 左利きにチェンジ．左利きの人の割合は10%らしい
-        if (Random.value > 0.9) 
+        if (UnityEngine.Random.value > 0.9) 
         {
             animator.runtimeAnimatorController = animConArr[0];
         } else
@@ -63,20 +73,21 @@ public class NPCAnimationController : MonoBehaviour
         if (timeElapsed >= timeOut) {
             // 処理
             svmE.Predict();
+            getAroundAVValue();
             timeElapsed = 0.0f;
         }
 
         // A-V値の遷移
         if (isLegend == false) { // 通常時
-            arousal = Mathf.Lerp(arousal, getInterpValue(svmE.result_A), Time.deltaTime * speed);
-            valence = Mathf.Lerp(valence, getInterpValue(svmE.result_V), Time.deltaTime * speed);
+            arousal = Mathf.Lerp(arousal, GetInterpValue(svmE.result_A, coheAr), Time.deltaTime * speed);
+            valence = Mathf.Lerp(valence, GetInterpValue(svmE.result_V, coheVa), Time.deltaTime * speed);
             animator.SetInteger("Cat_A", svmE.result_A);
             animator.SetInteger("Cat_V", svmE.result_V);
         } else {                 // 凡例時
             test_A = envParaGen.test_catA;
             test_V = envParaGen.test_catV;
-            arousal = Mathf.Lerp(arousal, getInterpValue(test_A), Time.deltaTime * speed);        
-            valence = Mathf.Lerp(valence, getInterpValue(test_V), Time.deltaTime * speed);
+            arousal = Mathf.Lerp(arousal, GetInterpValue(test_A, coheAr), Time.deltaTime * speed);        
+            valence = Mathf.Lerp(valence, GetInterpValue(test_V, coheVa), Time.deltaTime * speed);
             animator.SetInteger("Cat_A", test_A);
             animator.SetInteger("Cat_V", test_V);
         }
@@ -94,25 +105,35 @@ public class NPCAnimationController : MonoBehaviour
         float[] arrP = svmP.EnvParam;
         //SVMExecute svme = GetComponent<SVMExecute>();
         svmE.Predict();
-        arousal = Mathf.Lerp(arousal, getInterpValue(test_A), Time.deltaTime * speed);        
+        //arousal = Mathf.Lerp(arousal, getInterpValue(test_A, coheAr), Time.deltaTime * speed);        
         //arousal = Mathf.Lerp(arousal, getInterpValue(svme.result_A), Time.deltaTime * speed);
         //arousal = getInterpValue(svme.result_A);
-        valence = Mathf.Lerp(valence, getInterpValue(test_V), Time.deltaTime * speed);
+        //valence = Mathf.Lerp(valence, getInterpValue(test_V, coheVa), Time.deltaTime * speed);
         //valence = Mathf.Lerp(valence, getInterpValue(svme.result_V), Time.deltaTime * speed);
         //valence = getInterpValue(svme.result_V);
         animator.SetFloat("Arousal",arousal);
         animator.SetFloat("Valence",valence);
     }
 
-    public float getInterpValue(int catg) // 補間値を乱数で取得
+    public float GetInterpValue(int catg, float cohePara) // 補間値を乱数で取得
     {
         float boundary = 256.0f / 3.0f;
+        float random = 0;
         if (catg == 0) {
-            return Random.Range(0.0f, boundary);
+            random = UnityEngine.Random.Range(0.0f, boundary);
         } else if (catg == 1) {
-            return Random.Range(boundary, boundary * 2.0f);
+            random = UnityEngine.Random.Range(boundary, boundary * 2.0f);
         } else if (catg == 2) {
-            return Random.Range(boundary * 2.0f, 256.0f);
+            random = UnityEngine.Random.Range(boundary * 2.0f, 256.0f);
+        }
+
+        float sum = random + cohePara;
+        if (sum >= 0 && sum <= 256) {
+            return sum;
+        } else if (sum > 256) {
+            return 256.0f;
+        } else if (sum < 0) {
+            return 0.0f;
         } else {
             return -1;
         }
@@ -148,6 +169,44 @@ public class NPCAnimationController : MonoBehaviour
             test_A = 2;
             test_V = 2;
         }
+    }
+
+    public void getAroundAVValue()
+    {
+        // 中心:自分の位置, 半径:radiusの球内に存在するものを検出
+        Collider[] arrayCld = Physics.OverlapSphere(transform.position, radius);
+        List<GameObject> listObj = new List<GameObject>();
+        // 検出したGameObjectの内、tagが"NPC"であるものをlistObjリストに追加
+        foreach (Collider cld in arrayCld)
+        {
+            if (cld.tag == "NPC")
+            {
+                listObj.Add(cld.gameObject);
+            }
+        }
+
+        float[] avValue = new float[2];
+        foreach (GameObject obj in listObj)
+        {
+            // 対象となるGameObjectとの距離を調べる
+            float dist = Vector3.Distance(obj.transform.position, transform.position);
+            // 対象となるGameObjectのA-V値を調べる
+            NPCAnimationController aroundAnimCon = obj.gameObject.GetComponent<NPCAnimationController>();
+            //float arousal = aroundAnimCon.Arousal;
+            //float valence = aroundAnimCon.Valence;
+
+            float diffAr = arousal - aroundAnimCon.Arousal;
+            float diffVa = valence - aroundAnimCon.Valence;
+
+            // 周囲の累計A-V値を更新
+            coheAr += calcValue(diffAr, dist);
+            coheVa += calcValue(diffVa, dist);
+        }
+    }
+
+    public float calcValue(float diff, float dist)
+    {
+        return diff * (float)Math.Exp(-1 * (double)sensitivity * (double)dist);
     }
 
     void SetMirror()

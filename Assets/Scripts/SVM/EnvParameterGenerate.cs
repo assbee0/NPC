@@ -15,6 +15,8 @@ public class EnvParameterGenerate : MonoBehaviour
 
     public bool isWave = false;
 
+    public float sensitivity = 10;
+
     // Start is called before the first frame update
     void Start()
     {
