@@ -95,6 +95,8 @@ namespace VRM
             }
 
             Head = head;
+
+            Target = GameObject.Find("TargetObject").transform; // 自分で追加したやつ
         }
 
         public void OnImported(VRMImporterContext context)

@@ -11,7 +11,7 @@ public class EmotionControll : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        animator.speed = 100000;
+        //animator.speed = 100000;
     }
 
     // Update is called once per frame

@@ -26,32 +26,20 @@ public class SVMExecute : MonoBehaviour
     public void Predict()
     {
         // Arousalについて
-        //ParameterManage pm = GetComponent<ParameterManage>();
-        //Hunit hunit = new Hunit();
         GetSVMParameter svmP = GetComponent<GetSVMParameter>();
         float[] envParam = svmP.EnvParam;
         OutunitTest outunit_A = new OutunitTest();
-        //float[] input_A = new float[5] { 1, 9, 3, 6, 3 }; // ここをどうにかする！！！！！！！！！！
-        //input = ParaTransform(input);
         outunit_A.Readb(0); // 0: Arousal, 1: Valence
         outunit_A.Readw(0);
-        //outunit_A.Propagation(input_A);
         outunit_A.Propagation(envParam);
-        //outunit.Propagation(hunit.output);
         result_A = Argmax(outunit_A.output); // result：カテゴリ
-        //EvaluateOutput();
 
         // Valenceについて
         OutunitTest outunit_V = new OutunitTest();
-        //float[] input_V = new float[2] {V_testParam1, V_testParam2}; // ここをどうにかする！！！！！！！！！！
-        //float[] input_V = new float[5] {1, 9, 3, 6, 3}; // ここをどうにかする！！！！！！！！！！
-        //input = ParaTransform(input);
         outunit_V.Readb(1);
         outunit_V.Readw(1);
-        //outunit_V.Propagation(input_V);
         outunit_V.Propagation(envParam);
         result_V = Argmax(outunit_V.output); // result：カテゴリ
-        //EvaluateOutput();
     }    
 
     public static float Dot(float[] a, float[] b)
@@ -101,15 +89,9 @@ public class SVMExecute : MonoBehaviour
                 max = input[i];
                 argmax = i;
             }
-
-            if (input[i] > 0)
-            {
-                //return i;
-            } 
         }
         //return argmax+1;
         return argmax;
-        return -999;
     }
 }
 

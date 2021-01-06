@@ -33,9 +33,7 @@ public class NPCAnimationController : MonoBehaviour
     private float coheVa = 0;
 
     private GameObject targetObject; // 注視したいオブジェクト
-    private Transform myNeck;
 
-    private bool isWatching;
     private float lookAtWeight;
     private float bodyWeight;
     private float headWeight;
@@ -55,16 +53,13 @@ public class NPCAnimationController : MonoBehaviour
         envParaGen = testManager.GetComponent<EnvParameterGenerate>();
 
         targetObject = GameObject.Find("TargetObject");
-        myNeck = gameObject.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetChild(0);
-                             // girl, skelton,    Root,       J_Bip_C_Hips, Spine,    Chest,      UpperChest, Neck,       Head
 
         // 感応度：0～0.5 0.5より大きくするとみんな一緒になり始める
-        sensitivity = UnityEngine.Random.Range(0.0f, 0.5f);
+        sensitivity = UnityEngine.Random.Range(0.0f, 1.0f);
         //sensitivity = 0.2f; // 一定にしたいとき
 
         svmE.Predict();
 
-        //SetMirror();
         // 左利きにチェンジ．左利きの人の割合は10%らしい
         if (UnityEngine.Random.value > 0.9) 
         {
@@ -92,7 +87,6 @@ public class NPCAnimationController : MonoBehaviour
             // 処理
             svmE.Predict();
             getAroundAVValue();
-            isWatching = LookAtObject();
             timeElapsed = 0.0f;
         }
 
@@ -117,12 +111,8 @@ public class NPCAnimationController : MonoBehaviour
             animator.SetInteger("Cat_A", test_A);
             animator.SetInteger("Cat_V", test_V);
         }
-        //arousal = arousal + ownAnimCon.Arousal;
-        //valence = valence + ownAnimCon.Valence;
         animator.SetFloat("Arousal",arousal);
         animator.SetFloat("Valence",valence);
-
-
     }
 
     public void Execute()
@@ -153,16 +143,9 @@ public class NPCAnimationController : MonoBehaviour
             random = UnityEngine.Random.Range(boundary * 2.0f, 256.0f);
         }
 
-        float sum = random - sensitivity * cohePara;
-        if (sum >= 0 && sum <= 256) {
-            return sum;
-        } else if (sum > 256) {
-            return 256.0f;
-        } else if (sum < 0) {
-            return 0.0f;
-        } else {
-            return -1;
-        }
+        float MIN = 0.0f;
+        float MAX = 256.0f;
+        return Mathf.Clamp(random - sensitivity * cohePara, MIN, MAX);
     }
 
     public void checkName(GameObject obj)
@@ -218,13 +201,8 @@ public class NPCAnimationController : MonoBehaviour
             float dist = Vector3.Distance(obj.transform.position, transform.position);
             // 対象となるGameObjectのA-V値を調べる
             NPCAnimationController aroundAnimCon = obj.gameObject.GetComponent<NPCAnimationController>();
-            //float arousal = aroundAnimCon.Arousal;
-            //float valence = aroundAnimCon.Valence;
-
             float diffAr = arousal - aroundAnimCon.Arousal;
             float diffVa = valence - aroundAnimCon.Valence;
-
-            Debug.Log(this.name + ":" + obj.name);
 
             // 周囲の累計A-V値を更新
             coheAr += calcValue(diffAr, dist);
@@ -288,31 +266,6 @@ public class NPCAnimationController : MonoBehaviour
             this.animator.SetLookAtWeight(lookAtWeight, bodyWeight, headWeight, eyesWeight);
             this.animator.SetLookAtPosition(targetObject.transform.position);
         }
-    }
-
-        void SetMirror()
-    {
-        //　今使っているAnimatorControllerを取得
-        //AnimatorController animCon = animator.runtimeAnimatorController as AnimatorController;
-        
-        /*
-        //　AnimatorControllerのレイヤーを取得
-        var layers = animCon.layers;
-        foreach (var layer in layers)
-        {
-            //　Base Layerレイヤーを探す
-            if (layer.stateMachine.name == "Base Layer")
-            {
-                var animStates = layer.stateMachine.states;
-                foreach (var animState in animStates)
-                {
-                    animState.state.mirror = !animState.state.mirror;
-                    // AnimatorStateを変更した後のおまじない
-                    animator.Rebind();
-                }
-            }
-        }
-        */
     }
 
     public float Arousal {
