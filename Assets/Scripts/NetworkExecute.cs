@@ -19,6 +19,16 @@ public class NetworkExecute : MonoBehaviour
     private Color[] haircolor = { new Color(246, 229, 213), new Color(75, 66, 111), new Color(236, 148, 147), new Color(150, 113, 105),
                                   new Color(243, 205, 192), new Color(229, 237, 248),new Color(254, 244, 185),new Color(0, 0, 0),
                                   new Color(64, 70, 80), new Color(170, 61, 69), new Color(83, 88, 128), new Color(48, 63, 70), new Color(227, 166, 116)};
+
+    private Color[] clothesPalette =
+    {
+        new Color(190, 183, 178), new Color(38, 47, 72),  new Color(144, 129, 119),
+        new Color(235, 229f, 227), new Color(113, 95, 90), new Color(10, 11, 12),
+        new Color(43, 119, 178), new Color(87, 34, 27), new Color(244, 245, 249),
+        new Color(182, 157, 149), new Color(47, 39, 46), new Color(56, 89, 122),
+        new Color(209, 209, 211), new Color(28, 26, 31), new Color(139, 184, 239),
+        new Color(239, 207, 172), new Color(76, 67, 69), new Color(118, 131, 164),
+    };
     // Start is called before the first frame update
     void Start()
     {
@@ -104,7 +114,29 @@ public class NetworkExecute : MonoBehaviour
     {
         ParameterManage pm = GetComponent<ParameterManage>();
         pm.FullRandom();
-       // pm.OutputParameterVectors(sw);
+
+        int i = Random.Range(0, 13);
+        pm.setParameter(34, haircolor[i].r);
+        pm.setParameter(35, haircolor[i].g);
+        pm.setParameter(36, haircolor[i].b);
+
+        i = Random.Range(0, 18);
+        int j = Random.Range(0, 18);
+        pm.setParameter(54, clothesPalette[i].r);
+        pm.setParameter(55, clothesPalette[i].g);
+        pm.setParameter(56, clothesPalette[i].b);
+        pm.setParameter(57, clothesPalette[j].r);
+        pm.setParameter(58, clothesPalette[j].g);
+        pm.setParameter(59, clothesPalette[j].b);
+        i = Random.Range(0, 18);
+        pm.setParameter(60, clothesPalette[i].r);
+        pm.setParameter(61, clothesPalette[i].g);
+        pm.setParameter(62, clothesPalette[i].b);
+        i = Random.Range(0, 18);
+        pm.setParameter(63, clothesPalette[i].r);
+        pm.setParameter(64, clothesPalette[i].g);
+        pm.setParameter(65, clothesPalette[i].b);
+        // pm.OutputParameterVectors(sw);
     }
     public static float Dot(float[] a, float[] b)
     {

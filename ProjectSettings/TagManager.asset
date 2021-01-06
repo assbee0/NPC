@@ -15,6 +15,9 @@ TagManager:
   - Onepiece
   - Glasses
   - Necklace
+  - Chair
+  - Ground
+  - Wall
   layers:
   - Default
   - TransparentFX

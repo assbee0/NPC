@@ -31,12 +31,14 @@ public class CameraLockOn : MonoBehaviour {
         HorizontalRotate();
         ZoomInOut();
         transform.LookAt(targetObject.transform);
-        cam.cullingMask |= (1 << 10);
+        cam.cullingMask = -1;
         RaycastHit hit;
         if (Physics.Linecast(targetObject.position, transform.position, out hit))
         {
+            Debug.DrawLine(targetObject.position, transform.position,Color.yellow);
             string name = hit.collider.gameObject.tag;
-            if (name != "MainCamera" && name != "Player")
+            //print(name);
+            if (name == "Wall")
             {
                 float currentDistance = Vector3.Distance(hit.point, targetObject.position);
                 if (currentDistance < back)
