@@ -112,14 +112,17 @@ public class ParameterManage : MonoBehaviour
         }
         return output;
     }
-    public void setAllParameter(float[] ps)
+    public int setAllParameter(float[] ps)
     {
         for (int i = 0; i < customParameter.Length; i++)
         {
             Slider si = customParameter[i].GetComponent<Slider>();
-            si.value = ps[i];
+            si.SetValueWithoutNotify(ps[i]);
             p[i] = ps[i];
         }
+        count++;
+        return count;
+
     }
     public void OutputParameter(int level)
     {
@@ -142,7 +145,10 @@ public class ParameterManage : MonoBehaviour
             sw.Write(" ");
         }
         sw.WriteLine();
-        print(count++);
+        count++;
+        //print(count++);
+        if (count >= 40)
+            sw.Close();
     }
 }
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class RealTimeGenerate : MonoBehaviour
@@ -13,6 +14,7 @@ public class RealTimeGenerate : MonoBehaviour
     private GameObject black;
     private int num = 0;
     private int[] posx = new int[] { -46, 60, -24, 52, -32, 44, -40, 36, -40, 68 };
+    public bool lastGenerate = false;
     void Start()
     {
         //CustomManagerに付いてる他のスクリプトを取る
@@ -20,13 +22,13 @@ public class RealTimeGenerate : MonoBehaviour
         haircustom = GetComponent<HairCustom>();
         clothescustom = GetComponent<ClothesCustom>();
         networkexecute = GetComponent<NetworkExecute>();
+        networkexecute.SetSrSw(lastGenerate);
 
-        
         //facecustom.enabled = false;
         //haircustom.enabled = false;
         //clothescustom.enabled = false;
 
-        
+
         //実行時間測る、普段はコメント化で
         /* System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
          sw.Start();
@@ -47,7 +49,9 @@ public class RealTimeGenerate : MonoBehaviour
     {
         //フレーム毎一人のキャラ生成
         if (num >= 40)
+        {
             return;
+        }
         InitTags(1);
         GenerateParameter();
         ChangeAllObject();
@@ -92,7 +96,10 @@ public class RealTimeGenerate : MonoBehaviour
     void GenerateParameter()
     {
         //全パラメータをランダムに生成
-        networkexecute.RandomGenerate();
+        if (!lastGenerate)
+            networkexecute.RandomGenerate();
+        else
+            networkexecute.ReadGenerate();
     }
     void ChangeAllObject()
     /*

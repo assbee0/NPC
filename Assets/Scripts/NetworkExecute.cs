@@ -11,11 +11,12 @@ public class NetworkExecute : MonoBehaviour
     const int FEATURE = 42;
     const int CLASSNUM = 3;
     private int result = -1;
-    public GameObject textobj;
-    public GameObject sliderBeautyobj;
+    //public GameObject textobj;
+    //public GameObject sliderBeautyobj;
     private Text tex;
     private Slider sliderBeauty;
     public StreamWriter sw;
+    public StreamReader sr;
     private Color[] haircolor = { new Color(246, 229, 213), new Color(75, 66, 111), new Color(236, 148, 147), new Color(150, 113, 105),
                                   new Color(243, 205, 192), new Color(229, 237, 248),new Color(254, 244, 185),new Color(0, 0, 0),
                                   new Color(64, 70, 80), new Color(170, 61, 69), new Color(83, 88, 128), new Color(48, 63, 70), new Color(227, 166, 116)};
@@ -32,9 +33,8 @@ public class NetworkExecute : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        tex = textobj.GetComponent<Text>();
-        sliderBeauty = sliderBeautyobj.GetComponent<Slider>();
-        sw = new StreamWriter("E:/character dataset2/parameters.txt");
+        //tex = textobj.GetComponent<Text>();
+        //sliderBeauty = sliderBeautyobj.GetComponent<Slider>();
     }
 
     // Update is called once per frame
@@ -136,7 +136,25 @@ public class NetworkExecute : MonoBehaviour
         pm.setParameter(63, clothesPalette[i].r);
         pm.setParameter(64, clothesPalette[i].g);
         pm.setParameter(65, clothesPalette[i].b);
-        // pm.OutputParameterVectors(sw);
+        pm.OutputParameterVectors(sw);
+    }
+    public void ReadGenerate()
+    {
+        ParameterManage pm = GetComponent<ParameterManage>();
+        string pline = sr.ReadLine();
+        string[] pstrings = pline.Split(' ');
+        float[] ps = new float[66];
+        for (int i = 0; i < 66; i++)
+            ps[i] = float.Parse(pstrings[i]);
+        if (pm.setAllParameter(ps) >= 40)
+            sr.Close();
+    }
+    public void SetSrSw(bool lastGenerate)
+    {
+        if(lastGenerate)
+            sr = new StreamReader(Application.dataPath + "/ParametersLog.txt", Encoding.UTF8);
+        else
+            sw = new StreamWriter(Application.dataPath + "/ParametersLog.txt");
     }
     public static float Dot(float[] a, float[] b)
     {
