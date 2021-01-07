@@ -48,9 +48,9 @@ public class GetSVMParameter : MonoBehaviour
         
         envParam[0] = envParaGen.Param1;
         envParam[1] = envParaGen.Param2;
-        envParam[2] = envParaGen.Param3;
-        envParam[3] = envParaGen.Param4;
-        envParam[4] = envParaGen.Param5;
+        //envParam[2] = envParaGen.Param3;
+        //envParam[3] = envParaGen.Param4;
+        //envParam[4] = envParaGen.Param5;
         
     }
 

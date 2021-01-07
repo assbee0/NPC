@@ -11,7 +11,7 @@ public class PlaneSetting : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Invoke("GeneratePlane", 10);
+        Invoke("GeneratePlane", 15);
     }
 
     // Update is called once per frame
@@ -23,7 +23,7 @@ public class PlaneSetting : MonoBehaviour
     void GeneratePlane()
     {
         //フレーム毎一人のキャラ生成
-        for (num = 0; num < 40; num++)
+        for (num = 0; num < 64; num++)
         {
             //InitTags(1);
             //GenerateParameter();
@@ -31,6 +31,7 @@ public class PlaneSetting : MonoBehaviour
             GameObject prefab = Resources.Load<GameObject>("Prefabs/plane");
             plane = Instantiate(prefab);
             SetPosition(num);
+            plane.name = plane.name + "_" + num;
             //nearNPC = SearchNearNPC(plane);
             //ChangeColor(nearNPC);
             //num++;
@@ -42,21 +43,22 @@ public class PlaneSetting : MonoBehaviour
      * 体育館では4ブロックがあってそれぞれ5行8列がある
      */
     {
-        int row = i % 40 / 8;
-        int column = i % 40 % 8;
-        int block = i / 40;
+        int row = i % 64 / 8;
+        int column = i % 64 % 8;
+        int block = i / 64;
 
         //生成したい位置
         //plane.transform.position = new Vector3(5.88f + 2f * row, 0.81f, 2f + 1f * column);
-        plane.transform.position = new Vector3(5f + 2f * row, 0.81f, 2f + 1f * column);
+        //plane.transform.position = new Vector3(5f + 2f * row, 0.81f, 2f + 1f * column);
+        plane.transform.position = new Vector3(5f + 1f * row, 0.81f, 2f + 1f * column);
         plane.transform.rotation = Quaternion.Euler(0, -90, 0);
     }
 
     GameObject SearchNearNPC(GameObject nowObj)
     {
-        int radius = 100;
+        //int radius = 100;
         // 中心:自分(平面)の位置, 半径:radiusの球内に存在するものを検出
-        Collider[] arrayCld = Physics.OverlapSphere(nowObj.transform.position, radius);
+        Collider[] arrayCld = Physics.OverlapSphere(nowObj.transform.position, 1f);
         List<GameObject> listObj = new List<GameObject>();
         // 検出したGameObjectの内、tagが"NPC"であるものをlistObjリストに追加
         foreach (Collider cld in arrayCld)

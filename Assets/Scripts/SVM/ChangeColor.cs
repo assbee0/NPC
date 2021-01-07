@@ -8,7 +8,7 @@ public class ChangeColor : MonoBehaviour
     private NPCAnimationController script;
     private Vector3 initPos; // 自身の初期座標
     private Vector3 initAngle; // 自身の初期角度
-    private GameObject nearNPC;
+    [SerializeField] private GameObject nearNPC;
 
 
     // Start is called before the first frame update
@@ -41,7 +41,7 @@ public class ChangeColor : MonoBehaviour
 
     GameObject SearchNearNPC(GameObject nowObj)
     {
-        int radius = 100;
+        int radius = 10;
         // 中心:自分(平面)の位置, 半径:radiusの球内に存在するものを検出
         Collider[] arrayCld = Physics.OverlapSphere(nowObj.transform.position, radius);
         List<GameObject> listObj = new List<GameObject>();
@@ -83,8 +83,8 @@ public class ChangeColor : MonoBehaviour
     void changeColor(GameObject nearNPC) // 上部のNPCのA-V値を参照し、色を変更
     {
         NPCAnimationController nearNPCAnimCon = nearNPC.GetComponent<NPCAnimationController>(); ;
-        byte r = (byte)nearNPCAnimCon.Arousal;
-        byte b = (byte)nearNPCAnimCon.Valence;
+        byte r = (byte)((byte)nearNPCAnimCon.Arousal - 1);
+        byte b = (byte)((byte)nearNPCAnimCon.Valence - 1);
         gameObject.GetComponent<Renderer>().material.color = new Color32(r, 0, b, 1);
     }
 }

@@ -52,7 +52,7 @@ public class RealTimeGenerate : MonoBehaviour
     void Update()
     {
         //フレーム毎一人のキャラ生成
-        if (num >= 40)
+        if (num >= 64) // 元々は40
             return;
         InitTags(1);
         GenerateParameter();
@@ -126,12 +126,13 @@ public class RealTimeGenerate : MonoBehaviour
      * 体育館では4ブロックがあってそれぞれ5行8列がある
      */
     {
-        int row = i % 40 / 8;
-        int column = i % 40 % 8;
-        int block = i / 40;
+        int row = i % 64 / 8;
+        int column = i % 64 % 8;
+        int block = i / 64;
 
         //生成したい位置
-        character.transform.position = new Vector3(5f + 2f * row, 0.8f, 2f + 1f * column);
+        character.transform.position = new Vector3(5f + 1f * row, 0.8f, 2f + 1f * column);
+        //character.transform.position = new Vector3(5f + 2f * row, 0.8f, 2f + 1f * column);
         //character.transform.position = new Vector3(5.88f + 2f * row, 0.8f, 2f + 1f * column);
         //character.transform.position = new Vector3(-10.5f + 2f * row, 0.8f, 2f + 1f * column);
         character.transform.rotation = Quaternion.Euler(0, -90, 0);
@@ -141,7 +142,9 @@ public class RealTimeGenerate : MonoBehaviour
     void SetAVCategory(int num)
     {
         animCon = character.GetComponent<NPCAnimationController>();
-        
+        character.name = character.name + "_" + num;
+
+        /*
         if (num == 4 || num == 5 || num == 6 || num == 7 || num == 13 || num == 14 || num == 15 || num == 22 || num == 23 || num == 31 )
         {
             animCon.isLegend = true;
@@ -152,6 +155,37 @@ public class RealTimeGenerate : MonoBehaviour
             animCon.isLegend = true;
             animCon.test_A = 2;
             animCon.test_V = 2;
+        }
+        */
+
+
+        /*
+        if (num == 10 || num == 11 || num == 12 || num == 13 || num == 18 || num == 19 || num == 20 || num == 21 || num == 26 || num == 27 || num == 28 || num == 29 )
+        {
+            animCon.isLegend = true;
+            animCon.test_A = 2;
+            animCon.test_V = 2;
+        }
+        */
+        //animCon.appeal = UnityEngine.Random.Range(0.1f, 0.5f);
+        animCon.appeal = 0.1f;
+
+
+        if (num == 27 || num == 28 || num == 35 || num == 36)
+        {
+            animCon.isLegend = true;
+            animCon.test_A = 2;
+            animCon.test_V = 2;
+            animCon.appeal = 1f;
+            animCon.sensitivity = 0f;
+        } else
+        {
+            animCon.isLegend = true;
+            animCon.test_A = 0;
+            animCon.test_V = 0;
+            animCon.appeal = 0.1f;
+            animCon.sensitivity = 0.8f;
+            //animCon.sensitivity = UnityEngine.Random.Range(0f, 1f);
         }
     }
 
