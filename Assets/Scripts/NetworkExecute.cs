@@ -146,7 +146,8 @@ public class NetworkExecute : MonoBehaviour
         float[] ps = new float[66];
         for (int i = 0; i < 66; i++)
             ps[i] = float.Parse(pstrings[i]);
-        if (pm.setAllParameter(ps) >= 40)
+        //if (pm.setAllParameter(ps) >= 40)
+        if (pm.setAllParameter(ps) >= 64)
             sr.Close();
     }
     public void SetSrSw(bool lastGenerate)

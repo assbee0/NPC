@@ -147,7 +147,8 @@ public class ParameterManage : MonoBehaviour
         sw.WriteLine();
         count++;
         //print(count++);
-        if (count >= 40)
+        //if (count >= 40)
+        if (count >= 64)
             sw.Close();
     }
 }
