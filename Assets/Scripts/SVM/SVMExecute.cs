@@ -25,9 +25,14 @@ public class SVMExecute : MonoBehaviour
 
     public void Predict()
     {
-        // Arousalについて
+        //////////////////////////////////////////////////////////
+        // 環境パラメタ取得
         GetSVMParameter svmP = GetComponent<GetSVMParameter>();
         float[] envParam = svmP.EnvParam;
+
+        //////////////////////////////////////////////////////////
+        // A-Vカテゴリ決定
+        // Arousalについて
         OutunitTest outunit_A = new OutunitTest();
         outunit_A.Readb(0); // 0: Arousal, 1: Valence
         outunit_A.Readw(0);

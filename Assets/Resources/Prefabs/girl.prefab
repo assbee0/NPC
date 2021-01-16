@@ -310,14 +310,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arousal: 0
   valence: 0
+  intAr: 0
+  intVa: 0
+  destAr: 0
+  destVa: 0
+  coheAr: 0
+  coheVa: 0
+  catA: 0
+  catV: 0
   timeOut: 2
+  _progress: 0
   animConArr:
-  - {fileID: 9100000, guid: 075719f0c2e86054ba4aed26a50a8f5e, type: 2}
+  - {fileID: 9100000, guid: 149d2451be329b74b904868940b44a40, type: 2}
   - {fileID: 9100000, guid: 7781337ad1fbe9b48b6ea06c1e876ad5, type: 2}
   test_A: -1
   test_V: -1
   isLegend: 0
   sensitivity: 0
+  appeal: 0
   radius: 100
 --- !u!114 &-2867009806776288337
 MonoBehaviour:

@@ -21,13 +21,17 @@ public class NPCAnimationController : MonoBehaviour
     [SerializeField] private float coheAr = 0;
     [SerializeField] private float coheVa = 0;
 
-    private int catA;
-    private int catV;
+    [SerializeField] private int catA;
+    [SerializeField] private int catV;
+    private int pastCatA;
+    private int pastCatV;
 
     public float timeOut = 20f; // 閾値
     private float timeElapsed = 0.0f; // 累計時間
     private float speed = 0.5f;　// Parameterの遷移スピード
-    private float _progress = 0f;
+    [SerializeField] private float _progress = 0f;
+    [SerializeField] private int cycle = 0;
+
     SVMExecute svmE;
     NPCAnimationController ownAnimCon;
     [SerializeField] RuntimeAnimatorController[] animConArr;
@@ -103,15 +107,22 @@ public class NPCAnimationController : MonoBehaviour
     {
         if (envParaGen.count == 15 && isInitialize == false)
         {
+            //////////////////////////////////////////////////////////
+            // 環境パラメタ取得 & A-Vカテゴリ決定 & A-V値決定 & 動作選定
             Initialize();
             //Execute();
         }
         else if (envParaGen.count == 17 && isInitialize == true)
         {
+            //////////////////////////////////////////////////////////
+            // A-Vコヒーレンスパラメタ取得
             getAroundAVValue();
+            //////////////////////////////////////////////////////////
+            // 収束A-V値決定
             destAr = GetInterpValue(pastAr, coheAr);
             destVa = GetInterpValue(pastVa, coheVa);
             isInitialize = false;
+
         }
         else if (envParaGen.count > 19)
         {
@@ -121,6 +132,8 @@ public class NPCAnimationController : MonoBehaviour
 
     void Initialize()
     {
+        //////////////////////////////////////////////////////////
+        // 環境パラメタ取得 & 初期A-Vカテゴリ決定
         svmE.Predict();
 
         // A-V値の遷移
@@ -136,6 +149,9 @@ public class NPCAnimationController : MonoBehaviour
             catA = test_A; // RealTimeGenerate.csで決められる on 2021/01/07
             catV = test_V;
         }
+
+        //////////////////////////////////////////////////////////
+        // 初期A-V値決定
         intAr = GetParameterFromCategory(catA);
         intVa = GetParameterFromCategory(catV);
         animator.SetInteger("Cat_A", catA);
@@ -148,6 +164,14 @@ public class NPCAnimationController : MonoBehaviour
 
         pastAr = intAr;
         pastVa = intVa;
+
+        pastCatA = catA;
+        pastCatV = catV;
+
+        //////////////////////////////////////////////////////////
+        // 動作選定
+        //////////////////////////////////////////////////////////
+
         /*
         getAroundAVValue();
         destAr = GetInterpValue(pastAr, coheAr);
@@ -183,6 +207,19 @@ public class NPCAnimationController : MonoBehaviour
             pastVa = valence;
             destAr = GetInterpValue(pastAr, coheAr);
             destVa = GetInterpValue(pastVa, coheVa);
+            cycle++;
+
+            if (catA != CheckCategory(arousal)) {
+                catA = CheckCategory(arousal);
+                animator.SetInteger("Cat_A", catA);
+            }
+            if (catV != CheckCategory(valence)) {
+                catV = CheckCategory(valence);
+                animator.SetInteger("Cat_V", catV);
+            }
+
+            //////////////////////////////////////////////////////////
+            // A-Vコヒーレンスパラメタ取得
             coheAr = 0;
             coheVa = 0;
             getAroundAVValue();
@@ -292,7 +329,7 @@ public class NPCAnimationController : MonoBehaviour
     public void getAroundAVValue()
     {
         // 中心:自分の位置, 半径:radiusの球内に存在するものを検出
-        Collider[] arrayCld = Physics.OverlapSphere(transform.position, 1.8f);
+        Collider[] arrayCld = Physics.OverlapSphere(transform.position, 1.5f);
         List<GameObject> listObj = new List<GameObject>();
         // 検出したGameObjectの内、tagが"NPC"であるものをlistObjリストに追加
         foreach (Collider cld in arrayCld)
@@ -323,8 +360,8 @@ public class NPCAnimationController : MonoBehaviour
             float diffVa = valence - aroundAnimCon.Valence;
             //SetAppeal(obj);
 
-            coheAr += diffAr * aroundAnimCon.appeal / avgSum;
-            coheVa += diffVa * aroundAnimCon.appeal / avgSum;
+            coheAr += diffAr * calcValue(dist) * aroundAnimCon.appeal / avgSum;
+            coheVa += diffVa * calcValue(dist) * aroundAnimCon.appeal / avgSum;
             //coheAr += aroundAnimCon.Arousal * aroundAnimCon.appeal / avgSum;
             //coheVa += aroundAnimCon.Valence * aroundAnimCon.appeal / avgSum;
 
@@ -350,10 +387,26 @@ public class NPCAnimationController : MonoBehaviour
         //Debug.Log(gameObject.name + ": coheAr=" + coheAr);
     }
 
-    public float calcValue(float aroundAppeal, float diff, float dist)
+    public float calcValue(float dist)
     {
         //return diff * aroundAppeal * (float)Math.Exp(-1 / (1 + 6 * (sensitivity - 0.5)) * (double)dist);
-        return diff * aroundAppeal * (float)Math.Exp(-1 / 25 * (double)dist);
+        //return diff * aroundAppeal * (float)Math.Exp(-1 / 25 * ((double)dist - 1));
+        return (float)Math.Exp(-1 / 25 * ((double)dist - 1));
+    }
+
+    private int CheckCategory(float value)
+    {
+        float boundary = 256.0f / 3.0f;
+        if (0.0f <= value && value < boundary)
+        {
+            return 0;
+        } else if (boundary <= value && value < boundary * 2.0f) {
+            return 1;
+        } else if (boundary * 2.0f <= value && value <= 256.0f) {
+            return 2;
+        } else {
+            return -99;
+        }
     }
 
     /*
