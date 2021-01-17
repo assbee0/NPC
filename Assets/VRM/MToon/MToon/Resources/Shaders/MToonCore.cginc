@@ -12,6 +12,7 @@ sampler2D _MainTex; float4 _MainTex_ST;
 sampler2D _SubTex; float4 _SubTex_ST;
 sampler2D _ShadeTexture;
 sampler2D _AlphaTexture;
+sampler2D _AlphaTexture2;
 half _BumpScale;
 sampler2D _BumpMap;
 sampler2D _ReceiveShadowTexture; 
@@ -139,6 +140,7 @@ float4 frag_forward(v2f i) : SV_TARGET
     half4 mainTex = tex2D(_MainTex, mainUv);
 	half4 subTex = tex2D(_SubTex, subUv);
 	half4 alphaTex = tex2D(_AlphaTexture, mainUv);
+	half4 alphaTex2 = tex2D(_AlphaTexture2, mainUv);
     
     // alpha
     half alpha = 1;
@@ -191,12 +193,11 @@ float4 frag_forward(v2f i) : SV_TARGET
     // Albedo color
     half4 shade = _ShadeColor * tex2D(_ShadeTexture, mainUv);
 	half4 lit;
+	lit = _Color * mainTex * (1-alphaTex.a) + _SubColor * mainTex * (alphaTex.a);
+	lit = lit * (1 - alphaTex2.a) + mainTex * alphaTex2.a;
+
 	if (saturate(dot(/*_Color */ mainTex, subTex)) == 1)
-	//if(subTex.a!=0)
-		lit = _SubColor * subTex;
-	else
-		lit = _Color * mainTex ;
-	lit = _Color * mainTex * (1-alphaTex.a) + _SubColor * subTex * (alphaTex.a);
+		lit = subTex;
     half3 col = lerp(shade.rgb, lit.rgb, lightIntensity);
 
     // Direct Light

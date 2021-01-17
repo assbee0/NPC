@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: tops5_m1
   m_Shader: {fileID: 4800000, guid: 1a97144e4ad27a04aafd70f7b915cedb, type: 3}
-  m_ShaderKeywords: MTOON_OUTLINE_COLOR_MIXED MTOON_OUTLINE_WIDTH_WORLD _ALPHATEST_ON
+  m_ShaderKeywords: MTOON_OUTLINE_COLOR_FIXED MTOON_OUTLINE_WIDTH_WORLD _ALPHATEST_ON
     _NORMALMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -21,8 +21,16 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AlphaTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AlphaTexture2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 275066606a6ed444d8c9c760cb8408ac, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9b8375c18f1f7d541acca858a799c5c1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -75,10 +83,10 @@ Material:
     - _IndirectLightIntensity: 0.1
     - _LightColorAttenuation: 0
     - _MToonVersion: 32
-    - _OutlineColorMode: 1
+    - _OutlineColorMode: 0
     - _OutlineCullMode: 1
     - _OutlineLightingMix: 1
-    - _OutlineScaledMaxDistance: 4.63
+    - _OutlineScaledMaxDistance: 1
     - _OutlineWidth: 0.075
     - _OutlineWidthMode: 1
     - _ReceiveShadowRate: 1
@@ -99,4 +107,5 @@ Material:
     - _OutlineColor: {r: 0.27450982, g: 0.09019608, b: 0.1254902, a: 1}
     - _RimColor: {r: 0, g: 0, b: 0, a: 1}
     - _ShadeColor: {r: 0.8117647, g: 0.8392157, b: 0.96862745, a: 1}
+    - _SubColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

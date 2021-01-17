@@ -18,6 +18,8 @@ public class ClothesCustom : MonoBehaviour
     private List<BoneIndex> boneindex;
     private int topsIndex = 1;
     private int bottomsIndex = 1;
+    public static int[] topsPatterns = { 2, 2, 1, 2, 1, 1, 1, 2, 2, 2 };
+    public static int[] bottomsPatterns = { 4, 4, 1, 1, 1, 3, 2};
     private Color[] clothesPalette =
     {
         new Color(0.745f, 0.718f, 0.698f), new Color(0.149f, 0.184f, 0.282f),  new Color(0.565f, 0.506f, 0.467f),
@@ -88,16 +90,7 @@ public class ClothesCustom : MonoBehaviour
 
         //各トップスモデルによってパターンの数が変わるのでスライダの最大値を調整
         Slider pattern = slider.gameObject.transform.parent.GetChild(1).GetComponent<Slider>();
-        switch (topsIndex)
-        {
-            case 1: pattern.maxValue = 4; break;
-            case 2: pattern.maxValue = 6; break;
-            case 3: pattern.maxValue = 2; break;
-            case 4: pattern.maxValue = 8; break;
-            case 5: pattern.maxValue = 3; break;
-            case 6: pattern.maxValue = 7; break;
-            case 7: pattern.maxValue = 1; break;
-        }
+        pattern.maxValue = topsPatterns[topsIndex-1];
         pattern.value = 1;
 
         //トップスがOnepieceの場合はボトムスが着れないようにbottomsボタンを無効にする
@@ -184,16 +177,8 @@ public class ClothesCustom : MonoBehaviour
 
         //各ボトムスモデルによってパターンの数が変わるのでスライダの最大値を調整
         Slider pattern = slider.gameObject.transform.parent.GetChild(1).GetComponent<Slider>();
-        switch (bottomsIndex)
-        {
-            case 1: pattern.maxValue = 5; break;
-            case 2: pattern.maxValue = 1; break;
-            case 3: pattern.maxValue = 5; break;
-            case 4: pattern.maxValue = 5; break;
-        }
+        pattern.maxValue = bottomsPatterns[bottomsIndex - 1];
         pattern.value = 1;
-        Slider length = slider.gameObject.transform.parent.GetChild(2).GetComponent<Slider>();
-        length.value = 1;
 
         //旧ボトムスを削除
         Destroy(bottoms1);
@@ -212,7 +197,7 @@ public class ClothesCustom : MonoBehaviour
     }
     public void BottomsDetail(Slider slider)
     {
-        int index = (int)slider.value;
+        /*int index = (int)slider.value;
         if (bottomsIndex == 1)
         {
             bottomsSmr.bones[7].parent.localScale = new Vector3(1, index, 1);
@@ -221,7 +206,7 @@ public class ClothesCustom : MonoBehaviour
         else if (bottomsIndex == 2)
         {
             bottomsSmr.material = Resources.Load<Material>("Materials/Bottoms/bottoms" + bottomsIndex + "_m" + index);
-        }
+        }*/
         
     }
     public void ChangeShoes(Slider slider)

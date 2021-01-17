@@ -70,7 +70,10 @@ public class RealTimeGenerate : MonoBehaviour
         GameObject.FindGameObjectWithTag("Face").tag = "Untagged";
         GameObject.FindGameObjectWithTag("Hair").tag = "Untagged";
         GameObject.FindGameObjectWithTag("Head").tag = "Untagged";
-        GameObject.FindGameObjectWithTag("Tops").tag = "Untagged";
+        if (GameObject.FindGameObjectWithTag("Tops") != null)
+            GameObject.FindGameObjectWithTag("Tops").tag = "Untagged";
+        else
+            GameObject.FindGameObjectWithTag("Onepiece").tag = "Untagged";
         GameObject.FindGameObjectWithTag("Shoes").tag = "Untagged";
         if (GameObject.FindGameObjectWithTag("Bottoms") != null)
             GameObject.FindGameObjectWithTag("Bottoms").tag = "Untagged";

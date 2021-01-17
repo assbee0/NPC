@@ -23,6 +23,7 @@ namespace MToon
         public const string PropSubColor = "_SubColor";
         public const string PropShadeTexture = "_ShadeTexture";
         public const string PropAlphaTexture = "_AlphaTexture";
+        public const string PropAlphaTexture2 = "_AlphaTexture2";
         public const string PropBumpScale = "_BumpScale";
         public const string PropBumpMap = "_BumpMap";
         public const string PropReceiveShadowRate = "_ReceiveShadowRate";

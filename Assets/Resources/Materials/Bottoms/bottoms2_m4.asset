@@ -10,6 +10,7 @@ Material:
   m_Name: bottoms2_m4
   m_Shader: {fileID: 4800000, guid: 1a97144e4ad27a04aafd70f7b915cedb, type: 3}
   m_ShaderKeywords: MTOON_OUTLINE_COLOR_FIXED MTOON_OUTLINE_WIDTH_WORLD _ALPHATEST_ON
+    _NORMALMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -20,8 +21,16 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _BumpMap:
+    - _AlphaTexture:
+        m_Texture: {fileID: 2800000, guid: 3ccf45b0ee955fc47b6f822fb491ffe9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AlphaTexture2:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: 23baff00fa447d94a90fecf587067e88, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -29,8 +38,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 156ed0da5fd7e204a80fef537f2f0da3, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: b19e8fd1be3ab3c42b807c82aeedf9be, type: 3}
+        m_Scale: {x: 1, y: 2}
         m_Offset: {x: 0, y: 0}
     - _OutlineWidthTexture:
         m_Texture: {fileID: 0}
@@ -45,7 +54,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShadeTexture:
-        m_Texture: {fileID: 2800000, guid: 156ed0da5fd7e204a80fef537f2f0da3, type: 3}
+        m_Texture: {fileID: 2800000, guid: b19e8fd1be3ab3c42b807c82aeedf9be, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShadingGradeTexture:
@@ -53,7 +62,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SphereAdd:
-        m_Texture: {fileID: 2800000, guid: 494da773cf0f2d04e8b204ef6c030cd5, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6714bd0b6e4576a4687fc9d66c91f282, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SubTex:
@@ -66,7 +75,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BlendMode: 1
-    - _BumpScale: 0.5
+    - _BumpScale: 1
     - _CullMode: 0
     - _Cutoff: 0.5
     - _DebugMode: 0
@@ -98,4 +107,5 @@ Material:
     - _OutlineColor: {r: 0.27450982, g: 0.09019608, b: 0.1254902, a: 1}
     - _RimColor: {r: 0, g: 0, b: 0, a: 1}
     - _ShadeColor: {r: 0.8117647, g: 0.8392157, b: 0.96862745, a: 1}
+    - _SubColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

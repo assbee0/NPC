@@ -18,6 +18,7 @@ TagManager:
   - Chair
   - Ground
   - Wall
+  - Door
   layers:
   - Default
   - TransparentFX

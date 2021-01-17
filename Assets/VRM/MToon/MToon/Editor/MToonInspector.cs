@@ -42,6 +42,7 @@ namespace MToon
         private MaterialProperty _shadeShift;
         private MaterialProperty _shadeTexture;
         private MaterialProperty _alphaTexture;
+        private MaterialProperty _alphaTexture2;
         private MaterialProperty _shadeToony;
         private MaterialProperty _sphereAdd;
         private MaterialProperty _rimColor;
@@ -71,6 +72,7 @@ namespace MToon
             _subColor = FindProperty(Utils.PropSubColor, properties);
             _shadeTexture = FindProperty(Utils.PropShadeTexture, properties);
             _alphaTexture = FindProperty(Utils.PropAlphaTexture, properties);
+            _alphaTexture2 = FindProperty(Utils.PropAlphaTexture2, properties);
             _bumpScale = FindProperty(Utils.PropBumpScale, properties);
             _bumpMap = FindProperty(Utils.PropBumpMap, properties);
             _receiveShadowRate = FindProperty(Utils.PropReceiveShadowRate, properties);
@@ -136,15 +138,18 @@ namespace MToon
                 {
                     EditorGUILayout.LabelField("Texture", EditorStyles.boldLabel);
                     {
-                        materialEditor.TexturePropertySingleLine(new GUIContent("Lit Color, Alpha", "Lit (RGB), Alpha (A)"),
+                        materialEditor.TexturePropertySingleLine(new GUIContent("Lit Color", "Lit (RGB), Alpha (A)"),
                             _mainTex, _color);
 
-                        materialEditor.TexturePropertySingleLine(new GUIContent("Sub Color", "Sub (RGB)"),
-                            _subTex, _subColor);
+                        materialEditor.TexturePropertySingleLine(new GUIContent("Alpha, Sub Color", "Sub (RGB)"),
+                            _alphaTexture, _subColor);
+
+                        materialEditor.TexturePropertySingleLine(new GUIContent("Alpha2", "Alpha2"),
+                            _alphaTexture2);
 
                         materialEditor.TexturePropertySingleLine(new GUIContent("Shade Color", "Shade (RGB)"), _shadeTexture,
                             _shadeColor);
-                        materialEditor.TexturePropertySingleLine(new GUIContent("Alpha Channal", "Alpha "), _alphaTexture);
+                        materialEditor.TexturePropertySingleLine(new GUIContent("Sub Texture", "Sub Tex "), _subTex);
                     }
                     var bm = (RenderMode) _blendMode.floatValue;
                     if (bm == RenderMode.Cutout)

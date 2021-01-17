@@ -68,22 +68,13 @@ public class ParameterManage : MonoBehaviour
             int minvalue = (int)si.minValue;
             int maxvalue = (int)si.maxValue + 1;
             int random = Random.Range(minvalue, maxvalue);
-            if (random == 5 && i == 44)
-                random = 4;
+            if (random == 10 && i == 44)
+                random = 9;
             si.SetValueWithoutNotify(random);
             p[i] = si.value;
         }
         Slider s50 = customParameter[50].GetComponent<Slider>();
-        switch (p[44])
-        {
-            case 1: s50.maxValue = 4; break;
-            case 2: s50.maxValue = 6; break;
-            case 3: s50.maxValue = 2; break;
-            case 4: s50.maxValue = 8; break;
-            case 5: s50.maxValue = 3; break;
-            case 6: s50.maxValue = 7; break;
-            case 7: s50.maxValue = 1; break;
-        }
+        s50.maxValue = ClothesCustom.topsPatterns[(int)p[44]-1];
         s50.SetValueWithoutNotify(Random.Range(s50.minValue, s50.maxValue));
         p[50] = s50.value;
     }

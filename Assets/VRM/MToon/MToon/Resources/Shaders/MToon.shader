@@ -10,6 +10,7 @@ Shader "VRM/MToon"
 		[NoScaleOffset] _SubTex("Sub Texture", 2D) = "black" {}
         [NoScaleOffset] _ShadeTexture ("Shade Texture", 2D) = "white" {}
         [NoScaleOffset] _AlphaTexture ("Alpha Texture", 2D) = "black" {}
+        [NoScaleOffset] _AlphaTexture2 ("Alpha Texture 2", 2D) = "black" {}
         _BumpScale ("Normal Scale", Float) = 1.0
         [Normal] _BumpMap ("Normal Texture", 2D) = "bump" {}
         _ReceiveShadowRate ("Receive Shadow", Range(0, 1)) = 1
