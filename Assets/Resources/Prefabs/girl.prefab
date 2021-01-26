@@ -320,9 +320,12 @@ MonoBehaviour:
   catV: 0
   timeOut: 2
   _progress: 0
+  cycle: 0
   animConArr:
   - {fileID: 9100000, guid: 149d2451be329b74b904868940b44a40, type: 2}
   - {fileID: 9100000, guid: 7781337ad1fbe9b48b6ea06c1e876ad5, type: 2}
+  - {fileID: 9100000, guid: 0e26c65c817d0b746955efd1015e8808, type: 2}
+  - {fileID: 9100000, guid: 127f5023564f52848a75223a42c9ab6f, type: 2}
   test_A: -1
   test_V: -1
   isLegend: 0

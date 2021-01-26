@@ -13,7 +13,7 @@ public class EnvParameterGenerate : MonoBehaviour
     public int test_catA = 0;
     public int test_catV = 0;
 
-    public bool isWave = false;
+    public bool isOnlyWave = false;
 
     public float sensitivity = 10;
 
@@ -34,7 +34,7 @@ public class EnvParameterGenerate : MonoBehaviour
     void CountUp()
     {
         count += 1;
-        Debug.Log("count: " + count);
+        //Debug.Log("count: " + count);
     }
 
     /*

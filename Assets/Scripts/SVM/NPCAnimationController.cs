@@ -90,12 +90,16 @@ public class NPCAnimationController : MonoBehaviour
             animator.runtimeAnimatorController = animConArr[1];
         }
 
-        if (envParaGen.isWave)
+        if (envParaGen.isOnlyWave)
         {
-            animator.SetBool("isWave", true);
-        } else
-        {
-            animator.SetBool("isWave", false);
+            if (UnityEngine.Random.value > 0.9)
+            {
+                animator.runtimeAnimatorController = animConArr[2];
+            }
+            else
+            {
+                animator.runtimeAnimatorController = animConArr[3];
+            }
         }
 
         //Invoke("Initialize", 16);
@@ -216,6 +220,11 @@ public class NPCAnimationController : MonoBehaviour
             if (catV != CheckCategory(valence)) {
                 catV = CheckCategory(valence);
                 animator.SetInteger("Cat_V", catV);
+            }
+
+            if (this.name.Equals("girl(Clone)_19"))
+            {
+                Debug.Log("cycle: " + cycle);
             }
 
             //////////////////////////////////////////////////////////
@@ -370,14 +379,14 @@ public class NPCAnimationController : MonoBehaviour
             //coheAr += calcValue(aroundAnimCon.appeal, diffAr, dist) / sum;
             //coheVa += calcValue(aroundAnimCon.appeal, diffVa, dist) / sum;
 
-            if (this.name.Equals("girl(Clone)_19") && obj.name.Equals("girl(Clone)_27"))
-            {
-                Debug.Log(gameObject.name + ": obj=" + obj);
-                Debug.Log(gameObject.name + ": own.Ar=" + arousal);
-                Debug.Log(gameObject.name + ": obj.Ar=" + aroundAnimCon.Arousal);
-                Debug.Log(gameObject.name + ": diffAr=" + diffAr);
-                Debug.Log(gameObject.name + ": coheAr=" + coheAr);
-            }
+            //if (this.name.Equals("girl(Clone)_19") && obj.name.Equals("girl(Clone)_27"))
+            //{
+            //    Debug.Log(gameObject.name + ": obj=" + obj);
+            //    Debug.Log(gameObject.name + ": own.Ar=" + arousal);
+            //    Debug.Log(gameObject.name + ": obj.Ar=" + aroundAnimCon.Arousal);
+            //    Debug.Log(gameObject.name + ": diffAr=" + diffAr);
+            //    Debug.Log(gameObject.name + ": coheAr=" + coheAr);
+            //}
  
 
         }

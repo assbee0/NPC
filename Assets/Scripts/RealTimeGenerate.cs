@@ -192,8 +192,8 @@ public class RealTimeGenerate : MonoBehaviour
             animCon.test_A = 0;
             animCon.test_V = 0;
             animCon.appeal = 0.1f;
-            animCon.sensitivity = 0.8f;
-            //animCon.sensitivity = UnityEngine.Random.Range(0f, 1f);
+            //animCon.sensitivity = 0.8f;
+            animCon.sensitivity = UnityEngine.Random.Range(0f, 1f);
         }
     }
 
