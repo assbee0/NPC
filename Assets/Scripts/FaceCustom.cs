@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class FaceCustom : MonoBehaviour
 {
+    private bool isRealTime = false;
     private int modelIndex;                                 //モデル性別　1: 女の子　2: 男の子
     private GameObject faceModel;
     private GameObject bodyModel;
@@ -34,16 +35,19 @@ public class FaceCustom : MonoBehaviour
     void Update()
     {
         pm = this.GetComponent<ParameterManage>();
-        HeadCustom();
-        EyebrowsCustom();
-        EyebrowsColor();
-        EyesCustom();
-        EyesColor();
-        NoseCustom();
-        MouthCustom();
-        EarsCustom();
-        BodyCustom();
-        BodyColor();
+        if(!isRealTime)
+        { 
+            HeadCustom();
+            EyebrowsCustom();
+            EyebrowsColor();
+            EyesCustom();
+            EyesColor();
+            NoseCustom();
+            MouthCustom();
+            EarsCustom();
+            BodyCustom();
+            BodyColor();
+        }
     }
     void HeadCustom()
     {
@@ -266,6 +270,27 @@ public class FaceCustom : MonoBehaviour
     {
         modelIndex = model;
     }
+    public void SetRealTime(bool realTime)
+    {
+        isRealTime = realTime;
+    }
+
+    public void RealTimeChangeFaceBody(int pattern)
+    {
+        modelIndex = pattern;
+        HeadCustom();
+        EyebrowsCustom();
+        EyebrowsColor();
+        EyesCustom();
+        EyesColor();
+        NoseCustom();
+        MouthCustom();
+        EarsCustom();
+        BodyCustom();
+        BodyColor();
+        print("fuck");
+    }
+
     Vector3 Vector3Divide(Vector3 a, Vector3 b)
     {
         return new Vector3(a.x / b.x, a.y / b.y, a.z / b.z);

@@ -69,8 +69,8 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 337279243499710235}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -1248,7 +1248,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7512621525166730683}
   m_Layer: 10
-  m_Name: tops5
+  m_Name: tops10
   m_TagString: Onepiece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

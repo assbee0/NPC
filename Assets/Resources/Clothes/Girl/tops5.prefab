@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1197192914849835771}
   m_Layer: 10
-  m_Name: tops7
+  m_Name: tops5
   m_TagString: Tops
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -225,8 +225,8 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3546356896231095601}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1

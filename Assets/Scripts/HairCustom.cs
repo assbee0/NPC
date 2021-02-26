@@ -7,7 +7,7 @@ using System.Text;
 
 public class HairCustom : MonoBehaviour
 {
-
+    private bool isRealTime = false;
     //モデル性別　1: 女の子　2: 男の子
     private int modelIndex;
     //実装された髪型数（男の子）
@@ -45,11 +45,15 @@ public class HairCustom : MonoBehaviour
     void Update()
     {
         pm = GetComponent<ParameterManage>();
-        //一番最後の髪型は男の坊主頭だから細かい調整はない
-        if (modelIndex == 2 && currentindex == hairStyleNum)
-            return;
-        HairColor();
-        HairDetail();
+        if(!isRealTime)
+        {
+            //一番最後の髪型は男の坊主頭だから細かい調整はない
+            if (modelIndex == 2 && currentindex == hairStyleNum)
+                return;
+            HairColor();
+            HairDetail();
+        }
+        
     }
     public void HairColor()
     {
@@ -92,6 +96,8 @@ public class HairCustom : MonoBehaviour
      *　髪型チェンジ、Slider Hair Styleの値が変わるとき実行
      */
     {
+        if (isRealTime)
+            return;
         //スライダから値を取る
         int index = (int)slider.value;
         currentindex = index;
@@ -113,7 +119,7 @@ public class HairCustom : MonoBehaviour
                 Destroy(hair1);
                 return;
             }
-            hair2 = Resources.Load<GameObject>("Hair/Boy/bhair" + index);
+            hair2 = Resources.Load<GameObject>("Hair/Boy/hair" + index);
         }
         
         if (hair2 == null)
@@ -261,11 +267,12 @@ public class HairCustom : MonoBehaviour
             currentindex = boyIndex + girlHairStyleNum;
         }  
     }
-    public void RealTimeChangeHair()
+    public void RealTimeChangeHair(int pattern)
     /*
      *　髪型チェンジ、Slider Hair Styleの値が変わるとき実行
      */
     {
+        modelIndex = pattern;
         //スライダから値を取る
         int index = (int)pm.getParameter(33);
         currentindex = index;
@@ -287,7 +294,7 @@ public class HairCustom : MonoBehaviour
                 Destroy(hair1);
                 return;
             }
-            hair2 = Resources.Load<GameObject>("Hair/Boy/bhair" + index);
+            hair2 = Resources.Load<GameObject>("Hair/Boy/hair" + index);
         }
 
         if (hair2 == null)
@@ -304,6 +311,14 @@ public class HairCustom : MonoBehaviour
         //旧髪型削除
         if (hair1 != null)
             Destroy(hair1);
+
+        HairColor();
+        HairDetail();
+    }
+
+    public void SetRealTime(bool realTime)
+    {
+        isRealTime = realTime;
     }
 }
 

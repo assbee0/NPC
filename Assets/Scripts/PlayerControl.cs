@@ -1,27 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class PlayerControl : MonoBehaviour {
 
     public float speed = 6.0f;
     public float gravity = 20.0f;
     private Rigidbody rb = null;
+    private NavMeshAgent agent;
     private Animator animator = null;
     private Vector3 moveForward = Vector3.zero;
     private bool isRun = false;
     private bool isJump = false;
     private bool canSit = false;
     private bool canActDoor = false;
+    private bool canActStage = false;
     private bool isGrounded = true;
     private GameObject actTarget;
     private Vector2 move = new Vector2(0, 0);
+    private Transform panel;
     // Use this for initialization
     void Start()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
+        agent = GetComponent<NavMeshAgent>();
+        panel = GameObject.Find("Canvas_Play").transform.GetChild(1);
     }
 
     // Update is called once per frame
@@ -49,6 +56,9 @@ public class PlayerControl : MonoBehaviour {
                 animator.SetBool("isSit", true);
             else if (canActDoor)
                 actTarget.GetComponent<Door>().ActiveFlag();
+            else if (canActStage)
+                panel.parent.GetChild(2).gameObject.SetActive(true);
+            //agent.SetDestination(new Vector3(-10, 0.8f, 2));
         }
         if (move.x != 0 || move.y != 0 )
             animator.SetBool("isSit", false);
@@ -131,7 +141,7 @@ public class PlayerControl : MonoBehaviour {
             animator.SetFloat("runSpeed", rb.velocity.magnitude / 4f);
         }
     }
-    private void OnTriggerStay(Collider collider)
+    private void OnTriggerEnter(Collider collider)
     {
         if (collider.tag == "Chair")
             canSit = true;
@@ -139,7 +149,14 @@ public class PlayerControl : MonoBehaviour {
         {
             canActDoor = true;
             actTarget = collider.gameObject;
-            GameObject.Find("Canvas_Play").transform.GetChild(1).gameObject.SetActive(true);
+            panel.gameObject.SetActive(true);
+            panel.GetChild(0).GetComponent<Text>().text = "F: Open/Close Door";
+        }
+        else if(collider.tag == "Stage")
+        {
+            canActStage = true;
+            panel.gameObject.SetActive(true);
+            panel.GetChild(0).GetComponent<Text>().text = "F: Start Performance";
         }
     }
     private void OnTriggerExit(Collider collider)
@@ -149,7 +166,12 @@ public class PlayerControl : MonoBehaviour {
         if (collider.tag == "Door")
         {
             canActDoor = false;
-            GameObject.Find("Canvas_Play").transform.GetChild(1).gameObject.SetActive(false);
+            panel.gameObject.SetActive(false);
+        }
+        else if (collider.tag == "Stage")
+        {
+            canActStage = false;
+            panel.gameObject.SetActive(false);
         }
     }
 }

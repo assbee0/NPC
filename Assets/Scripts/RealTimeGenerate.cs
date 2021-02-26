@@ -2,17 +2,23 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class RealTimeGenerate : MonoBehaviour
 {
     // Start is called before the first frame update
+    public int NPCNumbers = 0;
+    private int initNPCNumbers = 80;
+    private int maxNPCNumbers = 80;
+    private bool initOver = false;
     private FaceCustom facecustom;
     private HairCustom haircustom;
     private ClothesCustom clothescustom;
     private NetworkExecute networkexecute;
     private GameObject character;
     private GameObject black;
-    private int num = 0;
+    private GameObject mainCamera;
+    private GameObject loadingCamera;
     private int[] posx = new int[] { -46, 60, -24, 52, -32, 44, -40, 36, -40, 68 };
     public bool lastGenerate = false;
     void Start()
@@ -23,10 +29,11 @@ public class RealTimeGenerate : MonoBehaviour
         clothescustom = GetComponent<ClothesCustom>();
         networkexecute = GetComponent<NetworkExecute>();
         networkexecute.SetSrSw(lastGenerate);
+        mainCamera = GameObject.Find("Main Camera");
+        loadingCamera = GameObject.Find("Loading Camera");
 
-        //facecustom.enabled = false;
-        //haircustom.enabled = false;
-        //clothescustom.enabled = false;
+        mainCamera.SetActive(false);
+        loadingCamera.SetActive(true);
 
 
         //実行時間測る、普段はコメント化で
@@ -37,7 +44,7 @@ public class RealTimeGenerate : MonoBehaviour
             // InitTags(1);
              GenerateParameter();
          }
-         networkexecute.sw.Close();
+         //networkexecute.sw.Close();
          sw.Stop();
          Debug.Log(sw.ElapsedMilliseconds + "ms");*/
 
@@ -48,15 +55,42 @@ public class RealTimeGenerate : MonoBehaviour
     void Update()
     {
         //フレーム毎一人のキャラ生成
-        if (num >= 40)
+        if (!initOver)
+            InitGenerate();
+        
+
+    }
+
+    private void InitGenerate()
+    {
+        if (NPCNumbers < initNPCNumbers)
+            GenerateOneNPC();
+        else if (NPCNumbers == initNPCNumbers)
         {
+            mainCamera.SetActive(true);
+            mainCamera.GetComponent<CameraLockOn>().enabled = true;
+            loadingCamera.SetActive(false);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>().enabled = true;
+
+            facecustom.enabled = false;
+            haircustom.enabled = false;
+            clothescustom.enabled = false;
+            initOver = true;
             return;
         }
-        InitTags(1);
-        GenerateParameter();
-        ChangeAllObject();
-        SetSitPosition(num);
-        num++;
+    }
+
+    public void GenerateOneNPC()
+    {
+        if (NPCNumbers >= maxNPCNumbers)
+            return;
+        int randomIndex = Random.Range(1, 3);
+        InitTags(randomIndex);
+        GenerateParameter(randomIndex);
+        ChangeAllObject(randomIndex);
+        //SetSitPosition(num);
+        SetPattern(NPCNumbers);
+        NPCNumbers++;
     }
 
     void InitTags(int pattern)
@@ -65,10 +99,12 @@ public class RealTimeGenerate : MonoBehaviour
      * 間違えないように前の生成済みのキャラのタグをリセットする
      */
     {
-
-        GameObject.FindGameObjectWithTag("Body").tag = "Untagged";
-        GameObject.FindGameObjectWithTag("Face").tag = "Untagged";
-        GameObject.FindGameObjectWithTag("Hair").tag = "Untagged";
+        if (GameObject.FindGameObjectWithTag("Body") != null)
+            GameObject.FindGameObjectWithTag("Body").tag = "Untagged";
+        if (GameObject.FindGameObjectWithTag("Face") != null)
+            GameObject.FindGameObjectWithTag("Face").tag = "Untagged";
+        if (GameObject.FindGameObjectWithTag("Hair") != null)
+            GameObject.FindGameObjectWithTag("Hair").tag = "Untagged";
         GameObject.FindGameObjectWithTag("Head").tag = "Untagged";
         if (GameObject.FindGameObjectWithTag("Tops") != null)
             GameObject.FindGameObjectWithTag("Tops").tag = "Untagged";
@@ -79,9 +115,9 @@ public class RealTimeGenerate : MonoBehaviour
             GameObject.FindGameObjectWithTag("Bottoms").tag = "Untagged";
         GameObject prefab;
         if (pattern == 1)
-            prefab = Resources.Load<GameObject>("Prefabs/girl");
+            prefab = Resources.Load<GameObject>("Prefabs/girlNPC");
         else
-            prefab = Resources.Load<GameObject>("Prefabs/girl");
+            prefab = Resources.Load<GameObject>("Prefabs/boyNPC");
         if (prefab == null)
             return;
 
@@ -94,34 +130,33 @@ public class RealTimeGenerate : MonoBehaviour
         haircustom.RefindObject();
         clothescustom.RefindObject();
 
-
     }
-    void GenerateParameter()
+    void GenerateParameter(int pattern)
     {
         //全パラメータをランダムに生成
         if (!lastGenerate)
-            networkexecute.RandomGenerate();
+        {
+            networkexecute.ColorGenerate(pattern);
+            //networkexecute.RandomGenerate();
+        }
         else
             networkexecute.ReadGenerate();
     }
-    void ChangeAllObject()
+    void ChangeAllObject(int pattern)
     /*
      * モデルを一部入れ替える調整について（例：髪型、服）
      * カスタムと同じやり方だと実行順が混乱になっちゃうので
      * リアルタイム生成での特有な方法で調整する
      */
     {
-        haircustom.RealTimeChangeHair();
-        clothescustom.RealTimeChangeClothes();
-        clothescustom.RealTimeChangeBottoms();
-        clothescustom.RealTimeChangeShitagi();
-        clothescustom.RealTimeChangeShoes();
+        haircustom.RealTimeChangeHair(pattern);
+        clothescustom.RealTimeChangeClothes(pattern);
+        facecustom.RealTimeChangeFaceBody(pattern);
+        // CombineMesh();
     }
-    void SetPosition(int i)
+    void SetPattern(int i)
     {
-        float posz = Random.Range(-1f, 1f);
-        character.transform.position = new Vector3(posx[i], 0, posz);
-        character.transform.rotation = Quaternion.Euler(0, 90+i*180, 0);
+        character.GetComponent<NPCController>().SetPattern(i);
     }
     void SetSitPosition(int i)
     /*
@@ -142,8 +177,8 @@ public class RealTimeGenerate : MonoBehaviour
     {
         print("start");
         InitTags(1);
-        GenerateParameter();
-        SetPosition(Random.Range(0,2));
+        GenerateParameter(1);
         print("over");
     }
+
 }

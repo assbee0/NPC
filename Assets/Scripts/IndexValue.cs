@@ -14,6 +14,8 @@ public class IndexValue : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        tex.text = SaveLoad.number[0].ToString() + "   " + SaveLoad.number[1].ToString() + "   " + SaveLoad.number[2].ToString();
+        tex.text = SaveLoad.number[0].ToString() + "   " + SaveLoad.number[1].ToString() + "   " + SaveLoad.number[2].ToString()
+            + "   " + SaveLoad.number[3].ToString() + "   " + SaveLoad.number[4].ToString() + "   " + SaveLoad.number[5].ToString()
+            + "   " + SaveLoad.number[6].ToString() + "   " + SaveLoad.number[7].ToString() + "   " + SaveLoad.number[8].ToString() + "   " + SaveLoad.number[9].ToString();
     }
 }

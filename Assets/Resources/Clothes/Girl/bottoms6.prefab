@@ -71,7 +71,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4456906257702951580}
   m_Layer: 10
-  m_Name: bottoms3
+  m_Name: bottoms6
   m_TagString: Bottoms
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -194,8 +194,8 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3236985345109622010}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1

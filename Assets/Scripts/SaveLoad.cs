@@ -8,7 +8,7 @@ public class SaveLoad : MonoBehaviour
 {
     // Start is called before the first frame update
     [HideInInspector]
-    public static int[] number = new int[3];
+    public static int[] number = new int[10];
 
     void Start()
     {
@@ -16,7 +16,7 @@ public class SaveLoad : MonoBehaviour
         if (!File.Exists(filepath))
             return;
         StreamReader sr = new StreamReader(filepath, Encoding.UTF8);
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < 10; i++)
         {
             string nums = sr.ReadLine();
             number[i] = int.Parse(nums);
@@ -34,9 +34,10 @@ public class SaveLoad : MonoBehaviour
         if (!File.Exists(filepath))
             return;
         StreamWriter sw = new StreamWriter(filepath);
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 10; i++)
             sw.WriteLine(number[i]);
         sw.Close();
+        CreateDirect();
     }
     public void NumberReset()
     {
@@ -44,7 +45,7 @@ public class SaveLoad : MonoBehaviour
         if (!File.Exists(filepath))
             return;
         StreamWriter sw = new StreamWriter(filepath);
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 10; i++)
         {
             sw.WriteLine(1);
             number[i] = 1;
@@ -53,8 +54,8 @@ public class SaveLoad : MonoBehaviour
     }
     public void CreateDirect()
     {
-        for(int i = 0; i < 3; i++)
-            if (!Directory.Exists("E:/character dataset2/Level " + (i+1) + "/" + number[i]))
-                Directory.CreateDirectory("E:/character dataset2/Level " + (i+1) + "/" + number[i]);
+        for(int i = 0; i < 10; i++)
+            if (!Directory.Exists(Application.dataPath + "/character dataset/Level " + (i+1) + "/" + number[i]))
+                Directory.CreateDirectory(Application.dataPath + "/character dataset/Level " + (i+1) + "/" + number[i]);
     }
 }

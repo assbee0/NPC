@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ClothesCustom : MonoBehaviour
 {
+    private bool isRealTime = false;
     //モデル性別　1: 女の子　2: 男の子
     private int modelIndex;
     //体モデル
@@ -18,8 +19,10 @@ public class ClothesCustom : MonoBehaviour
     private List<BoneIndex> boneindex;
     private int topsIndex = 1;
     private int bottomsIndex = 1;
-    public static int[] topsPatterns = { 2, 2, 1, 2, 1, 1, 1, 2, 2, 2 };
-    public static int[] bottomsPatterns = { 4, 4, 1, 1, 1, 3, 2};
+    public static int[] topsPatternsGirl = { 2, 2, 1, 2, 1, 1, 1, 2, 2, 2 };
+    public static int[] topsPatternsBoy = { 2, 2, 1, 1};
+    public static int[] bottomsPatternsGirl = { 4, 4, 1, 1, 1, 3, 2};
+    public static int[] bottomsPatternsBoy = { 3 };
     private Color[] clothesPalette =
     {
         new Color(0.745f, 0.718f, 0.698f), new Color(0.149f, 0.184f, 0.282f),  new Color(0.565f, 0.506f, 0.467f),
@@ -38,7 +41,6 @@ public class ClothesCustom : MonoBehaviour
         shoesSmr = GameObject.FindGameObjectWithTag("Shoes").GetComponentInChildren<SkinnedMeshRenderer>();
         //for (int i = 0; i < bodySmr.bones.Length; i++)
          //print(i + " " + bodySmr.bones[i]);
-        BoneIndexInit();
 
         //キャラクタと服のボーンを共有させる
         if (topsSmr != null) 
@@ -53,11 +55,14 @@ public class ClothesCustom : MonoBehaviour
     void Update()
     {
         pm = GetComponent<ParameterManage>();
-        TopsColor();
-        if (bottomsSmr != null)
-            BottomsColor();
-        ShoesColor();
-       // DeleteBottoms();
+        if(!isRealTime)
+        {
+            TopsColor();
+            if (bottomsSmr != null)
+                BottomsColor();
+            ShoesColor();
+            // DeleteBottoms();
+        }
     }
     public void ChangeClothes(Slider slider)
     /*
@@ -65,6 +70,8 @@ public class ClothesCustom : MonoBehaviour
      *　上着はTopsとOnepiece二種類がある
      */
     {
+        if (isRealTime)
+            return;
         //スライダから値を取る
         int index = (int)slider.value;
         //現在のトップスを探す
@@ -78,7 +85,7 @@ public class ClothesCustom : MonoBehaviour
         if (modelIndex == 1) 
             tops2 = Resources.Load<GameObject>("Clothes/Girl/tops" + index);
         else
-            tops2 = Resources.Load<GameObject>("Clothes/Boy/btops" + index);
+            tops2 = Resources.Load<GameObject>("Clothes/Boy/tops" + index);
         if (tops2 == null)
             return;
 
@@ -90,7 +97,10 @@ public class ClothesCustom : MonoBehaviour
 
         //各トップスモデルによってパターンの数が変わるのでスライダの最大値を調整
         Slider pattern = slider.gameObject.transform.parent.GetChild(1).GetComponent<Slider>();
-        pattern.maxValue = topsPatterns[topsIndex-1];
+        if (modelIndex == 1)
+            pattern.maxValue = topsPatternsGirl[topsIndex - 1];
+        else
+            pattern.maxValue = topsPatternsBoy[topsIndex - 1];
         pattern.value = 1;
 
         //トップスがOnepieceの場合はボトムスが着れないようにbottomsボタンを無効にする
@@ -124,8 +134,13 @@ public class ClothesCustom : MonoBehaviour
     }
     public void ChangeTopsPattern(Slider slider)
     {
+        if (isRealTime)
+            return;
         int index = (int)slider.value;
-        topsSmr.material = Resources.Load<Material>("Materials/Tops/tops" + topsIndex + "_m" + index);
+        if(modelIndex == 1)
+            topsSmr.material = Resources.Load<Material>("Materials/Girl/Tops/tops" + topsIndex + "_m" + index);
+        else
+            topsSmr.material = Resources.Load<Material>("Materials/Boy/Tops/tops" + topsIndex + "_m" + index);
     }
     public void TopsColor()
     {
@@ -160,6 +175,8 @@ public class ClothesCustom : MonoBehaviour
      *　ボトムスチェンジ、Slider Bottoms Styleの値が変わるとき実行
      */
     {
+        if (isRealTime)
+            return;
         //スライダから値を取る
         int index = (int)slider.value;
         //現在のボトムスを探す
@@ -177,7 +194,10 @@ public class ClothesCustom : MonoBehaviour
 
         //各ボトムスモデルによってパターンの数が変わるのでスライダの最大値を調整
         Slider pattern = slider.gameObject.transform.parent.GetChild(1).GetComponent<Slider>();
-        pattern.maxValue = bottomsPatterns[bottomsIndex - 1];
+        if (modelIndex == 1)
+            pattern.maxValue = bottomsPatternsGirl[bottomsIndex - 1];
+        else
+            pattern.maxValue = bottomsPatternsBoy[bottomsIndex - 1];
         pattern.value = 1;
 
         //旧ボトムスを削除
@@ -187,13 +207,23 @@ public class ClothesCustom : MonoBehaviour
     }
     public void ChangeBottomsPattern(Slider slider)
     {
+        if (isRealTime)
+            return;
         int index = (int)slider.value;
-        bottomsSmr.material = Resources.Load<Material>("Materials/Bottoms/bottoms" + bottomsIndex + "_m" + index);
+        if (modelIndex == 1)
+            bottomsSmr.material = Resources.Load<Material>("Materials/Girl/Bottoms/bottoms" + bottomsIndex + "_m" + index);
+        else
+            bottomsSmr.material = Resources.Load<Material>("Materials/Boy/Bottoms/bottoms" + bottomsIndex + "_m" + index);
     }
     public void ChangeShitagi(Slider slider)
     {
+        if (isRealTime)
+            return;
         int index = (int)slider.value;
-        bodySmr.material = Resources.Load<Material>("Materials/Skin/bodyskin" + index);
+        if (modelIndex == 1)
+            bodySmr.material = Resources.Load<Material>("Materials/Girl/Skin/bodyskin" + index);
+        else
+            bodySmr.material = Resources.Load<Material>("Materials/Girl/Skin/bodyskin" + index);
     }
     public void BottomsDetail(Slider slider)
     {
@@ -211,6 +241,8 @@ public class ClothesCustom : MonoBehaviour
     }
     public void ChangeShoes(Slider slider)
     {
+        if (isRealTime)
+            return;
         int index = (int)slider.value;
         GameObject shoes1 = GameObject.FindGameObjectWithTag("Shoes");
 
@@ -229,25 +261,27 @@ public class ClothesCustom : MonoBehaviour
      */
     {
         //服のボーンを全部取ってboneListに保存する
+
         List<Transform> boneList = new List<Transform>();
         for (int i = 0; i < partSmr.bones.Length; i++)
         {
             boneList.Add(partSmr.bones[i]);
         }
-
+        Hashtable ht = new Hashtable();
+        for (int j = 0; j < bodySmr.bones.Length; j++)
+        {
+            ht.Add(bodySmr.bones[j].name, bodySmr.bones[j]);
+        }
         //boneListからキャラクタと同じ名前を持つボーンを見つけたら入れ替わる
         for (int i = 0; i < boneList.Count; i++)
         {
             bool flag = false;
             if (boneList[i] == null)
                 continue;
-            for (int j = 0; j < bodySmr.bones.Length; j++)
+            if(ht.ContainsKey(boneList[i].name))
             {
-                if (boneList[i].name == bodySmr.bones[j].name)
-                {
-                    boneList[i] = bodySmr.bones[j];
-                    flag = true;
-                }
+                boneList[i] = (Transform)ht[boneList[i].name];
+                flag = true;
             }
             if(!flag)
             {
@@ -259,11 +293,7 @@ public class ClothesCustom : MonoBehaviour
         partSmr.rootBone = bodySmr.rootBone;
         partSmr.bones = boneList.ToArray();
     }
-    void ChangeBones(SkinnedMeshRenderer partSmr)
-    {
-        Mesh m = partSmr.sharedMesh;
-        BoneWeight[] bw = m.boneWeights;
-    }
+
     public void RefindObject()
     {
         bodyModel = GameObject.FindGameObjectWithTag("Body");
@@ -281,14 +311,14 @@ public class ClothesCustom : MonoBehaviour
         if (modelIndex == 1)
         {
             pm.setSlider(43, 1, 7);
-            pm.setSlider(44, 1, 4);
+            pm.setSlider(44, 1, 10);
             pm.setSlider(45, 1, 6);
             pm.setSlider(51, 1, 4);
         }
         else
         {
-            pm.setSlider(43, 1, 4);
-            pm.setSlider(44, 1, 1);
+            pm.setSlider(43, 1, 1);
+            pm.setSlider(44, 1, 4);
             pm.setSlider(45, 1, 1);
             pm.setSlider(51, 1, 1);
         }
@@ -303,37 +333,17 @@ public class ClothesCustom : MonoBehaviour
         }
 
     }
-    void BoneIndexInit()
-    /*
-     *  時間短縮用、まだ使ってない、開発中
-     */
+
+    public void RealTimeChangeClothes(int pattern)
     {
-        boneindex = new List<BoneIndex>();
-        BoneIndex bone = new BoneIndex();
-        bone.Generate("Root", 0);
-        boneindex.Add(bone);
-        bone.Generate("J_Bip_C_Hips", 1);
-        boneindex.Add(bone);
-        bone.Generate("J_Bip_C_Spine", 24);
-        boneindex.Add(bone);
-        bone.Generate("J_Bip_C_Chest", 25);
-        boneindex.Add(bone);
-        bone.Generate("J_Bip_C_UpperChest", 26);
-        boneindex.Add(bone);
-        bone.Generate("J_Bip_C_Neck", 75);
-        boneindex.Add(bone);
-        bone.Generate("J_Sec_R_Bust1", 91);
-        boneindex.Add(bone);
-        bone.Generate("J_Sec_R_Bust2", 92);
-        boneindex.Add(bone);
-        bone.Generate("J_Sec_L_Bust1", 93);
-        boneindex.Add(bone);
-        bone.Generate("J_Sec_L_Bust2", 94);
-        boneindex.Add(bone);
+        modelIndex = pattern;
+        RealTimeChangeTops();
+        RealTimeChangeBottoms();
+        RealTimeChangeShitagi();
+        RealTimeChangeShoes();
 
     }
-
-    public void RealTimeChangeClothes()
+    private void RealTimeChangeTops()
     /*
      *　トップスチェンジ、Slider Tops Styleの値が変わるとき実行
      *　上着はTopsとOnepiece二種類がある
@@ -352,7 +362,7 @@ public class ClothesCustom : MonoBehaviour
         if (modelIndex == 1)
             tops2 = Resources.Load<GameObject>("Clothes/Girl/tops" + index);
         else
-            tops2 = Resources.Load<GameObject>("Clothes/Boy/btops" + index);
+            tops2 = Resources.Load<GameObject>("Clothes/Boy/tops" + index);
         if (tops2 == null)
             return;
 
@@ -388,10 +398,14 @@ public class ClothesCustom : MonoBehaviour
         ShareBones(topsSmr);
 
         index = (int)pm.getParameter(50);
-        topsSmr.material = Resources.Load<Material>("Materials/Tops/tops" + topsIndex + "_m" + index);
+        if (modelIndex == 1)
+            topsSmr.material = Resources.Load<Material>("Materials/Girl/Tops/tops" + topsIndex + "_m" + index);
+        else
+            topsSmr.material = Resources.Load<Material>("Materials/Boy/Tops/tops" + topsIndex + "_m" + index);
+        TopsColor();
     }
 
-    public void RealTimeChangeBottoms()
+    private void RealTimeChangeBottoms()
     /*
      *　ボトムスチェンジ、Slider Bottoms Styleの値が変わるとき実行
      */
@@ -402,7 +416,11 @@ public class ClothesCustom : MonoBehaviour
         GameObject bottoms1 = GameObject.FindGameObjectWithTag("Bottoms");
 
         //新ボトムスをResourcesからロード
-        GameObject bottoms2 = Resources.Load<GameObject>("Clothes/Girl/bottoms" + index);
+        GameObject bottoms2;
+        if (modelIndex == 1)
+            bottoms2 = Resources.Load<GameObject>("Clothes/Girl/bottoms" + index);
+        else
+            bottoms2 = Resources.Load<GameObject>("Clothes/Boy/bottoms" + index);
         if (bottoms2 == null)
             return;
 
@@ -416,20 +434,31 @@ public class ClothesCustom : MonoBehaviour
         Destroy(bottoms1);
         //新ボトムスとキャラクタのボーンを共有させる
         ShareBones(bottomsSmr);
+
+        index = (int)pm.getParameter(52);
+        if (modelIndex == 1)
+            bottomsSmr.material = Resources.Load<Material>("Materials/Girl/Bottoms/bottoms" + bottomsIndex + "_m" + index);
+        else
+            bottomsSmr.material = Resources.Load<Material>("Materials/Boy/Bottoms/bottoms" + bottomsIndex + "_m" + index);
+        BottomsColor();
     }
 
-    public void RealTimeChangeShitagi()
+    private void RealTimeChangeShitagi()
     {
         int index = (int)pm.getParameter(45);
-        bodySmr.material = Resources.Load<Material>("Materials/Skin/bodyskin" + index);
+        bodySmr.material = Resources.Load<Material>("Materials/Girl/Skin/bodyskin" + index);
     }
 
-    public void RealTimeChangeShoes()
+    private void RealTimeChangeShoes()
     {
         int index = (int)pm.getParameter(51);
         GameObject shoes1 = GameObject.FindGameObjectWithTag("Shoes");
 
-        GameObject shoes2 = Resources.Load<GameObject>("Clothes/Girl/shoes" + index);
+        GameObject shoes2;
+        if (modelIndex == 1)
+            shoes2 = Resources.Load<GameObject>("Clothes/Girl/shoes" + index);
+        else
+            shoes2 = shoes1;
         if (shoes2 == null)
             return;
         GameObject shoes2obj = Instantiate(shoes2, bodyModel.transform.parent);
@@ -437,6 +466,12 @@ public class ClothesCustom : MonoBehaviour
         shoesSmr = shoes2obj.GetComponentInChildren<SkinnedMeshRenderer>();
         Destroy(shoes1);
         ShareBones(shoesSmr);
+        ShoesColor();
+    }
+
+    public void SetRealTime(bool realTime)
+    {
+        isRealTime = realTime;
     }
 }
 class BoneIndex

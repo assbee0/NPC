@@ -12,6 +12,7 @@ public class ParameterManage : MonoBehaviour
     //[HideInInspector]
     private float[] p = new float[PARAMETERNUM];
     private int count = 0;
+    private int modelIndex = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -73,10 +74,36 @@ public class ParameterManage : MonoBehaviour
             si.SetValueWithoutNotify(random);
             p[i] = si.value;
         }
+
         Slider s50 = customParameter[50].GetComponent<Slider>();
-        s50.maxValue = ClothesCustom.topsPatterns[(int)p[44]-1];
+        Slider s52 = customParameter[52].GetComponent<Slider>();
+        if (modelIndex == 1)
+        {
+            s50.maxValue = ClothesCustom.topsPatternsGirl[(int)p[44] - 1];
+            s52.maxValue = ClothesCustom.bottomsPatternsGirl[(int)p[43] - 1];
+        }
+        else
+        {
+            s50.maxValue = ClothesCustom.topsPatternsBoy[(int)p[44] - 1];
+            s52.maxValue = ClothesCustom.bottomsPatternsBoy[(int)p[43] - 1];
+        }
         s50.SetValueWithoutNotify(Random.Range(s50.minValue, s50.maxValue));
+        s52.SetValueWithoutNotify(Random.Range(s52.minValue, s52.maxValue));
         p[50] = s50.value;
+        p[52] = s52.value;
+    }
+    public void AppearanceRandom()
+    {
+        for (int i = 0; i < customParameter.Length; i++)
+        {
+            if (i >= 34 && i <= 36 || i >= 50 || i >= 43 && i <= 47)
+                continue;
+            Slider si = customParameter[i].GetComponent<Slider>();
+            float minvalue = si.minValue;
+            float maxvalue = si.maxValue;
+            si.value = Random.Range(minvalue, maxvalue);
+            p[i] = si.value;
+        }
     }
     public void HalfRandom()
     {
@@ -115,10 +142,30 @@ public class ParameterManage : MonoBehaviour
         return count;
 
     }
+    public void SetParametersPattern(int pattern)
+    {
+        modelIndex = pattern;
+        if (pattern == 1)
+        {
+            paraslider[33].slider.maxValue = 8;
+            paraslider[43].slider.maxValue = 7;
+            paraslider[44].slider.maxValue = 10;
+            paraslider[45].slider.maxValue = 6;
+            paraslider[51].slider.maxValue = 4;
+        }
+        else
+        {
+            paraslider[33].slider.maxValue = 3;
+            paraslider[43].slider.maxValue = 1;
+            paraslider[44].slider.maxValue = 3;
+            paraslider[45].slider.maxValue = 1;
+            paraslider[51].slider.maxValue = 1;
+        }
+    }
     public void OutputParameter(int level)
     {
         StreamWriter sw;
-        FileInfo filepath = new FileInfo("E:/character dataset2/Level " + level + "/" + SaveLoad.number[level-1] + "/parameter.txt");
+        FileInfo filepath = new FileInfo(Application.dataPath + "/character dataset/Level " + level + "/" + SaveLoad.number[level-1] + "/parameter.txt");
         sw = filepath.CreateText();
         sw.Close();
         sw = filepath.AppendText();

@@ -11,8 +11,7 @@ public class NetworkExecute : MonoBehaviour
     const int FEATURE = 42;
     const int CLASSNUM = 3;
     private int result = -1;
-    //public GameObject textobj;
-    //public GameObject sliderBeautyobj;
+    private ClothesCoordinatePrediction clothescoordinate;
     private Text tex;
     private Slider sliderBeauty;
     public StreamWriter sw;
@@ -33,8 +32,7 @@ public class NetworkExecute : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //tex = textobj.GetComponent<Text>();
-        //sliderBeauty = sliderBeautyobj.GetComponent<Slider>();
+        clothescoordinate = GetComponent<ClothesCoordinatePrediction>();
     }
 
     // Update is called once per frame
@@ -136,7 +134,7 @@ public class NetworkExecute : MonoBehaviour
         pm.setParameter(63, clothesPalette[i].r);
         pm.setParameter(64, clothesPalette[i].g);
         pm.setParameter(65, clothesPalette[i].b);
-        pm.OutputParameterVectors(sw);
+        //pm.OutputParameterVectors(sw);
     }
     public void ReadGenerate()
     {
@@ -148,6 +146,34 @@ public class NetworkExecute : MonoBehaviour
             ps[i] = float.Parse(pstrings[i]);
         if (pm.setAllParameter(ps) >= 40)
             sr.Close();
+    }
+    public void ColorGenerate(int pattern)
+    {
+        ParameterManage pm = GetComponent<ParameterManage>();
+        pm.SetParametersPattern(pattern);
+        pm.FullRandom();
+        Vector3[] colorset = clothescoordinate.GetColor();
+
+        int i = Random.Range(0, 13);
+        pm.setParameter(34, haircolor[i].r);
+        pm.setParameter(35, haircolor[i].g);
+        pm.setParameter(36, haircolor[i].b);
+
+        pm.setParameter(54, colorset[0].x);
+        pm.setParameter(55, colorset[0].y);
+        pm.setParameter(56, colorset[0].z);
+        pm.setParameter(57, colorset[1].x);
+        pm.setParameter(58, colorset[1].y);
+        pm.setParameter(59, colorset[1].z);
+
+        pm.setParameter(60, colorset[2].x);
+        pm.setParameter(61, colorset[2].y);
+        pm.setParameter(62, colorset[2].z);
+       
+        pm.setParameter(63, colorset[3].x);
+        pm.setParameter(64, colorset[3].y);
+        pm.setParameter(65, colorset[3].z);
+        //pm.OutputParameterVectors(sw);
     }
     public void SetSrSw(bool lastGenerate)
     {

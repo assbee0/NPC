@@ -54,7 +54,11 @@ public class CustomCamera : MonoBehaviour
     }
     public void CaptureScreen(int level)
     {
-        Rect r = new Rect(0, 0, 200, 400);
+        Rect r;
+        if (cam.name == "Camera3")
+            r = new Rect(0, 0, 200, 200);
+        else
+            r = new Rect(0, 0, 100, 400);
         RenderTexture rt = new RenderTexture((int)r.width, (int)r.height, 0);
 
         c.targetTexture = rt;
@@ -69,16 +73,14 @@ public class CustomCamera : MonoBehaviour
         RenderTexture.active = null;
         GameObject.Destroy(rt);
 
-        string s;
-        if (cam.name == "Camera1")
-            s = "side";
-        else if (cam.name == "Camera2")
-            s = "frontfull";
-        else
-            s = "fronthead";
+        
 
         byte[] bytes = screenShot.EncodeToPNG();
-        string filename = "E:/character dataset2/Level " + level + "/" + SaveLoad.number[level-1] + "/" + s + ".png";
+        string filename;
+        if(cam.name == "Camera3")
+            filename = Application.dataPath + "/character dataset/Level " + level + "/" + SaveLoad.number[level-1] + "/fronthead.png";
+        else
+            filename = Application.dataPath + "/character dataset/Level " + level + "/" + SaveLoad.number[level - 1] + "/front.png";
         System.IO.File.WriteAllBytes(filename, bytes);
 
     }
