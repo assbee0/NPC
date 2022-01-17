@@ -13,8 +13,6 @@ public class GetSVMParameter : MonoBehaviour
     //public int Param3 = 8; // 仮（Debug用）
     //public int Param4 = 9; // 仮（Debug用）
     //public int Param5 = 9; // 仮（Debug用）
-    private float AROUSAL;
-    private float VALENCE;
     private GameObject testManager;
     private EnvParameterGenerate envParaGen;
     private float sensitivity; // 感応度合い
@@ -27,8 +25,6 @@ public class GetSVMParameter : MonoBehaviour
     {
         envParam = new float[VARNUM];
         NPCAnimationController ownAnimCon = gameObject.GetComponent<NPCAnimationController>();
-        AROUSAL = ownAnimCon.Arousal;
-        VALENCE = ownAnimCon.Valence;
         testManager = GameObject.Find("TestManager");
         envParaGen = testManager.GetComponent<EnvParameterGenerate>();
 

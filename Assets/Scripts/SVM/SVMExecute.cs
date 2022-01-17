@@ -8,13 +8,12 @@ using UnityEngine.UI;
 public class SVMExecute : MonoBehaviour
 {
     const int CLASSNUM = 3;
-    public int result_A = -1;
-    public int result_V = -1;
+    CharacterParameter cp;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        cp = gameObject.GetComponent<CharacterParameter>();
     }
 
     // Update is called once per frame
@@ -37,14 +36,14 @@ public class SVMExecute : MonoBehaviour
         outunit_A.Readb(0); // 0: Arousal, 1: Valence
         outunit_A.Readw(0);
         outunit_A.Propagation(envParam);
-        result_A = Argmax(outunit_A.output); // result：カテゴリ
+        cp.categoryA = Argmax(outunit_A.output); // result：カテゴリ
 
         // Valenceについて
         OutunitTest outunit_V = new OutunitTest();
         outunit_V.Readb(1);
         outunit_V.Readw(1);
         outunit_V.Propagation(envParam);
-        result_V = Argmax(outunit_V.output); // result：カテゴリ
+        cp.categoryV = Argmax(outunit_V.output); // result：カテゴリ
     }    
 
     public static float Dot(float[] a, float[] b) // aとbの内積a・bを計算
@@ -79,7 +78,6 @@ public class SVMExecute : MonoBehaviour
                 argmax = i;
             }
         }
-        //return argmax+1;
         return argmax;
     }
 }

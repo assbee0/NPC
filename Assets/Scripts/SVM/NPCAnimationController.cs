@@ -8,12 +8,8 @@ using System.Linq;
 public class NPCAnimationController : MonoBehaviour
 {
     private Animator animator;
-    [SerializeField] private float arousal;
-    [SerializeField] private float valence;
     [SerializeField] private float intAr;
     [SerializeField] private float intVa;
-    private float nowAr;
-    private float nowVa;
     private float pastAr;
     private float pastVa;
     [SerializeField] private float destAr;
@@ -23,8 +19,6 @@ public class NPCAnimationController : MonoBehaviour
 
     [SerializeField] private int catA;
     [SerializeField] private int catV;
-    private int pastCatA;
-    private int pastCatV;
 
     public float timeOut = 20f; // 閾値
     private float timeElapsed = 0.0f; // 累計時間
@@ -32,24 +26,19 @@ public class NPCAnimationController : MonoBehaviour
     [SerializeField] private float _progress = 0f;
     [SerializeField] private int cycle = 0;
 
-    SVMExecute svmE;
+    CharacterParameter cp;
+    SVMExecute svmExecute;
     NPCAnimationController ownAnimCon;
     [SerializeField] RuntimeAnimatorController[] animConArr;  // animConArrの各配列の中身はInspector上で指定
-
-    public int test_A = -1; // 仮
-    public int test_V = -1; // 仮
-    public bool isLegend;
-
     private GameObject testManager;
     private EnvParameterGenerate envParaGen;
+    private GameObject targetObject; // 注視したいオブジェクト
+
+    public bool isLegend;
 
     [SerializeField] public float sensitivity; // 感応度合い
     public float appeal; // 注目度，魅力
     public float radius = 3;
-
-
-
-    private GameObject targetObject; // 注視したいオブジェクト
 
     private float lookAtWeight;
     private float bodyWeight;
@@ -61,8 +50,9 @@ public class NPCAnimationController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        cp = gameObject.GetComponent<CharacterParameter>();
         animator = GetComponent<Animator>();
-        svmE = GetComponent<SVMExecute>();
+        svmExecute = GetComponent<SVMExecute>();
         ownAnimCon = gameObject.GetComponent<NPCAnimationController>();
         GetCategoryFromName(this.gameObject);
 
@@ -121,21 +111,18 @@ public class NPCAnimationController : MonoBehaviour
     {
         //////////////////////////////////////////////////////////
         // 環境パラメタ取得 & 初期A-Vカテゴリ決定
-        svmE.Predict();
+        svmExecute.Predict();
 
         // A-V値の遷移
-        if (isLegend == false)
-        { // 通常時
-            catA = svmE.result_A;
-            catV = svmE.result_V;
+        if (isLegend == false)  // 通常時
+        { 
+            catA = cp.categoryA;
+            catV = cp.categoryV;
         }
-        else
+        else  // 凡例時
         {   
-            // 凡例時
-            //test_A = envParaGen.test_catA; // とりあえず
-            //test_V = envParaGen.test_catV; // とりあえず
-            catA = test_A; // RealTimeGenerate.csで決められる on 2021/01/07
-            catV = test_V;
+            catA = cp.d_categoryA;
+            catV = cp.d_categoryA;
         }
 
         //////////////////////////////////////////////////////////
@@ -147,14 +134,11 @@ public class NPCAnimationController : MonoBehaviour
         animator.SetFloat("Arousal", intAr);
         animator.SetFloat("Valence", intVa);
 
-        arousal = intAr;
-        valence = intVa;
+        cp.valueA = intAr;
+        cp.valueV = intVa;
 
         pastAr = intAr;
         pastVa = intVa;
-
-        pastCatA = catA;
-        pastCatV = catV;
 
         //////////////////////////////////////////////////////////
         // 動作選定
@@ -184,18 +168,18 @@ public class NPCAnimationController : MonoBehaviour
         if (_progress > 1f) // サイクル終了
         {
             _progress = 0f;
-            pastAr = arousal;  // 現時点でのArousal値を始点に
-            pastVa = valence;  // 現時点でのValence値を始点に
+            pastAr = cp.valueA;  // 現時点でのArousal値を始点に
+            pastVa = cp.valueV;  // 現時点でのValence値を始点に
             destAr = GetNextTerminalValue(pastAr, coheAr);
             destVa = GetNextTerminalValue(pastVa, coheVa);
             cycle++;
 
-            if (catA != GetCategoryFromValue(arousal)) {  // 覚醒度カテゴリに変更がある場合
-                catA = GetCategoryFromValue(arousal);
+            if (catA != GetCategoryFromValue(cp.valueA)) {  // 覚醒度カテゴリに変更がある場合
+                catA = GetCategoryFromValue(cp.valueA);
                 animator.SetInteger("categoryArousal", catA);
             }
-            if (catV != GetCategoryFromValue(valence)) {  // 感情価カテゴリに変更がある場合
-                catV = GetCategoryFromValue(valence);
+            if (catV != GetCategoryFromValue(cp.valueV)) {  // 感情価カテゴリに変更がある場合
+                catV = GetCategoryFromValue(cp.valueV);
                 animator.SetInteger("categoryValence", catV);
             }
 
@@ -217,26 +201,10 @@ public class NPCAnimationController : MonoBehaviour
         _progress = _progress + SPEED * Time.deltaTime;
         //Debug.Log("_progress: " + _progress);
 
-        // A-V値の遷移
-        /*
-        if (isLegend == false)
-        { // 通常時
-            catA = svmE.result_A;
-            catV = svmE.result_V;
-        }
-        else
-        {                 // 凡例時
-            //test_A = envParaGen.test_catA; // とりあえず
-            //test_V = envParaGen.test_catV; // とりあえず
-            catA = test_A;
-            catV = test_V;
-        }
-        */
-        arousal = Mathf.Lerp(pastAr, destAr, _progress);
-        valence = Mathf.Lerp(pastVa, destVa, _progress);
-
-        animator.SetFloat("Arousal", arousal);
-        animator.SetFloat("Valence", valence);
+        cp.valueA = Mathf.Lerp(pastAr, destAr, _progress);
+        cp.valueV = Mathf.Lerp(pastVa, destVa, _progress);
+        animator.SetFloat("Arousal", cp.valueA);
+        animator.SetFloat("Valence", cp.valueV);
     }
 
     float GetParameterFromCategory(int catg)
@@ -269,32 +237,32 @@ public class NPCAnimationController : MonoBehaviour
     public void GetCategoryFromName(GameObject obj)
     {
         if (obj.name == "Ch20_nonPBR_Legend") {
-            test_A = 0;
-            test_V = 0;
+            cp.d_categoryA = 0;
+            cp.d_categoryA = 0;
         } else if (obj.name == "Ch20_nonPBR_Legend (1)") {
-            test_A = 0;
-            test_V = 1;
+            cp.d_categoryA = 0;
+            cp.d_categoryA = 1;
         } else if (obj.name == "Ch20_nonPBR_Legend (2)") {
-            test_A = 0;
-            test_V = 2;
+            cp.d_categoryA = 0;
+            cp.d_categoryA = 2;
         } else if (obj.name == "Ch20_nonPBR_Legend (3)") {
-            test_A = 1;
-            test_V = 0;
+            cp.d_categoryA = 1;
+            cp.d_categoryA = 0;
         } else if (obj.name == "Ch20_nonPBR_Legend (4)") {
-            test_A = 1;
-            test_V = 1;
+            cp.d_categoryA = 1;
+            cp.d_categoryA = 1;
         } else if (obj.name == "Ch20_nonPBR_Legend (5)") {
-            test_A = 1;
-            test_V = 2;
+            cp.d_categoryA = 1;
+            cp.d_categoryA = 2;
         } else if (obj.name == "Ch20_nonPBR_Legend (6)") {
-            test_A = 2;
-            test_V = 0;
+            cp.d_categoryA = 2;
+            cp.d_categoryA = 0;
         } else if (obj.name == "Ch20_nonPBR_Legend (7)") {
-            test_A = 2;
-            test_V = 1;
+            cp.d_categoryA = 2;
+            cp.d_categoryA = 1;
         } else if (obj.name == "Ch20_nonPBR_Legend (8)") {
-            test_A = 2;
-            test_V = 2;
+            cp.d_categoryA = 2;
+            cp.d_categoryA = 2;
         }
     }
 
@@ -315,7 +283,6 @@ public class NPCAnimationController : MonoBehaviour
         float objectNum = listObj.Count();
         float appealSum = 0f;  // 周辺NPCノ影響度の総和
         //Debug.Log(objectNum);
-        float[] avValue = new float[2];
         foreach (GameObject obj in listObj)
         {
             NPCAnimationController aroundAnimCon = obj.gameObject.GetComponent<NPCAnimationController>();
@@ -328,8 +295,8 @@ public class NPCAnimationController : MonoBehaviour
             float dist = Vector3.Distance(obj.transform.position, transform.position);
             // 対象となるGameObject objのA-V値を調べる
             NPCAnimationController aroundAnimCon = obj.gameObject.GetComponent<NPCAnimationController>();
-            float diffAr = arousal - aroundAnimCon.Arousal;
-            float diffVa = valence - aroundAnimCon.Valence;
+            float diffAr = cp.valueA - aroundAnimCon.Arousal;
+            float diffVa = cp.valueV - aroundAnimCon.Valence;
             // A-Vコヒーレンスパラメタの計算
             coheAr += diffAr * GetAttenuationFromDistance(dist) * aroundAnimCon.appeal / appealSum;
             coheVa += diffVa * GetAttenuationFromDistance(dist) * aroundAnimCon.appeal / appealSum;
@@ -337,7 +304,7 @@ public class NPCAnimationController : MonoBehaviour
             //if (this.name.Equals("girl(Clone)_19") && obj.name.Equals("girl(Clone)_27"))
             //{
             //    Debug.Log(gameObject.name + ": obj=" + obj);
-            //    Debug.Log(gameObject.name + ": own.Ar=" + arousal);
+            //    Debug.Log(gameObject.name + ": own.Ar=" + cp.valueA);
             //    Debug.Log(gameObject.name + ": obj.Ar=" + aroundAnimCon.Arousal);
             //    Debug.Log(gameObject.name + ": diffAr=" + diffAr);
             //    Debug.Log(gameObject.name + ": coheAr=" + coheAr);
@@ -404,31 +371,21 @@ public class NPCAnimationController : MonoBehaviour
     {
         if (targetObject != null)
         {
-            if (arousal > valence)
+            if (cp.valueA > cp.valueV)
             {
-                lookAtWeight = arousal / 256.0f;
-                bodyWeight = arousal / 256.0f;
-                headWeight = arousal / 256.0f;
-                eyesWeight = arousal / 256.0f;
+                lookAtWeight = cp.valueA / 256.0f;
+                bodyWeight = cp.valueA / 256.0f;
+                headWeight = cp.valueA / 256.0f;
+                eyesWeight = cp.valueA / 256.0f;
             } else {
-                lookAtWeight = valence / 256.0f;
-                bodyWeight = valence / 256.0f;
-                headWeight = valence / 256.0f;
-                eyesWeight = valence / 256.0f;
+                lookAtWeight = cp.valueV / 256.0f;
+                bodyWeight = cp.valueV / 256.0f;
+                headWeight = cp.valueV / 256.0f;
+                eyesWeight = cp.valueV / 256.0f;
             }
 
             this.animator.SetLookAtWeight(lookAtWeight, bodyWeight, headWeight, eyesWeight);
             this.animator.SetLookAtPosition(targetObject.transform.position);
         }
     }
-
-    public float Arousal {
-        get{ return arousal; }
-        set{ arousal = value;}
-    }
-
-    public float Valence {
-        get{ return valence; }
-        set{ valence = value;}
-    }    
 }
