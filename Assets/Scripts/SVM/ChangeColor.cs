@@ -63,9 +63,10 @@ public class ChangeColor : MonoBehaviour
 
     void ChangePlaneColor(GameObject nearestNPC) // 上部のNPCのA-V値を参照し、色を変更
     {
-        NPCAnimationController nearNPCAnimCon = nearestNPC.GetComponent<NPCAnimationController>(); ;
-        byte r = (byte)((byte)nearNPCAnimCon.Arousal - 1);
-        byte b = (byte)((byte)nearNPCAnimCon.Valence - 1);
+        NPCAnimationController nearNPCAnimCon = nearestNPC.GetComponent<NPCAnimationController>();
+        CharacterParameter cp = nearestNPC.GetComponent<CharacterParameter>();
+        byte r = (byte)((byte)cp.valueA - 1);
+        byte b = (byte)((byte)cp.valueV - 1);
         gameObject.GetComponent<Renderer>().material.color = new Color32(r, 0, b, 1);
     }
 }

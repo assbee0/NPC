@@ -8,8 +8,6 @@ using System.Linq;
 public class NPCAnimationController : MonoBehaviour
 {
     private Animator animator;
-    [SerializeField] private float intAr;
-    [SerializeField] private float intVa;
     private float pastAr;
     private float pastVa;
     [SerializeField] private float destAr;
@@ -27,7 +25,7 @@ public class NPCAnimationController : MonoBehaviour
     [SerializeField] private int cycle = 0;
 
     CharacterParameter cp;
-    SVMExecute svmExecute;
+    GlobalParameter gp;
     NPCAnimationController ownAnimCon;
     [SerializeField] RuntimeAnimatorController[] animConArr;  // animConArrの各配列の中身はInspector上で指定
     private GameObject testManager;
@@ -36,7 +34,6 @@ public class NPCAnimationController : MonoBehaviour
 
     public bool isLegend;
 
-    [SerializeField] public float sensitivity; // 感応度合い
     public float appeal; // 注目度，魅力
     public float radius = 3;
 
@@ -51,8 +48,8 @@ public class NPCAnimationController : MonoBehaviour
     void Start()
     {
         cp = gameObject.GetComponent<CharacterParameter>();
+        gp = gameObject.GetComponent<GlobalParameter>();
         animator = GetComponent<Animator>();
-        svmExecute = GetComponent<SVMExecute>();
         ownAnimCon = gameObject.GetComponent<NPCAnimationController>();
         GetCategoryFromName(this.gameObject);
 
@@ -61,8 +58,8 @@ public class NPCAnimationController : MonoBehaviour
         targetObject = GameObject.Find("TargetObject");
 
         // 感応度：0～0.5 0.5より大きくするとみんな一緒になり始める
-        //sensitivity = UnityEngine.Random.Range(0.0f, 1.0f);
-        //sensitivity = 1.0f; // 一定にしたいとき
+        //cp.sensitivity = UnityEngine.Random.Range(0.0f, 1.0f);
+        //cp.sensitivity = 1.0f; // 一定にしたいとき
 
         // animConArrの各配列の中身はInspector上で指定
         // 左利きにチェンジ．左利きの人の割合は10%らしい
@@ -72,7 +69,7 @@ public class NPCAnimationController : MonoBehaviour
             animator.runtimeAnimatorController = animConArr[1];
 
         // 単一動作での実験時
-        if (envParaGen.isOnlyWave)
+        if (gp.isOnlyWave)
         {
             if (UnityEngine.Random.value > 0.9)
                 animator.runtimeAnimatorController = animConArr[2];
@@ -84,13 +81,13 @@ public class NPCAnimationController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (envParaGen.count == 15 && isInitialize == false)
+        if (gp.COUNT == 15 && isInitialize == false)
         {
             //////////////////////////////////////////////////////////
             // 環境パラメタ取得 & A-Vカテゴリ決定 & A-V値決定 & 動作選定
             Initialize();
         }
-        else if (envParaGen.count == 17 && isInitialize == true)
+        else if (gp.COUNT == 17 && isInitialize == true)
         {
             //////////////////////////////////////////////////////////
             // A-Vコヒーレンスパラメタ取得
@@ -101,7 +98,7 @@ public class NPCAnimationController : MonoBehaviour
             destVa = GetNextTerminalValue(pastVa, coheVa);
             isInitialize = false;
         }
-        else if (envParaGen.count > 19)
+        else if (gp.COUNT > 19)
         {
             Execute();
         }
@@ -111,6 +108,7 @@ public class NPCAnimationController : MonoBehaviour
     {
         //////////////////////////////////////////////////////////
         // 環境パラメタ取得 & 初期A-Vカテゴリ決定
+        SVMExecute svmExecute = gameObject.GetComponent<SVMExecute>();
         svmExecute.Predict();
 
         // A-V値の遷移
@@ -127,8 +125,8 @@ public class NPCAnimationController : MonoBehaviour
 
         //////////////////////////////////////////////////////////
         // 初期A-V値決定
-        intAr = GetParameterFromCategory(catA);
-        intVa = GetParameterFromCategory(catV);
+        float intAr = GetParameterFromCategory(catA);
+        float intVa = GetParameterFromCategory(catV);
         animator.SetInteger("categoryArousal", catA);
         animator.SetInteger("categoryValence", catV);
         animator.SetFloat("Arousal", intAr);
@@ -136,19 +134,13 @@ public class NPCAnimationController : MonoBehaviour
 
         cp.valueA = intAr;
         cp.valueV = intVa;
-
         pastAr = intAr;
         pastVa = intVa;
 
         //////////////////////////////////////////////////////////
         // 動作選定
+        // AnimationController上で実行
         //////////////////////////////////////////////////////////
-
-        /*
-        GetAroundAVValue();
-        destAr = GetNextTerminalValue(pastAr, coheAr);
-        destVa = GetNextTerminalValue(pastVa, coheVa);
-        */
 
         isInitialize = true;
     }
@@ -162,7 +154,6 @@ public class NPCAnimationController : MonoBehaviour
             timeElapsed = 0.0f;
         }
         
-        //sensitivity = envParaGen.sensitivity; // 感応度合い
         //this.transform.LookAt(targetObject.transform);
 
         if (_progress > 1f) // サイクル終了
@@ -228,7 +219,7 @@ public class NPCAnimationController : MonoBehaviour
 
     public float GetNextTerminalValue(float pastValue, float cohePara) // 補間値を乱数で取得
     {
-        float result = pastValue - sensitivity * cohePara;
+        float result = pastValue - cp.sensitivity * cohePara;
         float MIN = 0.0f;
         float MAX = 256.0f;
         return Mathf.Clamp(result, MIN, MAX);
@@ -295,8 +286,9 @@ public class NPCAnimationController : MonoBehaviour
             float dist = Vector3.Distance(obj.transform.position, transform.position);
             // 対象となるGameObject objのA-V値を調べる
             NPCAnimationController aroundAnimCon = obj.gameObject.GetComponent<NPCAnimationController>();
-            float diffAr = cp.valueA - aroundAnimCon.Arousal;
-            float diffVa = cp.valueV - aroundAnimCon.Valence;
+            CharacterParameter aroundCP = obj.gameObject.GetComponent<CharacterParameter>();
+            float diffAr = cp.valueA - aroundCP.valueA;
+            float diffVa = cp.valueV - aroundCP.valueV;
             // A-Vコヒーレンスパラメタの計算
             coheAr += diffAr * GetAttenuationFromDistance(dist) * aroundAnimCon.appeal / appealSum;
             coheVa += diffVa * GetAttenuationFromDistance(dist) * aroundAnimCon.appeal / appealSum;

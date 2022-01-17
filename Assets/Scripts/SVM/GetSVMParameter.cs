@@ -7,7 +7,6 @@ public class GetSVMParameter : MonoBehaviour
 {
     NPCAnimationController NPCAnimCon;
     public float[] envParam; // publicじゃないとSVMExecuteでエラー吐く
-    private int VARNUM = 2; // 取得するパラメタの数
     //public int Param1 = 8; // 仮（Debug用）
     //public int Param2 = 10; // 仮（Debug用）
     //public int Param3 = 8; // 仮（Debug用）
@@ -23,8 +22,8 @@ public class GetSVMParameter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        envParam = new float[VARNUM];
         NPCAnimationController ownAnimCon = gameObject.GetComponent<NPCAnimationController>();
+        CharacterParameter cp = gameObject.GetComponent<CharacterParameter>();
         testManager = GameObject.Find("TestManager");
         envParaGen = testManager.GetComponent<EnvParameterGenerate>();
 
@@ -39,8 +38,8 @@ public class GetSVMParameter : MonoBehaviour
         envParam[4] = Mathf.Clamp(envParaGen.Param5 + UnityEngine.Random.Range(-3, 4), MIN, MAX);
         */
         
-        envParam[0] = envParaGen.Param1;
-        envParam[1] = envParaGen.Param2;
+        cp.envParameter[0] = envParaGen.Param1;
+        cp.envParameter[1] = envParaGen.Param2;
         //envParam[2] = envParaGen.Param3;
         //envParam[3] = envParaGen.Param4;
         //envParam[4] = envParaGen.Param5;
@@ -51,11 +50,6 @@ public class GetSVMParameter : MonoBehaviour
     void Update()
     {
 
-    }
-
-    public float GetAttenuationFromDistance(float diff, float dist)
-    {
-        return diff * (float)Math.Exp(-1 * (double)sensitivity * (double)dist);
     }
 
     public float[] EnvParam {

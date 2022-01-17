@@ -18,11 +18,16 @@ public class RealTimeGenerate : MonoBehaviour
 
     private Animator animator;
     private NPCAnimationController animCon;
+    private CharacterParameter cp;
+    private GlobalParameter gp;
 
     public bool lastGenerate = false;
 
     void Start()
     {
+        cp = gameObject.GetComponent<CharacterParameter>();
+        gp = gameObject.GetComponent<GlobalParameter>();
+
         //CustomManagerに付いてる他のスクリプトを取る
         facecustom = GetComponent<FaceCustom>();
         haircustom = GetComponent<HairCustom>();
@@ -150,19 +155,20 @@ public class RealTimeGenerate : MonoBehaviour
     void SetAVCategory(int num)
     {
         animCon = character.GetComponent<NPCAnimationController>();
+        cp = character.GetComponent<CharacterParameter>();
         character.name = character.name + "_" + num;
 
         /*
         if (num == 4 || num == 5 || num == 6 || num == 7 || num == 13 || num == 14 || num == 15 || num == 22 || num == 23 || num == 31 )
         {
-            animCon.isLegend = true;
-            animCon.test_A = 0;
-            animCon.test_V = 0;
+            gp.isLegend = true;
+            cp.d_categoryA = 0;
+            cp.d_categoryV = 0;
         } else if (num == 8 || num == 16 || num == 17 || num == 24 || num == 25 || num == 26 || num == 32 || num == 33 || num == 34)
         {
-            animCon.isLegend = true;
-            animCon.test_A = 2;
-            animCon.test_V = 2;
+            gp.isLegend = true;
+            cp.d_categoryA = 2;
+            cp.d_categoryV = 2;
         }
         */
 
@@ -170,30 +176,29 @@ public class RealTimeGenerate : MonoBehaviour
         /*
         if (num == 10 || num == 11 || num == 12 || num == 13 || num == 18 || num == 19 || num == 20 || num == 21 || num == 26 || num == 27 || num == 28 || num == 29 )
         {
-            animCon.isLegend = true;
-            animCon.test_A = 2;
-            animCon.test_V = 2;
+            gp.isLegend = true;
+            cp.d_categoryA = 2;
+            cp.d_categoryV = 2;
         }
         */
-        //animCon.appeal = UnityEngine.Random.Range(0.1f, 0.5f);
-        animCon.appeal = 0.1f;
-
+        //cp.appeal = UnityEngine.Random.Range(0.1f, 0.5f);
+        cp.appeal = 0.1f;
 
         if (num == 27 || num == 28 || num == 35 || num == 36)
         {
-            animCon.isLegend = true;
-            animCon.test_A = 2;
-            animCon.test_V = 2;
-            animCon.appeal = 1f;
-            animCon.sensitivity = 0f;
+            gp.isLegend = true;
+            cp.d_categoryA = 2;
+            cp.d_categoryV = 2;
+            cp.appeal = 1f;
+            cp.sensitivity = 0f;
         } else
         {
-            animCon.isLegend = true;
-            animCon.test_A = 0;
-            animCon.test_V = 0;
-            animCon.appeal = 0.1f;
-            //animCon.sensitivity = 0.8f;
-            animCon.sensitivity = UnityEngine.Random.Range(0f, 1f);
+            gp.isLegend = true;
+            cp.d_categoryA = 0;
+            cp.d_categoryV = 0;
+            cp.appeal = 0.1f;
+            //cp.sensitivity = 0.8f;
+            cp.sensitivity = UnityEngine.Random.Range(0f, 1f);
         }
     }
 

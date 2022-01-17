@@ -10,16 +10,14 @@ public class CharacterParameter : MonoBehaviour
     public int categoryV;
     public float sensitivity;
     public float appeal;
+    public float[] envParameter;
+    public int d_categoryA;
+    public int d_categoryV;
+    public GlobalParameter gp;
 
-    // Start is called before the first frame update
     void Start()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        gp = gameObject.GetComponent<GlobalParameter>();
+        envParameter = new float[gp.ENVPARAMNUM];
     }
 }

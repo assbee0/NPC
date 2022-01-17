@@ -8,18 +8,10 @@ using UnityEngine.UI;
 public class SVMExecute : MonoBehaviour
 {
     const int CLASSNUM = 3;
-    CharacterParameter cp;
-
     // Start is called before the first frame update
     void Start()
     {
-        cp = gameObject.GetComponent<CharacterParameter>();
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void Predict()
@@ -31,18 +23,19 @@ public class SVMExecute : MonoBehaviour
 
         //////////////////////////////////////////////////////////
         // A-Vカテゴリ決定
+        CharacterParameter cp = gameObject.GetComponent<CharacterParameter>();
         // Arousalについて
         OutunitTest outunit_A = new OutunitTest();
         outunit_A.Readb(0); // 0: Arousal, 1: Valence
         outunit_A.Readw(0);
-        outunit_A.Propagation(envParam);
+        outunit_A.Propagation(cp.envParameter);
         cp.categoryA = Argmax(outunit_A.output); // result：カテゴリ
 
         // Valenceについて
         OutunitTest outunit_V = new OutunitTest();
         outunit_V.Readb(1);
         outunit_V.Readw(1);
-        outunit_V.Propagation(envParam);
+        outunit_V.Propagation(cp.envParameter);
         cp.categoryV = Argmax(outunit_V.output); // result：カテゴリ
     }    
 
