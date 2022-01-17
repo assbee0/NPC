@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlaneSetting : MonoBehaviour
 {
-    private GameObject nearNPC;
     private GameObject plane;
     private int num = 0;
 
@@ -25,16 +24,10 @@ public class PlaneSetting : MonoBehaviour
         //フレーム毎一人のキャラ生成
         for (num = 0; num < 64; num++)
         {
-            //InitTags(1);
-            //GenerateParameter();
-            //ChangeAllObject();
             GameObject prefab = Resources.Load<GameObject>("Prefabs/plane");
             plane = Instantiate(prefab);
             SetPosition(num);
             plane.name = plane.name + "_" + num;
-            //nearNPC = SearchNearNPC(plane);
-            //ChangeColor(nearNPC);
-            //num++;
         }
     }
     void SetPosition(int i)
@@ -52,54 +45,5 @@ public class PlaneSetting : MonoBehaviour
         //plane.transform.position = new Vector3(5f + 2f * row, 0.81f, 2f + 1f * column);
         plane.transform.position = new Vector3(5f + 1f * row, 0.81f, 2f + 1f * column);
         plane.transform.rotation = Quaternion.Euler(0, -90, 0);
-    }
-
-    GameObject SearchNearNPC(GameObject nowObj)
-    {
-        //int radius = 100;
-        // 中心:自分(平面)の位置, 半径:radiusの球内に存在するものを検出
-        Collider[] arrayCld = Physics.OverlapSphere(nowObj.transform.position, 1f);
-        List<GameObject> listObj = new List<GameObject>();
-        // 検出したGameObjectの内、tagが"NPC"であるものをlistObjリストに追加
-        foreach (Collider cld in arrayCld)
-        {
-            if (cld.tag == "NPC")
-            {
-                listObj.Add(cld.gameObject);
-            }
-        }
-
-        float tmpDis = 0;           //距離用一時変数
-        float nearDis = 0;          //最も近いオブジェクトの距離
-        //string nearObjName = "";    //オブジェクト名称
-        GameObject targetObj = null; //オブジェクト
-
-        //タグ指定されたオブジェクトを配列で取得する
-        foreach (GameObject obs in listObj)
-        {
-            //自身と取得したオブジェクトの距離を取得
-            tmpDis = Vector3.Distance(obs.transform.position, nowObj.transform.position);
-
-            //オブジェクトの距離が近いか、距離0であればオブジェクト名を取得
-            //一時変数に距離を格納
-            if (nearDis == 0 || nearDis > tmpDis)
-            {
-                nearDis = tmpDis;
-                //nearObjName = obs.name;
-                targetObj = obs;
-            }
-
-        }
-        //最も近かったオブジェクトを返す
-        //return GameObject.Find(nearObjName);
-        return targetObj;
-    }
-
-    void ChangeColor(GameObject nearNPC) // 上部のNPCのA-V値を参照し、色を変更
-    {
-        NPCAnimationController nearNPCAnimCon = nearNPC.GetComponent<NPCAnimationController>(); ;
-        byte r = (byte)nearNPCAnimCon.Arousal;
-        byte b = (byte)nearNPCAnimCon.Valence;
-        plane.GetComponent<Renderer>().material.color = new Color32(r, 0, b, 1);
     }
 }

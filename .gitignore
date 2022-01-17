@@ -77,5 +77,5 @@ crashlytics-build.properties
 /Python/.ipynb_checkpoints
 
 #/Assets/SVM/Parameters
-Python/SVM/.ipynb_checkpoints/SVM-checkpoint.ipynb
+#Python/SVM/.ipynb_checkpoints/SVM-checkpoint.ipynb
 Assets/JP_School gymnasium_V2/Scenes/School_Gymnasium/LightingData.asset

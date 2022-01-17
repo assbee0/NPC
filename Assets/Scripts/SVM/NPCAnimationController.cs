@@ -28,13 +28,13 @@ public class NPCAnimationController : MonoBehaviour
 
     public float timeOut = 20f; // 閾値
     private float timeElapsed = 0.0f; // 累計時間
-    private float speed = 0.5f;　// Parameterの遷移スピード
+    private const float SPEED = 0.5f; // Parameterの遷移スピード
     [SerializeField] private float _progress = 0f;
     [SerializeField] private int cycle = 0;
 
     SVMExecute svmE;
     NPCAnimationController ownAnimCon;
-    [SerializeField] RuntimeAnimatorController[] animConArr;
+    [SerializeField] RuntimeAnimatorController[] animConArr;  // animConArrの各配列の中身はInspector上で指定
 
     public int test_A = -1; // 仮
     public int test_V = -1; // 仮
@@ -64,46 +64,31 @@ public class NPCAnimationController : MonoBehaviour
         animator = GetComponent<Animator>();
         svmE = GetComponent<SVMExecute>();
         ownAnimCon = gameObject.GetComponent<NPCAnimationController>();
-        //svmE.Predict();
-        checkName(this.gameObject);
-        //Execute();
+        GetCategoryFromName(this.gameObject);
 
         testManager = GameObject.Find("TestManager");
         envParaGen = testManager.GetComponent<EnvParameterGenerate>();
-
         targetObject = GameObject.Find("TargetObject");
 
         // 感応度：0～0.5 0.5より大きくするとみんな一緒になり始める
         //sensitivity = UnityEngine.Random.Range(0.0f, 1.0f);
         //sensitivity = 1.0f; // 一定にしたいとき
 
-        //appeal = 1f;
-
-        //svmE.Predict();
-
+        // animConArrの各配列の中身はInspector上で指定
         // 左利きにチェンジ．左利きの人の割合は10%らしい
         if (UnityEngine.Random.value > 0.9) 
-        {
             animator.runtimeAnimatorController = animConArr[0];
-        } else
-        {
+        else
             animator.runtimeAnimatorController = animConArr[1];
-        }
 
+        // 単一動作での実験時
         if (envParaGen.isOnlyWave)
         {
             if (UnityEngine.Random.value > 0.9)
-            {
                 animator.runtimeAnimatorController = animConArr[2];
-            }
             else
-            {
                 animator.runtimeAnimatorController = animConArr[3];
-            }
         }
-
-        //Invoke("Initialize", 16);
-        //Initialize();
     }
 
     // Update is called once per frame
@@ -114,19 +99,17 @@ public class NPCAnimationController : MonoBehaviour
             //////////////////////////////////////////////////////////
             // 環境パラメタ取得 & A-Vカテゴリ決定 & A-V値決定 & 動作選定
             Initialize();
-            //Execute();
         }
         else if (envParaGen.count == 17 && isInitialize == true)
         {
             //////////////////////////////////////////////////////////
             // A-Vコヒーレンスパラメタ取得
-            getAroundAVValue();
+            GetAroundAVValue();
             //////////////////////////////////////////////////////////
             // 収束A-V値決定
-            destAr = GetInterpValue(pastAr, coheAr);
-            destVa = GetInterpValue(pastVa, coheVa);
+            destAr = GetNextTerminalValue(pastAr, coheAr);
+            destVa = GetNextTerminalValue(pastVa, coheVa);
             isInitialize = false;
-
         }
         else if (envParaGen.count > 19)
         {
@@ -147,7 +130,8 @@ public class NPCAnimationController : MonoBehaviour
             catV = svmE.result_V;
         }
         else
-        {                 // 凡例時
+        {   
+            // 凡例時
             //test_A = envParaGen.test_catA; // とりあえず
             //test_V = envParaGen.test_catV; // とりあえず
             catA = test_A; // RealTimeGenerate.csで決められる on 2021/01/07
@@ -158,8 +142,8 @@ public class NPCAnimationController : MonoBehaviour
         // 初期A-V値決定
         intAr = GetParameterFromCategory(catA);
         intVa = GetParameterFromCategory(catV);
-        animator.SetInteger("Cat_A", catA);
-        animator.SetInteger("Cat_V", catV);
+        animator.SetInteger("categoryArousal", catA);
+        animator.SetInteger("categoryValence", catV);
         animator.SetFloat("Arousal", intAr);
         animator.SetFloat("Valence", intVa);
 
@@ -177,9 +161,9 @@ public class NPCAnimationController : MonoBehaviour
         //////////////////////////////////////////////////////////
 
         /*
-        getAroundAVValue();
-        destAr = GetInterpValue(pastAr, coheAr);
-        destVa = GetInterpValue(pastVa, coheVa);
+        GetAroundAVValue();
+        destAr = GetNextTerminalValue(pastAr, coheAr);
+        destVa = GetNextTerminalValue(pastVa, coheVa);
         */
 
         isInitialize = true;
@@ -187,39 +171,32 @@ public class NPCAnimationController : MonoBehaviour
 
     public void Execute()
     {
-        
         // 一定間隔で実行する場合
         timeElapsed += Time.deltaTime;
         if (timeElapsed >= timeOut)
         {
-            // 処理
-            //svmE.Predict();
-            //getAroundAVValue();
-            //getAroundAVValue();
             timeElapsed = 0.0f;
         }
         
-
         //sensitivity = envParaGen.sensitivity; // 感応度合い
         //this.transform.LookAt(targetObject.transform);
 
-
-        if (_progress > 1f)
+        if (_progress > 1f) // サイクル終了
         {
             _progress = 0f;
-            pastAr = arousal;
-            pastVa = valence;
-            destAr = GetInterpValue(pastAr, coheAr);
-            destVa = GetInterpValue(pastVa, coheVa);
+            pastAr = arousal;  // 現時点でのArousal値を始点に
+            pastVa = valence;  // 現時点でのValence値を始点に
+            destAr = GetNextTerminalValue(pastAr, coheAr);
+            destVa = GetNextTerminalValue(pastVa, coheVa);
             cycle++;
 
-            if (catA != CheckCategory(arousal)) {
-                catA = CheckCategory(arousal);
-                animator.SetInteger("Cat_A", catA);
+            if (catA != GetCategoryFromValue(arousal)) {  // 覚醒度カテゴリに変更がある場合
+                catA = GetCategoryFromValue(arousal);
+                animator.SetInteger("categoryArousal", catA);
             }
-            if (catV != CheckCategory(valence)) {
-                catV = CheckCategory(valence);
-                animator.SetInteger("Cat_V", catV);
+            if (catV != GetCategoryFromValue(valence)) {  // 感情価カテゴリに変更がある場合
+                catV = GetCategoryFromValue(valence);
+                animator.SetInteger("categoryValence", catV);
             }
 
             if (this.name.Equals("girl(Clone)_19"))
@@ -231,13 +208,13 @@ public class NPCAnimationController : MonoBehaviour
             // A-Vコヒーレンスパラメタ取得
             coheAr = 0;
             coheVa = 0;
-            getAroundAVValue();
+            GetAroundAVValue();
             if (this.name.Equals("girl(Clone)_18"))
             {
                 Debug.Log("success!!");
             }
         }
-        _progress = _progress + speed * Time.deltaTime;
+        _progress = _progress + SPEED * Time.deltaTime;
         //Debug.Log("_progress: " + _progress);
 
         // A-V値の遷移
@@ -257,12 +234,9 @@ public class NPCAnimationController : MonoBehaviour
         */
         arousal = Mathf.Lerp(pastAr, destAr, _progress);
         valence = Mathf.Lerp(pastVa, destVa, _progress);
-        //animator.SetInteger("Cat_A", catA);
-        //animator.SetInteger("Cat_V", catV);
 
         animator.SetFloat("Arousal", arousal);
         animator.SetFloat("Valence", valence);
-
     }
 
     float GetParameterFromCategory(int catg)
@@ -284,26 +258,15 @@ public class NPCAnimationController : MonoBehaviour
         return random;
     }
 
-    public float GetInterpValue(float pastAr, float cohePara) // 補間値を乱数で取得
+    public float GetNextTerminalValue(float pastValue, float cohePara) // 補間値を乱数で取得
     {
-        /*
-        float boundary = 256.0f / 3.0f;
-        float random = 0;
-        if (catg == 0) {
-            random = UnityEngine.Random.Range(0.0f, boundary);
-        } else if (catg == 1) {
-            random = UnityEngine.Random.Range(boundary, boundary * 2.0f);
-        } else if (catg == 2) {
-            random = UnityEngine.Random.Range(boundary * 2.0f, 256.0f);
-        }
-        */
-
+        float result = pastValue - sensitivity * cohePara;
         float MIN = 0.0f;
         float MAX = 256.0f;
-        return Mathf.Clamp(pastAr - sensitivity * cohePara, MIN, MAX);
+        return Mathf.Clamp(result, MIN, MAX);
     }
 
-    public void checkName(GameObject obj)
+    public void GetCategoryFromName(GameObject obj)
     {
         if (obj.name == "Ch20_nonPBR_Legend") {
             test_A = 0;
@@ -335,7 +298,7 @@ public class NPCAnimationController : MonoBehaviour
         }
     }
 
-    public void getAroundAVValue()
+    public void GetAroundAVValue()
     {
         // 中心:自分の位置, 半径:radiusの球内に存在するものを検出
         Collider[] arrayCld = Physics.OverlapSphere(transform.position, 1.5f);
@@ -349,35 +312,27 @@ public class NPCAnimationController : MonoBehaviour
             }
         }
 
-        float sum = listObj.Count();
-        float avgSum = 0f;
-        //Debug.Log(sum);
+        float objectNum = listObj.Count();
+        float appealSum = 0f;  // 周辺NPCノ影響度の総和
+        //Debug.Log(objectNum);
         float[] avValue = new float[2];
         foreach (GameObject obj in listObj)
         {
             NPCAnimationController aroundAnimCon = obj.gameObject.GetComponent<NPCAnimationController>();
-            avgSum += aroundAnimCon.appeal;
+            appealSum += aroundAnimCon.appeal;
         }
 
         foreach (GameObject obj in listObj)
         {
-            // 対象となるGameObjectとの距離を調べる
+            // 対象となるGameObject objとの距離を調べる
             float dist = Vector3.Distance(obj.transform.position, transform.position);
-            // 対象となるGameObjectのA-V値を調べる
+            // 対象となるGameObject objのA-V値を調べる
             NPCAnimationController aroundAnimCon = obj.gameObject.GetComponent<NPCAnimationController>();
             float diffAr = arousal - aroundAnimCon.Arousal;
             float diffVa = valence - aroundAnimCon.Valence;
-            //SetAppeal(obj);
-
-            coheAr += diffAr * calcValue(dist) * aroundAnimCon.appeal / avgSum;
-            coheVa += diffVa * calcValue(dist) * aroundAnimCon.appeal / avgSum;
-            //coheAr += aroundAnimCon.Arousal * aroundAnimCon.appeal / avgSum;
-            //coheVa += aroundAnimCon.Valence * aroundAnimCon.appeal / avgSum;
-
-
-            // 周囲の累計A-V値を更新
-            //coheAr += calcValue(aroundAnimCon.appeal, diffAr, dist) / sum;
-            //coheVa += calcValue(aroundAnimCon.appeal, diffVa, dist) / sum;
+            // A-Vコヒーレンスパラメタの計算
+            coheAr += diffAr * GetAttenuationFromDistance(dist) * aroundAnimCon.appeal / appealSum;
+            coheVa += diffVa * GetAttenuationFromDistance(dist) * aroundAnimCon.appeal / appealSum;
 
             //if (this.name.Equals("girl(Clone)_19") && obj.name.Equals("girl(Clone)_27"))
             //{
@@ -387,23 +342,19 @@ public class NPCAnimationController : MonoBehaviour
             //    Debug.Log(gameObject.name + ": diffAr=" + diffAr);
             //    Debug.Log(gameObject.name + ": coheAr=" + coheAr);
             //}
- 
-
         }
-        coheAr = coheAr / sum;
-        coheVa = coheVa / sum;
+        coheAr = coheAr / objectNum;
+        coheVa = coheVa / objectNum;
 
         //Debug.Log(gameObject.name + ": coheAr=" + coheAr);
     }
 
-    public float calcValue(float dist)
+    public float GetAttenuationFromDistance(float dist)  // 距離減衰を計算
     {
-        //return diff * aroundAppeal * (float)Math.Exp(-1 / (1 + 6 * (sensitivity - 0.5)) * (double)dist);
-        //return diff * aroundAppeal * (float)Math.Exp(-1 / 25 * ((double)dist - 1));
         return (float)Math.Exp(-1 / 25 * ((double)dist - 1));
     }
 
-    private int CheckCategory(float value)
+    private int GetCategoryFromValue(float value)
     {
         float boundary = 256.0f / 3.0f;
         if (0.0f <= value && value < boundary)
@@ -417,22 +368,6 @@ public class NPCAnimationController : MonoBehaviour
             return -99;
         }
     }
-
-    /*
-    void SetAppeal(GameObject obj)
-    {
-        string name = obj.name;
-        if (name.Equals("girl_19") || name.Equals("girl_20"))
-        {
-            appeal = 1.0f;
-        }
-        else
-        {
-            appeal = 0.5f;
-            //appeal = UnityEngine.Random.Range(0f, 0.6f);
-        }
-    }
-    */
 
     public bool LookAtObject()
     {

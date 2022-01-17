@@ -58,10 +58,10 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 2
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 2
   m_DstStateMachine: {fileID: -7605285189009638052}
   m_DstState: {fileID: 0}
@@ -976,10 +976,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 0
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 2
   m_DstStateMachine: {fileID: 2837067209921029516}
   m_DstState: {fileID: 0}
@@ -1021,10 +1021,10 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 0
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: -8904346349259924425}
   m_DstState: {fileID: 0}
@@ -1101,10 +1101,10 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 7
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 2
   - m_ConditionMode: 7
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4508575996646308256}
@@ -1319,14 +1319,26 @@ AnimatorStateMachine:
   m_EntryTransitions:
   - {fileID: 641926827474830859}
   m_StateMachineTransitions:
-  - first: {fileID: -1713222545785069860}
-    second:
-    - {fileID: 3168715727333077970}
-    - {fileID: 3358979567266742915}
   - first: {fileID: -8904346349259924425}
     second:
     - {fileID: -1213072643316459379}
     - {fileID: -6525437176654987989}
+  - first: {fileID: -7605285189009638052}
+    second:
+    - {fileID: 4922207181133414999}
+    - {fileID: -9028133974295388260}
+  - first: {fileID: -3573909201739355706}
+    second:
+    - {fileID: 5355467399856700058}
+    - {fileID: -5818177738159604575}
+  - first: {fileID: -1713222545785069860}
+    second:
+    - {fileID: 3168715727333077970}
+    - {fileID: 3358979567266742915}
+  - first: {fileID: -530167098199860784}
+    second:
+    - {fileID: 7503656285932790535}
+    - {fileID: 7234038587377107981}
   - first: {fileID: 12851240427412827}
     second:
     - {fileID: -6300612788142881546}
@@ -1335,10 +1347,6 @@ AnimatorStateMachine:
     second:
     - {fileID: -1544339317203174434}
     - {fileID: 2111330867399828612}
-  - first: {fileID: -530167098199860784}
-    second:
-    - {fileID: 7503656285932790535}
-    - {fileID: 7234038587377107981}
   - first: {fileID: 6463882918974506713}
     second:
     - {fileID: 8006285301160837809}
@@ -1347,14 +1355,6 @@ AnimatorStateMachine:
     second:
     - {fileID: -2639236341447648652}
     - {fileID: 8625408901883617109}
-  - first: {fileID: -3573909201739355706}
-    second:
-    - {fileID: 5355467399856700058}
-    - {fileID: -5818177738159604575}
-  - first: {fileID: -7605285189009638052}
-    second:
-    - {fileID: 4922207181133414999}
-    - {fileID: -9028133974295388260}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 330, y: 430, z: 0}
   m_EntryPosition: {x: 90, y: 70, z: 0}
@@ -1370,10 +1370,10 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 2
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: -3573909201739355706}
   m_DstState: {fileID: 0}
@@ -2055,10 +2055,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 1
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: -530167098199860784}
   m_DstState: {fileID: 0}
@@ -2191,10 +2191,10 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 7
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 1
   - m_ConditionMode: 7
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 2
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4508575996646308256}
@@ -2486,10 +2486,10 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 7
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 0
   - m_ConditionMode: 7
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 2
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4508575996646308256}
@@ -2571,10 +2571,10 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 7
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 0
   - m_ConditionMode: 7
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4508575996646308256}
@@ -2968,10 +2968,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 1
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: 6463882918974506713}
   m_DstState: {fileID: 0}
@@ -3023,10 +3023,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 2
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: -3573909201739355706}
   m_DstState: {fileID: 0}
@@ -3162,13 +3162,13 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: Cat_A
+  - m_Name: categoryArousal
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: Cat_V
+  - m_Name: categoryValence
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -3685,10 +3685,10 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 2
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: 12851240427412827}
   m_DstState: {fileID: 0}
@@ -3804,10 +3804,10 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 0
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 2
   m_DstStateMachine: {fileID: 2837067209921029516}
   m_DstState: {fileID: 0}
@@ -3934,10 +3934,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 1
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 2
   m_DstStateMachine: {fileID: 8699329646783954271}
   m_DstState: {fileID: 0}
@@ -4165,10 +4165,10 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 7
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 0
   - m_ConditionMode: 7
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4508575996646308256}
@@ -4224,10 +4224,10 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 0
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: -1713222545785069860}
   m_DstState: {fileID: 0}
@@ -4271,10 +4271,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 0
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: -8904346349259924425}
   m_DstState: {fileID: 0}
@@ -4299,10 +4299,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 0
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: -1713222545785069860}
   m_DstState: {fileID: 0}
@@ -4327,10 +4327,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 2
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 2
   m_DstStateMachine: {fileID: -7605285189009638052}
   m_DstState: {fileID: 0}
@@ -4939,10 +4939,10 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 7
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 2
   - m_ConditionMode: 7
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 2
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4508575996646308256}
@@ -4986,10 +4986,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 2
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: 12851240427412827}
   m_DstState: {fileID: 0}
@@ -5079,10 +5079,10 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 7
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 2
   - m_ConditionMode: 7
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4508575996646308256}
@@ -5432,10 +5432,10 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 1
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: 6463882918974506713}
   m_DstState: {fileID: 0}
@@ -5699,10 +5699,10 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 1
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: -530167098199860784}
   m_DstState: {fileID: 0}
@@ -5864,10 +5864,10 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 7
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 1
   - m_ConditionMode: 7
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4508575996646308256}
@@ -6025,10 +6025,10 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 7
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 1
   - m_ConditionMode: 7
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4508575996646308256}
@@ -6261,10 +6261,10 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_A
+    m_ConditionEvent: categoryArousal
     m_EventTreshold: 1
   - m_ConditionMode: 6
-    m_ConditionEvent: Cat_V
+    m_ConditionEvent: categoryValence
     m_EventTreshold: 2
   m_DstStateMachine: {fileID: 8699329646783954271}
   m_DstState: {fileID: 0}

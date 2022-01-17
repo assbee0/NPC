@@ -47,7 +47,7 @@ public class SVMExecute : MonoBehaviour
         result_V = Argmax(outunit_V.output); // result：カテゴリ
     }    
 
-    public static float Dot(float[] a, float[] b)
+    public static float Dot(float[] a, float[] b) // aとbの内積a・bを計算
     {
         if (a.Length != b.Length)
             return 0;
@@ -65,22 +65,6 @@ public class SVMExecute : MonoBehaviour
             return 1;
         else
             return 0;
-    }
-
-    public static float[] Softmax(float[] x)
-    {
-        float[] y = new float[CLASSNUM];
-        float sum = 0;
-        for(int i=0; i<x.Length;i++)
-        {
-            x[i] = Mathf.Exp(x[i]);
-            sum += x[i];
-        }
-        for (int i = 0; i < x.Length; i++)
-        {
-            y[i] = x[i] / sum;
-        }
-        return y;
     }
 
     private int Argmax(float[] input)
@@ -114,7 +98,7 @@ class OutunitTest
 
     }
 
-    public void Propagation(float[] x)
+    public void Propagation(float[] x) // カテゴリの推定
     {
         for (int i = 0; i < CLASSNUM; i++)
         {
@@ -166,15 +150,12 @@ class OutunitTest
         sr.Close();
     }
 
-    private float[] getRow(float[][] x, int row)
+    private float[] getRow(float[][] x, int row) // 2次元配列xのrow行目を出力
     {
-        //Debug.Log(x.Length);
         float[] a = new float[x[0].Length];
         for (int i = 0; i < x[0].Length; i++)
         {
-            //Debug.Log(i);
-            a[i] = x[row][i]; // 修正したけど、これ合ってる？
-            //Debug.Log(a[i]);
+            a[i] = x[row][i];
         }
         return a;
     }

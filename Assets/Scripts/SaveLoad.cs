@@ -51,10 +51,15 @@ public class SaveLoad : MonoBehaviour
         }
         sw.Close();
     }
+
     public void CreateDirect()
     {
+        /*
+         * 先輩のコードなため、E:/の部分は修正不可
         for(int i = 0; i < 3; i++)
             if (!Directory.Exists("E:/character dataset2/Level " + (i+1) + "/" + number[i]))
                 Directory.CreateDirectory("E:/character dataset2/Level " + (i+1) + "/" + number[i]);
+        */
     }
+
 }
