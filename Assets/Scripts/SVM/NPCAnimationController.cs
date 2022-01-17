@@ -63,14 +63,12 @@ public class NPCAnimationController : MonoBehaviour
 
         // animConArrの各配列の中身はInspector上で指定
         // 左利きにチェンジ．左利きの人の割合は10%らしい
-        if (UnityEngine.Random.value > 0.9) 
-            animator.runtimeAnimatorController = animConArr[0];
-        else
-            animator.runtimeAnimatorController = animConArr[1];
-
-        // 単一動作での実験時
-        if (gp.isOnlyWave)
-        {
+        if (!gp.isOnlyWave) {   // 複数動作
+            if (UnityEngine.Random.value > 0.9) 
+                animator.runtimeAnimatorController = animConArr[0];
+            else
+                animator.runtimeAnimatorController = animConArr[1];
+        } else {                // 単一動作
             if (UnityEngine.Random.value > 0.9)
                 animator.runtimeAnimatorController = animConArr[2];
             else
@@ -112,7 +110,7 @@ public class NPCAnimationController : MonoBehaviour
         svmExecute.Predict();
 
         // A-V値の遷移
-        if (isLegend == false)  // 通常時
+        if (gp.isLegend == false)  // 通常時
         { 
             catA = cp.categoryA;
             catV = cp.categoryV;

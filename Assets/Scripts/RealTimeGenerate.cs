@@ -156,6 +156,7 @@ public class RealTimeGenerate : MonoBehaviour
     {
         animCon = character.GetComponent<NPCAnimationController>();
         cp = character.GetComponent<CharacterParameter>();
+        gp = character.GetComponent<GlobalParameter>();
         character.name = character.name + "_" + num;
 
         /*
@@ -191,8 +192,10 @@ public class RealTimeGenerate : MonoBehaviour
             cp.d_categoryV = 2;
             cp.appeal = 1f;
             cp.sensitivity = 0f;
-        } else
+        } 
+        else
         {
+            Debug.Log("aaaaaa");
             gp.isLegend = true;
             cp.d_categoryA = 0;
             cp.d_categoryV = 0;

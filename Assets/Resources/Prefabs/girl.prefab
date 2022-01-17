@@ -204,6 +204,8 @@ GameObject:
   - component: {fileID: 7971928258165127714}
   - component: {fileID: 987939610612254810}
   - component: {fileID: -8852965219339192629}
+  - component: {fileID: -4297853846660949267}
+  - component: {fileID: 5504135178420570072}
   m_Layer: 8
   m_Name: girl
   m_TagString: NPC
@@ -308,10 +310,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a402b8fc8d8813f4e8f139ef7fa17e1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arousal: 0
-  valence: 0
-  intAr: 0
-  intVa: 0
   destAr: 0
   destVa: 0
   coheAr: 0
@@ -326,10 +324,7 @@ MonoBehaviour:
   - {fileID: 9100000, guid: 7781337ad1fbe9b48b6ea06c1e876ad5, type: 2}
   - {fileID: 9100000, guid: 0e26c65c817d0b746955efd1015e8808, type: 2}
   - {fileID: 9100000, guid: 127f5023564f52848a75223a42c9ab6f, type: 2}
-  test_A: -1
-  test_V: -1
   isLegend: 0
-  sensitivity: 0
   appeal: 0
   radius: 100
 --- !u!114 &-2867009806776288337
@@ -344,8 +339,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ae46da9324c0d441a1648fc95c9c734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  result_A: -1
-  result_V: -1
 --- !u!114 &6612385474318693968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -594,6 +587,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BlendShapeAvatar: {fileID: 11400000, guid: e1b732525d062f04dacda87fd5c43f68, type: 2}
+--- !u!114 &-4297853846660949267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491425359314142843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf8cbc7a6227e1740a94715e5246840f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  valueA: 0
+  valueV: 0
+  categoryA: 0
+  categoryV: 0
+  sensitivity: 0
+  appeal: 0
+  envParameter: []
+  d_categoryA: 0
+  d_categoryV: 0
+  gp: {fileID: 0}
+--- !u!114 &5504135178420570072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491425359314142843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c118f00195e0d1545b2433ce8e499fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ENVPARAMNUM: 2
+  isOnlyWave: 1
+  isLegend: 0
+  COUNT: 0
 --- !u!1 &521671777466885155
 GameObject:
   m_ObjectHideFlags: 0

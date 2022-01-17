@@ -38,8 +38,8 @@ public class GetSVMParameter : MonoBehaviour
         envParam[4] = Mathf.Clamp(envParaGen.Param5 + UnityEngine.Random.Range(-3, 4), MIN, MAX);
         */
         
-        cp.envParameter[0] = envParaGen.Param1;
-        cp.envParameter[1] = envParaGen.Param2;
+        //cp.envParameter[0] = envParaGen.Param1;
+        //cp.envParameter[1] = envParaGen.Param2;
         //envParam[2] = envParaGen.Param3;
         //envParam[3] = envParaGen.Param4;
         //envParam[4] = envParaGen.Param5;

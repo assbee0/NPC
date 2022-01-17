@@ -19,5 +19,7 @@ public class CharacterParameter : MonoBehaviour
     {
         gp = gameObject.GetComponent<GlobalParameter>();
         envParameter = new float[gp.ENVPARAMNUM];
+        envParameter[0] = 8;
+        envParameter[1] = 10;
     }
 }
