@@ -8,27 +8,15 @@ using UnityEngine.UI;
 public class SVMExecute : MonoBehaviour
 {
     const int CLASSNUM = 3;
-    public int result_A = -1;
-    public int result_V = -1;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public int catArResult = -1;
+    public int catVaResult = -1;
 
     public void Predict()
     {
         //////////////////////////////////////////////////////////
         // 環境パラメタ取得
         GetSVMParameter svmP = GetComponent<GetSVMParameter>();
-        float[] envParam = svmP.EnvParam;
+        float[] envParam = svmP.envParam;
 
         //////////////////////////////////////////////////////////
         // A-Vカテゴリ決定
@@ -37,34 +25,29 @@ public class SVMExecute : MonoBehaviour
         outunit_A.Readb(0); // 0: Arousal, 1: Valence
         outunit_A.Readw(0);
         outunit_A.Propagation(envParam);
-        result_A = Argmax(outunit_A.output); // result：カテゴリ
+        catArResult = Argmax(outunit_A.output); // result：カテゴリ
 
         // Valenceについて
         OutunitTest outunit_V = new OutunitTest();
         outunit_V.Readb(1);
         outunit_V.Readw(1);
         outunit_V.Propagation(envParam);
-        result_V = Argmax(outunit_V.output); // result：カテゴリ
+        catVaResult = Argmax(outunit_V.output); // result：カテゴリ
     }    
 
     public static float Dot(float[] a, float[] b)
     {
-        if (a.Length != b.Length)
-            return 0;
+        if (a.Length != b.Length)   return 0;
         float d = 0;
         for (int i = 0; i < a.Length; i++)
-        {
             d += a[i] * b[i];
-        }
         return d;
     }
 
     public static float StepFunction(float x)
     {
-        if (x > 0)
-            return 1;
-        else
-            return 0;
+        if (x > 0)    return 1;
+        else          return 0;
     }
 
     public static float[] Softmax(float[] x)
@@ -77,9 +60,7 @@ public class SVMExecute : MonoBehaviour
             sum += x[i];
         }
         for (int i = 0; i < x.Length; i++)
-        {
             y[i] = x[i] / sum;
-        }
         return y;
     }
 
@@ -95,42 +76,39 @@ public class SVMExecute : MonoBehaviour
                 argmax = i;
             }
         }
-        //return argmax+1;
         return argmax;
     }
 }
 
 class OutunitTest
 {
-    const int CLASSNUM = 3; // それぞれHigh, Medium, Low
-    const int HUNITNUM = 2; // 取得するパラメタの数
-    public float[] b = new float[CLASSNUM];
-    public float[][] w = new float[CLASSNUM][];
+    const int CLASSNUM = 3; // 行：それぞれHigh, Medium, Low
+    const int HUNITNUM = 2; // 列：取得するパラメタの数
+    public float[] b = new float[CLASSNUM];  // 3行1列 y=sign(wx+b)
+    public float[][] w = new float[CLASSNUM][];  // 3行2列 y=sign(wx+b)
     public float[] u = new float[CLASSNUM];
     public float[] output = new float[CLASSNUM];
-
-    void Start()
-    {
-
-    }
+    private const string PATH_AROUSAL_H = "/SVM/Parameters/A_intercept.txt";
+    private const string PATH_VALENCE_H = "/SVM/Parameters/V_intercept.txt";
+    private const string PATH_AROUSAL_W = "/SVM/Parameters/A_coef.txt";
+    private const string PATH_VALENCE_W = "/SVM/Parameters/V_coef.txt";
 
     public void Propagation(float[] x)
     {
         for (int i = 0; i < CLASSNUM; i++)
         {
-            u[i] = SVMExecute.Dot(getRow(w, i), x) + b[i];
-            output[i] = SVMExecute.StepFunction(u[i]);
+            u[i] = SVMExecute.Dot(getRow(w, i), x) + b[i];  // wx + b
+            output[i] = SVMExecute.StepFunction(u[i]);  // sign(wx + b), 推定されたカテゴリの値だけ正、それ以外負
         }
     }
 
     public void Readb(int catg)
     {
         string filepath = "";
-        if (catg == 0) {
-            filepath = Application.dataPath + "/SVM/Parameters/A_intercept.txt";
-        } else if (catg == 1) {
-            filepath = Application.dataPath + "/SVM/Parameters/V_intercept.txt";
-        }
+        if (catg == 0)
+            filepath = Application.dataPath + PATH_AROUSAL_H;
+        else if (catg == 1)
+            filepath = Application.dataPath + PATH_VALENCE_H;
         if (!File.Exists(filepath))
             return;
         StreamReader sr = new StreamReader(filepath, Encoding.UTF8);
@@ -145,11 +123,10 @@ class OutunitTest
     public void Readw(int catg) // coefが重みW
     {
         string filepath = "";
-        if (catg == 0) {
-            filepath = Application.dataPath + "/SVM/Parameters/A_coef.txt";
-        } else if (catg == 1) {
-            filepath = Application.dataPath + "/SVM/Parameters/V_coef.txt";
-        }
+        if (catg == 0)
+            filepath = Application.dataPath + PATH_AROUSAL_W;
+        else if (catg == 1)
+            filepath = Application.dataPath + PATH_VALENCE_W;
         if (!File.Exists(filepath))
             return;
         StreamReader sr = new StreamReader(filepath, Encoding.UTF8);
@@ -168,14 +145,9 @@ class OutunitTest
 
     private float[] getRow(float[][] x, int row)
     {
-        //Debug.Log(x.Length);
         float[] a = new float[x[0].Length];
         for (int i = 0; i < x[0].Length; i++)
-        {
-            //Debug.Log(i);
-            a[i] = x[row][i]; // 修正したけど、これ合ってる？
-            //Debug.Log(a[i]);
-        }
+            a[i] = x[row][i];
         return a;
     }
 }

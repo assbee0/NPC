@@ -5,134 +5,22 @@ using System;
 
 public class GetSVMParameter : MonoBehaviour
 {
-    NPCAnimationController NPCAnimCon;
-    private int radius = 100;
     public float[] envParam; // publicじゃないとSVMExecuteでエラー吐く
-    private int VARNUM = 2; // 取得するパラメタの数
-    //public int Param1 = 8; // 仮（Debug用）
-    //public int Param2 = 10; // 仮（Debug用）
-    //public int Param3 = 8; // 仮（Debug用）
-    //public int Param4 = 9; // 仮（Debug用）
-    //public int Param5 = 9; // 仮（Debug用）
-    private float AROUSAL;
-    private float VALENCE;
-    private GameObject testManager;
-    private EnvParameterGenerate envParaGen;
-    private float sensitivity; // 感応度合い
-
-    public float coheAr = 0;
-    public float coheVa = 0;
+    private const int VARIABLE_NUM = 2; // 取得するパラメタの数
+    private const int ENV_PARAM1 = 8; // 仮（Debug用）
+    private const int ENV_PARAM2 = 10; // 仮（Debug用）
+    private const int ENV_PARAM3 = 8; // 仮（Debug用）
+    private const int ENV_PARAM4 = 9; // 仮（Debug用）
+    private const int ENV_PARAM5 = 9; // 仮（Debug用）
 
     // Start is called before the first frame update
     void Start()
     {
-        envParam = new float[VARNUM];
-        NPCAnimationController ownAnimCon = gameObject.GetComponent<NPCAnimationController>();
-        AROUSAL = ownAnimCon.Arousal;
-        VALENCE = ownAnimCon.Valence;
-        testManager = GameObject.Find("TestManager");
-        envParaGen = testManager.GetComponent<EnvParameterGenerate>();
-        //getAroundAVValue();
-
-        int MIN = 1;
-        int MAX = 10;
-
-        /*
-        envParam[0] = Mathf.Clamp(envParaGen.Param1 + UnityEngine.Random.Range(-3, 4), MIN, MAX);
-        envParam[1] = Mathf.Clamp(envParaGen.Param2 + UnityEngine.Random.Range(-3, 4), MIN, MAX);
-        envParam[2] = Mathf.Clamp(envParaGen.Param3 + UnityEngine.Random.Range(-3, 4), MIN, MAX);
-        envParam[3] = Mathf.Clamp(envParaGen.Param4 + UnityEngine.Random.Range(-3, 4), MIN, MAX);
-        envParam[4] = Mathf.Clamp(envParaGen.Param5 + UnityEngine.Random.Range(-3, 4), MIN, MAX);
-        */
-
-        
-        envParam[0] = envParaGen.Param1;
-        envParam[1] = envParaGen.Param2;
-        //envParam[2] = envParaGen.Param3;
-        //envParam[3] = envParaGen.Param4;
-        //envParam[4] = envParaGen.Param5;
-        
-    }
-
-        // Update is called once per frame
-        void Update()
-    {
-        //float[] tmpArray = getAroundAVValue();
-        /*
-        envParam[0] = tmpArray[0];
-        envParam[1] = tmpArray[1];
-        envParam[2] = Param1;
-        envParam[3] = Param2;
-        */
-
-
-
-        //envParam = 
-
-        //Debug.Log("Param[0]: " + envParam[0]);
-        //Debug.Log("Param[1]: " + envParam[1]);
-
-    }
-
-    /*
-    envParam[0]: 周囲のArousal値
-    envParam[1]: 周囲のValence値
-    envParam[2]: Param1(仮)
-    envParam[3]: Param2(仮)
-    */
-
-    /*
-    public float[] getAroundAVValue()
-    {
-        // 中心:自分の位置, 半径:radiusの球内に存在するものを検出
-        Collider[] arrayCld = Physics.OverlapSphere(transform.position, radius);
-        List<GameObject> listObj = new List<GameObject>();
-        // 検出したGameObjectの内、tagが"NPC"であるものをlistObjリストに追加
-        foreach (Collider cld in arrayCld) {
-            if (cld.tag == "NPC") {
-                listObj.Add(cld.gameObject);
-            }
-        }
-
-        float[] avValue = new float[2];
-        foreach (GameObject obj in listObj) {
-            // 対象となるGameObjectとの距離を調べる
-            float dist = Vector3.Distance(obj.transform.position, transform.position);
-            // 対象となるGameObjectのA-V値を調べる
-            NPCAnimCon = obj.gameObject.GetComponent<NPCAnimationController>();
-            float arousal = NPCAnimCon.Arousal;
-            float valence = NPCAnimCon.Valence;
-
-            float diffAr = AROUSAL - arousal;
-            float diffVa = VALENCE - valence;
-
-            // 周囲の累計A-V値を更新
-            coheAr += calcValue(diffAr, dist);
-            coheVa += calcValue(diffVa, dist);
-        }
-        return avValue;
-    }
-    */
-
-    public float calcValue(float diff, float dist)
-    {
-        //avValue[0] = ar;
-        //avValue[1] = va;
-
-        //avValue[0] = avValue[0] + ar - avValue[0];
-        //avValue[1] = avValue[1] + va - avValue[1];
-
-        //avValue[0] = avValue[0] + (ar - AROUSAL) / dist;
-        //avValue[1] = avValue[1] + (va - VALENCE) / dist;
-
-        //avValue[0] = avValue[0] + (ar - AROUSAL)/3; // 後で要修正
-        //avValue[1] = avValue[1] + (va - VALENCE)/3;
-
-        return diff * (float)Math.Exp(-1 * (double)sensitivity * (double)dist);
-    }
-
-    public float[] EnvParam {
-        get{ return envParam; }
-        set{ envParam = value;}
+        envParam = new float[VARIABLE_NUM];
+        envParam[0] = ENV_PARAM1;
+        envParam[1] = ENV_PARAM2;
+        //envParam[2] = ENV_PARAM3;
+        //envParam[3] = ENV_PARAM4;
+        //envParam[4] = ENV_PARAM5;
     }
 }

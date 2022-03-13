@@ -20,51 +20,40 @@ public class NPCAnimationController : MonoBehaviour
     [SerializeField] private float destVa;
     [SerializeField] private float coheAr = 0;
     [SerializeField] private float coheVa = 0;
-
-    [SerializeField] private int catA;
-    [SerializeField] private int catV;
+    [SerializeField] private int catAr;
+    [SerializeField] private int catVa;
     private int pastCatA;
     private int pastCatV;
-
-    public float timeOut = 20f; // 閾値
-    private float timeElapsed = 0.0f; // 累計時間
-    private float speed = 0.5f;　// Parameterの遷移スピード
+    private float TRANSITION_SPEED = 0.5f; // Parameterの遷移スピード
     [SerializeField] private float _progress = 0f;
     [SerializeField] private int cycle = 0;
-
-    SVMExecute svmE;
+    SVMExecute svmExecute;
     NPCAnimationController ownAnimCon;
     [SerializeField] RuntimeAnimatorController[] animConArr;
-
-    public int test_A = -1; // 仮
-    public int test_V = -1; // 仮
-    public bool isLegend;
-
+    public int catArTest = -1; // 仮
+    public int catVaTest = -1; // 仮
+    public bool isTest;
     private GameObject testManager;
     private EnvParameterGenerate envParaGen;
-
     [SerializeField] public float sensitivity; // 感応度合い
     public float appeal; // 注目度，魅力
-    public float radius = 3;
-
-
-
+    private const float SEARCH_RADIUS = 1.5f;
     private GameObject targetObject; // 注視したいオブジェクト
-
     private float lookAtWeight;
     private float bodyWeight;
     private float headWeight;
     private float eyesWeight;
-
     private bool isInitialize;
+    private const double LAMBDA = 1 / 25;
+    private bool isOnlyWave = true;
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
-        svmE = GetComponent<SVMExecute>();
+        svmExecute = GetComponent<SVMExecute>();
         ownAnimCon = gameObject.GetComponent<NPCAnimationController>();
-        //svmE.Predict();
+        //svmExecute.Predict();
         checkName(this.gameObject);
         //Execute();
 
@@ -73,34 +62,21 @@ public class NPCAnimationController : MonoBehaviour
 
         targetObject = GameObject.Find("TargetObject");
 
-        // 感応度：0～0.5 0.5より大きくするとみんな一緒になり始める
-        //sensitivity = UnityEngine.Random.Range(0.0f, 1.0f);
-        //sensitivity = 1.0f; // 一定にしたいとき
 
-        //appeal = 1f;
 
-        //svmE.Predict();
+        //svmExecute.Predict();
 
         // 左利きにチェンジ．左利きの人の割合は10%らしい
         if (UnityEngine.Random.value > 0.9) 
-        {
-            animator.runtimeAnimatorController = animConArr[0];
-        } else
-        {
-            animator.runtimeAnimatorController = animConArr[1];
-        }
+            animator.runtimeAnimatorController = animConArr[0];  // SVM_Mirror
+        else
+            animator.runtimeAnimatorController = animConArr[1];  // SVM
 
-        if (envParaGen.isOnlyWave)
-        {
+        if (isOnlyWave)
             if (UnityEngine.Random.value > 0.9)
-            {
-                animator.runtimeAnimatorController = animConArr[2];
-            }
+                animator.runtimeAnimatorController = animConArr[2];  // SVM_wave_mirror
             else
-            {
-                animator.runtimeAnimatorController = animConArr[3];
-            }
-        }
+                animator.runtimeAnimatorController = animConArr[3];  // SVM_wave
 
         //Invoke("Initialize", 16);
         //Initialize();
@@ -123,10 +99,9 @@ public class NPCAnimationController : MonoBehaviour
             getAroundAVValue();
             //////////////////////////////////////////////////////////
             // 収束A-V値決定
-            destAr = GetInterpValue(pastAr, coheAr);
-            destVa = GetInterpValue(pastVa, coheVa);
+            destAr = GetTerminalValue(pastAr, coheAr);
+            destVa = GetTerminalValue(pastVa, coheVa);
             isInitialize = false;
-
         }
         else if (envParaGen.count > 19)
         {
@@ -138,153 +113,97 @@ public class NPCAnimationController : MonoBehaviour
     {
         //////////////////////////////////////////////////////////
         // 環境パラメタ取得 & 初期A-Vカテゴリ決定
-        svmE.Predict();
+        svmExecute.Predict();
 
         // A-V値の遷移
-        if (isLegend == false)
+        if (isTest == false)
         { // 通常時
-            catA = svmE.result_A;
-            catV = svmE.result_V;
+            catAr = svmExecute.catArResult;
+            catVa = svmExecute.catVaResult;
         }
         else
         {                 // 凡例時
-            //test_A = envParaGen.test_catA; // とりあえず
-            //test_V = envParaGen.test_catV; // とりあえず
-            catA = test_A; // RealTimeGenerate.csで決められる on 2021/01/07
-            catV = test_V;
+            catAr = catArTest;  // catArTest: RealTimeGenerate.csで決められる
+            catVa = catVaTest;
         }
 
         //////////////////////////////////////////////////////////
         // 初期A-V値決定
-        intAr = GetParameterFromCategory(catA);
-        intVa = GetParameterFromCategory(catV);
-        animator.SetInteger("Cat_A", catA);
-        animator.SetInteger("Cat_V", catV);
+        intAr = GetRandomValueFromCategory(catAr);
+        intVa = GetRandomValueFromCategory(catVa);
+        animator.SetInteger("Cat_A", catAr);
+        animator.SetInteger("Cat_V", catVa);
         animator.SetFloat("Arousal", intAr);
         animator.SetFloat("Valence", intVa);
 
         arousal = intAr;
         valence = intVa;
-
         pastAr = intAr;
         pastVa = intVa;
-
-        pastCatA = catA;
-        pastCatV = catV;
+        pastCatA = catAr;
+        pastCatV = catVa;
 
         //////////////////////////////////////////////////////////
         // 動作選定
         //////////////////////////////////////////////////////////
-
-        /*
-        getAroundAVValue();
-        destAr = GetInterpValue(pastAr, coheAr);
-        destVa = GetInterpValue(pastVa, coheVa);
-        */
+        // ステートマシン上で実行
 
         isInitialize = true;
     }
 
     public void Execute()
     {
-        
         // 一定間隔で実行する場合
-        timeElapsed += Time.deltaTime;
-        if (timeElapsed >= timeOut)
-        {
-            // 処理
-            //svmE.Predict();
-            //getAroundAVValue();
-            //getAroundAVValue();
-            timeElapsed = 0.0f;
-        }
-        
-
-        //sensitivity = envParaGen.sensitivity; // 感応度合い
-        //this.transform.LookAt(targetObject.transform);
-
-
         if (_progress > 1f)
         {
             _progress = 0f;
             pastAr = arousal;
             pastVa = valence;
-            destAr = GetInterpValue(pastAr, coheAr);
-            destVa = GetInterpValue(pastVa, coheVa);
+            destAr = GetTerminalValue(pastAr, coheAr);
+            destVa = GetTerminalValue(pastVa, coheVa);
             cycle++;
 
-            if (catA != CheckCategory(arousal)) {
-                catA = CheckCategory(arousal);
-                animator.SetInteger("Cat_A", catA);
+            if (catAr != GetCategoryFromValue(arousal)) {  // Arousalカテゴリに変更があれば
+                catAr = GetCategoryFromValue(arousal);
+                animator.SetInteger("Cat_A", catAr);
             }
-            if (catV != CheckCategory(valence)) {
-                catV = CheckCategory(valence);
-                animator.SetInteger("Cat_V", catV);
+            if (catVa != GetCategoryFromValue(valence)) {  // Valenceカテゴリに変更があれば
+                catVa = GetCategoryFromValue(valence);
+                animator.SetInteger("Cat_V", catVa);
             }
 
             if (this.name.Equals("girl(Clone)_19"))
-            {
                 Debug.Log("cycle: " + cycle);
-            }
 
             //////////////////////////////////////////////////////////
             // A-Vコヒーレンスパラメタ取得
-            coheAr = 0;
-            coheVa = 0;
             getAroundAVValue();
-            if (this.name.Equals("girl(Clone)_18"))
-            {
-                Debug.Log("success!!");
-            }
-        }
-        _progress = _progress + speed * Time.deltaTime;
-        //Debug.Log("_progress: " + _progress);
 
-        // A-V値の遷移
-        /*
-        if (isLegend == false)
-        { // 通常時
-            catA = svmE.result_A;
-            catV = svmE.result_V;
+            if (this.name.Equals("girl(Clone)_18"))
+                Debug.Log("success!!");
         }
-        else
-        {                 // 凡例時
-            //test_A = envParaGen.test_catA; // とりあえず
-            //test_V = envParaGen.test_catV; // とりあえず
-            catA = test_A;
-            catV = test_V;
-        }
-        */
+        _progress += TRANSITION_SPEED * Time.deltaTime;
+
         arousal = Mathf.Lerp(pastAr, destAr, _progress);
         valence = Mathf.Lerp(pastVa, destVa, _progress);
-        //animator.SetInteger("Cat_A", catA);
-        //animator.SetInteger("Cat_V", catV);
-
         animator.SetFloat("Arousal", arousal);
         animator.SetFloat("Valence", valence);
-
     }
 
-    float GetParameterFromCategory(int catg)
+    float GetRandomValueFromCategory(int catg)
     {
         float boundary = 256.0f / 3.0f;
         float random = 0;
         if (catg == 0)
-        {
             random = UnityEngine.Random.Range(0.0f, boundary);
-        }
         else if (catg == 1)
-        {
             random = UnityEngine.Random.Range(boundary, boundary * 2.0f);
-        }
         else if (catg == 2)
-        {
             random = UnityEngine.Random.Range(boundary * 2.0f, 256.0f);
-        }
         return random;
     }
 
-    public float GetInterpValue(float pastAr, float cohePara) // 補間値を乱数で取得
+    public float GetTerminalValue(float pastAr, float coheParam)
     {
         /*
         float boundary = 256.0f / 3.0f;
@@ -300,59 +219,55 @@ public class NPCAnimationController : MonoBehaviour
 
         float MIN = 0.0f;
         float MAX = 256.0f;
-        return Mathf.Clamp(pastAr - sensitivity * cohePara, MIN, MAX);
+        return Mathf.Clamp(pastAr - sensitivity * coheParam, MIN, MAX);
     }
 
     public void checkName(GameObject obj)
     {
         if (obj.name == "Ch20_nonPBR_Legend") {
-            test_A = 0;
-            test_V = 0;
+            catArTest = 0;
+            catVaTest = 0;
         } else if (obj.name == "Ch20_nonPBR_Legend (1)") {
-            test_A = 0;
-            test_V = 1;
+            catArTest = 0;
+            catVaTest = 1;
         } else if (obj.name == "Ch20_nonPBR_Legend (2)") {
-            test_A = 0;
-            test_V = 2;
+            catArTest = 0;
+            catVaTest = 2;
         } else if (obj.name == "Ch20_nonPBR_Legend (3)") {
-            test_A = 1;
-            test_V = 0;
+            catArTest = 1;
+            catVaTest = 0;
         } else if (obj.name == "Ch20_nonPBR_Legend (4)") {
-            test_A = 1;
-            test_V = 1;
+            catArTest = 1;
+            catVaTest = 1;
         } else if (obj.name == "Ch20_nonPBR_Legend (5)") {
-            test_A = 1;
-            test_V = 2;
+            catArTest = 1;
+            catVaTest = 2;
         } else if (obj.name == "Ch20_nonPBR_Legend (6)") {
-            test_A = 2;
-            test_V = 0;
+            catArTest = 2;
+            catVaTest = 0;
         } else if (obj.name == "Ch20_nonPBR_Legend (7)") {
-            test_A = 2;
-            test_V = 1;
+            catArTest = 2;
+            catVaTest = 1;
         } else if (obj.name == "Ch20_nonPBR_Legend (8)") {
-            test_A = 2;
-            test_V = 2;
+            catArTest = 2;
+            catVaTest = 2;
         }
     }
 
     public void getAroundAVValue()
     {
-        // 中心:自分の位置, 半径:radiusの球内に存在するものを検出
-        Collider[] arrayCld = Physics.OverlapSphere(transform.position, 1.5f);
+        coheAr = 0;
+        coheVa = 0;
+
+        // 中心:自分の位置, 半径:SEARCH_RADIUSの球内に存在するものを検出
+        Collider[] arrayCld = Physics.OverlapSphere(transform.position, SEARCH_RADIUS);
         List<GameObject> listObj = new List<GameObject>();
         // 検出したGameObjectの内、tagが"NPC"であるものをlistObjリストに追加
         foreach (Collider cld in arrayCld)
-        {
             if (cld.tag == "NPC" && !cld.name.Equals(this.name))
-            {
                 listObj.Add(cld.gameObject);
-            }
-        }
 
-        float sum = listObj.Count();
         float avgSum = 0f;
-        //Debug.Log(sum);
-        float[] avValue = new float[2];
         foreach (GameObject obj in listObj)
         {
             NPCAnimationController aroundAnimCon = obj.gameObject.GetComponent<NPCAnimationController>();
@@ -367,17 +282,9 @@ public class NPCAnimationController : MonoBehaviour
             NPCAnimationController aroundAnimCon = obj.gameObject.GetComponent<NPCAnimationController>();
             float diffAr = arousal - aroundAnimCon.Arousal;
             float diffVa = valence - aroundAnimCon.Valence;
-            //SetAppeal(obj);
-
-            coheAr += diffAr * calcValue(dist) * aroundAnimCon.appeal / avgSum;
-            coheVa += diffVa * calcValue(dist) * aroundAnimCon.appeal / avgSum;
-            //coheAr += aroundAnimCon.Arousal * aroundAnimCon.appeal / avgSum;
-            //coheVa += aroundAnimCon.Valence * aroundAnimCon.appeal / avgSum;
-
-
-            // 周囲の累計A-V値を更新
-            //coheAr += calcValue(aroundAnimCon.appeal, diffAr, dist) / sum;
-            //coheVa += calcValue(aroundAnimCon.appeal, diffVa, dist) / sum;
+            // A-Vコヒーレンスパラメタを更新
+            coheAr += diffAr * calculateDistanceAttenuation(dist) * aroundAnimCon.appeal / avgSum;
+            coheVa += diffVa * calculateDistanceAttenuation(dist) * aroundAnimCon.appeal / avgSum;
 
             //if (this.name.Equals("girl(Clone)_19") && obj.name.Equals("girl(Clone)_27"))
             //{
@@ -387,69 +294,47 @@ public class NPCAnimationController : MonoBehaviour
             //    Debug.Log(gameObject.name + ": diffAr=" + diffAr);
             //    Debug.Log(gameObject.name + ": coheAr=" + coheAr);
             //}
- 
-
         }
-        coheAr = coheAr / sum;
-        coheVa = coheVa / sum;
-
-        //Debug.Log(gameObject.name + ": coheAr=" + coheAr);
+        coheAr = coheAr / listObj.Count();
+        coheVa = coheVa / listObj.Count();
     }
 
-    public float calcValue(float dist)
+    public float calculateDistanceAttenuation(float dist)
     {
         //return diff * aroundAppeal * (float)Math.Exp(-1 / (1 + 6 * (sensitivity - 0.5)) * (double)dist);
         //return diff * aroundAppeal * (float)Math.Exp(-1 / 25 * ((double)dist - 1));
-        return (float)Math.Exp(-1 / 25 * ((double)dist - 1));
+        return (float)Math.Exp(-1 * LAMBDA * ((double)dist - 1));
     }
 
-    private int CheckCategory(float value)
+    private int GetCategoryFromValue(float value)
     {
         float boundary = 256.0f / 3.0f;
         if (0.0f <= value && value < boundary)
-        {
             return 0;
-        } else if (boundary <= value && value < boundary * 2.0f) {
+        else if (boundary <= value && value < boundary * 2.0f)
             return 1;
-        } else if (boundary * 2.0f <= value && value <= 256.0f) {
+        else if (boundary * 2.0f <= value && value <= 256.0f)
             return 2;
-        } else {
-            return -99;
-        }
-    }
-
-    /*
-    void SetAppeal(GameObject obj)
-    {
-        string name = obj.name;
-        if (name.Equals("girl_19") || name.Equals("girl_20"))
-        {
-            appeal = 1.0f;
-        }
         else
-        {
-            appeal = 0.5f;
-            //appeal = UnityEngine.Random.Range(0f, 0.6f);
-        }
+            return -99;
     }
-    */
 
     public bool LookAtObject()
     {
         float threshold_value = 0;
-        if (catA == 1 && catV == 1)
+        if (catAr == 1 && catVa == 1)
         {
             threshold_value = 0.4f;
         }
-        else if (catA == 1 && catV == 2)
+        else if (catAr == 1 && catVa == 2)
         {
             threshold_value = 0.6f;
         }
-        else if (catA == 2 && catV == 1)
+        else if (catAr == 2 && catVa == 1)
         {
             threshold_value = 0.6f;
         }
-        else if (catA == 2 && catV == 2)
+        else if (catAr == 2 && catVa == 2)
         {
             threshold_value = 0.8f;
         } else
